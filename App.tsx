@@ -19,26 +19,29 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { StackNavigator } from './src/routes/StackNavigator';
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   return (
-   <View>
-     <Text>HOla</Text>
-   </View>
+    
+    <NavigationContainer>
+        
+            <StatusBar
+                barStyle="dark-content"
+                backgroundColor="transparent"
+                translucent={true}
+                animated={true}
+                showHideTransition="fade"
+            />
+            <StackNavigator />
+            {/* <Toast config={toastConfig} /> */}
+        
+    </NavigationContainer>
+
   );
 };
 
