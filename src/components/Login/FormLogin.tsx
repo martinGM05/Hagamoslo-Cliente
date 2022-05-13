@@ -6,6 +6,8 @@ import * as Yup from 'yup'
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import UseLogin from '../../hooks/UseLogin';
+
 
 
 
@@ -20,11 +22,12 @@ interface ValuesF {
 
 const FormLogin = ({ navigation }: Props) => {
 
-
+    const { loginWithEmail } = UseLogin()
     
-    const submit = async (values: ValuesF, { resetForm }: any) => {
-        resetForm();
-        //await loginWithEmail(values.Email, values.Password, navigation)
+    const submit = (values: ValuesF, { resetForm }: any) => {
+       
+    resetForm();
+       loginWithEmail(values.Email, values.Password, navigation)
     }
 
     const formikOpt = {

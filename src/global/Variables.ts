@@ -1,0 +1,1 @@
+export const _url : string ="https://chambapp-martin.herokuapp.com/api/"

@@ -13,10 +13,6 @@ type Props = StackScreenProps<RootStackParams, 'Login'>;
 
 const InitialLogin = ({ navigation }: Props) => {
 
-
-
-
-  
   return (
     <LinearGradient
       colors={['#00C9FF', '#fff']}
