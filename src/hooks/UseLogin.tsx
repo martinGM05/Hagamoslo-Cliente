@@ -1,39 +1,30 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import axios from 'axios'
 import { _url } from '../global/Variables'
+import { UserModel } from '../interfaces/UserModel'
+import { SesionContext } from '../context/Sesion/SesionContext'
+
 
 const UseLogin = () => {
+  const { getUserData } = useContext(SesionContext);
+  const loginWithEmail = async(email: string, password: string, navigation: any) => {
+ 
 
-  const loginWithEmail = (email: string, password: string, navigation: any) => {
-    const url = 'https://chambapp-martin.herokuapp.com/api/auth'
-   axios.get(url, {
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      data: {
-          correo: 'ivan@gmail.com',
-          contrasena: '123456'
-      }
-  }).then(function (response) {
-      console.log(response.data)
-  })
-
-
-    // axios.get(_url+ 'auth', {
-    //   data: {
-    //     correo: email,
-    //     contrasena: password
-    //   },
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // })
-    //   .then(res => {
-    //     console.log(res)
-    //   }).catch((error) => {
-    //     console.log("Error_ " + error);
-    //   })
+    axios.post(_url+'auth', {
+      correo: email,
+      contrasena: password
+    })
+    .then(function (response) {
+      //console.log(response.data['user']['user'])
+      const userData: UserModel = response.data['user']['user'] as UserModel
+      userData.token = response.data['user']['token']
+      getUserData(userData)
+      navigation.navigate('PrincipalCliente')
+    })
+    .catch((error) => {
+      console.log(error)
+    })
   }
 
   return {

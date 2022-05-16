@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { RootStackParams } from '../../routes/StackNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { Rating } from 'react-native-elements';
 
 
 
@@ -13,13 +14,15 @@ interface Props {
     user: string;
     fecha?: string;
     photoUser: string;
+    rating:number;
     navigation?: StackNavigationProp<RootStackParams, 'PrincipalCliente'>;
+    
     from: number;
     idTrabajador: string;
 }
 
 
-const CardTrades = ({ trade, user, fecha, photoUser, navigation, idTrabajador, from }: Props) => {
+const CardTrades = ({ trade, user, fecha, photoUser, navigation, idTrabajador, rating, from }: Props) => {
 
 
     const [loading, setLoading] = useState(true)
@@ -97,7 +100,7 @@ const CardTrades = ({ trade, user, fecha, photoUser, navigation, idTrabajador, f
                             
                             <AirbnbRating
                                 count={5}
-                                defaultRating={5}
+                                defaultRating={rating}
                                 showRating={false}
                                 size={15}
                                 starContainerStyle={styles.star}

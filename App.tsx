@@ -22,14 +22,16 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigator } from './src/routes/StackNavigator';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
+import { SesionProvider } from './src/context/Sesion/SesionContext';
+import 'react-native-gesture-handler';
 
 
 const App = () => {
 
   return (
-    
+   
     <NavigationContainer>
-        
+         <SesionProvider>
             <StatusBar
                 barStyle="dark-content"
                 backgroundColor="transparent"
@@ -39,9 +41,9 @@ const App = () => {
             />
             <StackNavigator />
             {/* <Toast config={toastConfig} /> */}
-        
+            </SesionProvider>
     </NavigationContainer>
-
+    
   );
 };
 

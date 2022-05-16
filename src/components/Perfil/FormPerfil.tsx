@@ -8,9 +8,10 @@ import { TextInput, ScrollView } from 'react-native-gesture-handler';
 import AvatarPerfil from './AvatarPerfil';
 import Toast from 'react-native-toast-message'
 import ContainerModal from '../Helper/ContainerModal';
+import { SesionContext } from '../../context/Sesion/SesionContext';
 
 const FormPerfil = () => {
-
+    const { Sesion } = useContext(SesionContext)
     //const { editUserData, Sesion, setDataEdit, dataEdit } = useContext(SesionContext)
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -22,10 +23,10 @@ const FormPerfil = () => {
 
     const formikOpt = {
         initialValues: {
-            Name: "Sesion.Name",
-            Email: "Sesion.Email",
-            Phone: "Sesion.Phone",
-            Photo: "Sesion.Photo",
+            Name: Sesion.nombre,
+            Email: Sesion.correo,
+            Phone: Sesion.numero,
+            Photo: Sesion.urlFoto,
         },
         validationSchema: Yup.object({
             Name: Yup.string()

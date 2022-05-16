@@ -26,7 +26,7 @@ const FormLogin = ({ navigation }: Props) => {
     
     const submit = (values: ValuesF, { resetForm }: any) => {
        
-    resetForm();
+        resetForm();
        loginWithEmail(values.Email, values.Password, navigation)
     }
 

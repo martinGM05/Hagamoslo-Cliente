@@ -11,20 +11,37 @@ import CardTrades from '../../components/Principal/CardTrades';
 
 import LottieView from 'lottie-react-native';
 import ContainerModal from '../../components/Helper/ContainerModal';
+import { SesionContext } from '../../context/Sesion/SesionContext';
+import UseApi from '../../hooks/UseApi';
+
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 const PrincipalClient = ({ navigation }: Props) => {
 
-
+    const { Sesion } = useContext(SesionContext)
     const [loading, setLoading] = useState(false)
     const [trade, setTrade] = useState('Principal')
+    const { Oficio, GetOficios, GetTrabajadores, Trabajador } = UseApi()
     let Photo=''
-    let Oficio=['']
-    let Trabajador=['']
+  
+    
     let Trabajadoraux=['']
 
+    useEffect(()=>{
+        GetOficios()
+
+    },[])
+    useEffect(()=>{
+        GetTrabajadores()
+    },[])
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(true)
+        }, 2000)
+    }, [Trabajadoraux, Trabajador])
     return (
+        
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.containerUser}>
@@ -49,8 +66,8 @@ const PrincipalClient = ({ navigation }: Props) => {
                     <LogOut navigation={navigation} />
                 </View>
                 <View style={styles.containerGreetings}>
-                    <Text style={styles.textName}> Hola manuel!!</Text>
-                    <Text style={styles.textWelcome}>Mira Jlo que tenemos para ti.</Text>
+                    <Text style={styles.textName}> Hola {Sesion.nombre}!!</Text>
+                    <Text style={styles.textWelcome}>Mira lo que tenemos para ti.</Text>
                 </View>
                 <View style={styles.searchWork}>
                     <SearchInput setTrade={setTrade} trade={trade} />
@@ -65,16 +82,16 @@ const PrincipalClient = ({ navigation }: Props) => {
                             trade={trade}
                         />
                         {
-                            // Oficio.map((e, index) => (
-                            //     <CardCategories
-                            //         name={e.nameOffice.toLowerCase()}
-                            //         key={index}
-                            //         icon={e.iconName}
-                            //         setLoading={setLoading}
-                            //         setTrade={setTrade}
-                            //         trade={trade}
-                            //     />
-                            // ))
+                            Oficio.map((e, index) => (
+                                <CardCategories
+                                    name={e.nombre}
+                                    key={index}
+                                    icon={"music"}
+                                    setLoading={setLoading}
+                                    setTrade={setTrade}
+                                    trade={trade}
+                                />
+                            ))
 
                         }
                     </View>
@@ -82,36 +99,22 @@ const PrincipalClient = ({ navigation }: Props) => {
                 {
                     loading ? (
                         <View style={styles.containerTrades}>
-                            {
-                                //eventoFiltro
-                                (true) ?
-                                    Trabajador.map((trade, index) => (
-                                        <CardTrades
-                                            key={index}
-                                            idTrabajador='s'
-                                            trade={'s'}
-                                            user={'s'}
-                                            // rating={trade.valoracion}
-                                            photoUser={'s'}
-                                            navigation={navigation}
-                                            from={1}
-                                        />
-                                    ))
-                                    :
-                                    Trabajadoraux.map((trade, index) => (
-                                        <CardTrades
-                                            key={index}
-                                            idTrabajador={'s'}
-                                            trade={'s'}
-                                            user={'s'}
-                                            // rating={trade.valoracion}
-                                            photoUser={'s'}
-                                            navigation={navigation}
-                                            from={1}
-                                        />
-                                    ))
-
-                            }
+                           
+                        {
+                            
+                            Trabajador.map((trade, index) => (
+                                <CardTrades
+                                    key={index}
+                                    idTrabajador={trade.id.toString()}
+                                    trade={"beta"}
+                                    user={trade.nombre}
+                                    rating={trade.valoracion}
+                                    photoUser={trade.urlFoto}
+                                    navigation={navigation}
+                                    from={1}
+                            />
+                        ))}
+                           
                         </View>
                     ) : (
                         <View style={styles.loading}>
