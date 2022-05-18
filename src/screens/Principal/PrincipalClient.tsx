@@ -58,7 +58,7 @@ const PrincipalClient = ({ navigation }: Props) => {
                                 size="large"
                                 rounded
                                 source={{
-                                    //uri: Sesion.Photo
+                                    uri: Sesion.urlFoto
                                 }}
                                 containerStyle={styles.avatar}
                             />
