@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { DrawerContentScrollView } from '@react-navigation/drawer'
 import { SesionContext } from '../../context/Sesion/SesionContext'
 import { Avatar } from 'react-native-elements'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const MenuDrawer = ({ navigation}: any) => {
     const { Sesion } = useContext(SesionContext)
@@ -29,28 +30,35 @@ const MenuDrawer = ({ navigation}: any) => {
            <Pressable style={styles.buttonContainer} onPress={()=>{
                    navigation.navigate('Inicio')
                }}>
-                   <Text>Inicio</Text>
+                  
+                  <Icon  name={'home'} size={30} color="#000"/>
+                   <Text style={styles.textButton}>Inicio</Text>
+                  
                </Pressable>
                <Pressable style={styles.buttonContainer} onPress={()=>{
                    navigation.navigate('Mi Perfil')
                }}>
-                   <Text>Perfil</Text>
+                   <Icon  name={'user'} size={30} color="#000"/>
+                   <Text style={styles.textButton}>Mi Perfil</Text>
                </Pressable>
                <Pressable style={styles.buttonContainer} onPress={()=>{
                    navigation.navigate('En curso')
                }}>
-                   <Text>En curso</Text>
+                   <Icon  name={'feed'} size={30} color="#000"/>
+                   <Text style={styles.textButton}>En curso</Text>
                </Pressable>
 
                <Pressable style={styles.buttonContainer} onPress={()=>{
                    navigation.navigate('Blogs')
                }}>
-                   <Text>Blogs</Text>
+                   <Icon  name={'archive'} size={30} color="#000"/>
+                   <Text style={styles.textButton}>Blogs</Text>
                </Pressable>
                <Pressable style={styles.buttonContainer} onPress={()=>{
                    navigation.navigate('Chats')
                }}>
-                   <Text>Chats</Text>
+                   <Icon  name={'envelope'} size={30} color="#000"/>
+                   <Text style={styles.textButton}>Chats</Text>
                </Pressable>
            </View>
            
@@ -97,6 +105,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#d9d9d9',
         borderRadius:10,
         marginBottom:15,
-        padding:15
+        padding:15,
+        flexDirection:'row',
+        alignItems:'center',
+        
+    },
+    textButton:{
+       fontWeight:'bold',
+       fontSize:18,
+       marginLeft:10
+       
+       
+
     }
 })

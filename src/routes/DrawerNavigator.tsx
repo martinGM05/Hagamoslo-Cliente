@@ -15,7 +15,7 @@ const DrawerNavigator=()=> (
   
 
     
-      <Drawer.Navigator initialRouteName="Home"
+      <Drawer.Navigator initialRouteName="Home" 
       drawerContent={(e)=><MenuDrawer {...e}></MenuDrawer>}
       >
           
