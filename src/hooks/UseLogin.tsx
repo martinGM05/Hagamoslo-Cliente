@@ -17,8 +17,8 @@ const UseLogin = () => {
     })
     .then(function (response) {
       //console.log(response.data['user']['user'])
-      const userData: UserModel = response.data['user']['user'] as UserModel
-      userData.token = response.data['user']['token']
+      const userData: UserModel = response.data.user as UserModel
+      userData.token = response.data.token
       getUserData(userData)
       navigation.navigate('PrincipalCliente')
     })

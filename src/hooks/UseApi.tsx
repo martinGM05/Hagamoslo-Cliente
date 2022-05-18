@@ -4,10 +4,12 @@ import { IOficeIcon, ITrabajador } from '../interfaces/Peticiones'
 import axios from 'axios'
 import { _url } from '../global/Variables'
 import { SesionContext } from '../context/Sesion/SesionContext'
+import { number } from 'yup/lib/locale'
 
 const UseApi = () => {
         const [Oficio, setOficio] = useState<IOficeIcon[]>([])
         const [Trabajador, setTrabajador]= useState<ITrabajador[]>([])
+        const [TrabajadorU, setTrabajadorU]= useState<ITrabajador>()
         const { Sesion } = useContext(SesionContext)
 
     const GetOficios = () => {
@@ -39,11 +41,28 @@ const UseApi = () => {
         })
     }
 
+
+    const GetTrabajador=(id:number)=>{
+        axios.get(_url+'usuarios/'+id,{
+            headers:{
+                'Api-Key': Sesion.token 
+            }
+        }).then(function(response){
+            console.log(response.data)
+            const trabajadoru=response.data
+            setTrabajadorU(trabajadoru)
+        }).catch((error)=>{
+            console.log(error)
+        })
+    }
+
   return {
       Oficio,
       GetOficios,
       GetTrabajadores,
-      Trabajador
+      Trabajador,
+      GetTrabajador,
+      TrabajadorU
   }
 }
 

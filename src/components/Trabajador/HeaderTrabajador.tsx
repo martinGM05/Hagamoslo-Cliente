@@ -7,9 +7,9 @@ import { AirbnbRating } from 'react-native-ratings';
 
 interface Props {
     trades: string[];
-    name: string;
+    name: string|undefined;
     photo: string;
-    rating: number;
+    rating: number|undefined;
 }
 
 const HeaderTrabajador = ({ trades, name, photo, rating }:Props) => {

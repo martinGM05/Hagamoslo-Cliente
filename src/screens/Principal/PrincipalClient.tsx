@@ -109,7 +109,7 @@ const PrincipalClient = ({ navigation }: Props) => {
                                     trade={"beta"}
                                     user={trade.nombre}
                                     rating={trade.valoracion}
-                                    photoUser={trade.urlFoto}
+                                    photoUser={'https://hagamoslo.azurewebsites.net/api/upload/Users/4'}
                                     navigation={navigation}
                                     from={1}
                             />

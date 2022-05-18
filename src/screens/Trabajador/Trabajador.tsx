@@ -6,6 +6,7 @@ import CarouselTrabajador from '../../components/Trabajador/CarouselTrabajador';
 import BackButton from '../../components/Buttons/BackButton';
 import HeaderTrabajador from '../../components/Trabajador/HeaderTrabajador';
 import Feedback from '../../components/Trabajador/Feedback';
+import UseApi from '../../hooks/UseApi';
 
 
 interface CarouselItems {
@@ -18,10 +19,21 @@ const Trabajador = ({ navigation, route }: Props) => {
 
 
   const { id } = route.params
+  const {GetTrabajador, TrabajadorU} = UseApi()
   //const { limpiarState, Trabajador, GetTrabajadoresComentarios, averageRating, setIdTrabajadorContactar, listaImagenes, comentario } = useContext(Contexto);
   let trabajador=['']
   let listaImagenes=['']
+
+  let listaImagendes=[{
+    name: "string",
+    photo: "string;",
+    comment: "string;",
+    idEmploye: "string"
+  }]
   //let trabajador = Trabajador.filter(e => e.Id == id)
+  useEffect(()=>{
+    GetTrabajador(parseInt(id))
+  },[])
 
   return (
     <View style={styles.container}>
@@ -31,16 +43,16 @@ const Trabajador = ({ navigation, route }: Props) => {
       </View>
       <View style={styles.containerDescription}>
         {
-          trabajador.map((e, index) => (
+          
             <HeaderTrabajador
-              key={index}
+              key={TrabajadorU?.id}
               trades={listaImagenes}
-              name={'s'}
-              rating={8}
+              name={TrabajadorU?.nombre}
+              rating={TrabajadorU?.valoracion}
               photo={'s'}
             />
-          ))}
-        <Feedback customerList={listaImagenes} navigation={navigation} />
+          }
+        {/* <Feedback customerList={aux} navigation={navigation} /> */}
       </View>
     </View>
   )
