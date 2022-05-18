@@ -1,0 +1,1 @@
+export const _url : string ="https://hagamoslo.azurewebsites.net/api/"

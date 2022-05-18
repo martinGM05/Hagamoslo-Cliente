@@ -19,26 +19,31 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { StackNavigator } from './src/routes/StackNavigator';
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
+import { SesionProvider } from './src/context/Sesion/SesionContext';
+import 'react-native-gesture-handler';
 
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
 
   return (
-   <View>
-     <Text>HOla</Text>
-   </View>
+   
+    <NavigationContainer>
+         <SesionProvider>
+            <StatusBar
+                barStyle="dark-content"
+                backgroundColor="transparent"
+                translucent={true}
+                animated={true}
+                showHideTransition="fade"
+            />
+            <StackNavigator />
+            {/* <Toast config={toastConfig} /> */}
+            </SesionProvider>
+    </NavigationContainer>
+    
   );
 };
 
