@@ -9,7 +9,8 @@ export interface UserModel {
     numero:string,
     urlFoto:string,
     valoracion:number,
-    token:string
+    token:string,
+    idSala?: string
 }
 
 export interface EditUserData {

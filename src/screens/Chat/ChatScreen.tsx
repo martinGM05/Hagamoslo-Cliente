@@ -1,26 +1,31 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useLayoutEffect, useCallback, useState, useContext } from 'react'
+import { Alert, StyleSheet, Text, View } from 'react-native'
+import React, { useLayoutEffect, useCallback, useState, useContext, useEffect } from 'react'
 import { GiftedChat } from 'react-native-gifted-chat';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import { SesionContext } from '../../context/Sesion/SesionContext';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParams } from '../../routes/StackNavigator';
 
-const ChatScreen = () => {
+type Props = StackScreenProps<RootStackParams, 'Chat'>;
+
+const ChatScreen = ({ route, navigation }: Props) => {
 
   const [messages, setMessages] = useState<any>([]);
-  const navigation = useNavigation();
+  
+  const { params } = route
+  const { idSala } = params
 
   const { Sesion } = useContext(SesionContext);
 
-  useLayoutEffect(() => {
-    const collectionRef = firestore().collection('Chats');
+  useEffect(() => {
+    const collectionRef = firestore().collection('Salas').doc(idSala).collection('Mensajes');
     const query = collectionRef.orderBy('createdAt', 'desc')
-    
     const unsuscribe = query.onSnapshot(snapshot => {
       console.log('snapshot')
       const messages = snapshot.docs.map(doc => ({
         _id: doc.id,
-        createdAt: doc.data().createdAt,
+        createdAt: doc.data().createdAt.toDate(),
         text: doc.data().text,
         user: doc.data().user,
       }))
@@ -33,12 +38,13 @@ const ChatScreen = () => {
     setMessages((previousMessages: any) => GiftedChat.append(previousMessages, messages));
 
     const { _id, createdAt, text, user } = messages[0];
-    firestore().collection('Chats').add({
+    firestore().collection('Salas').doc(idSala).collection('Mensajes').add({
       _id,
       createdAt,
       text,
       user,
     })
+    // Alert.alert(''+idSala)
   } , [])
 
   return (

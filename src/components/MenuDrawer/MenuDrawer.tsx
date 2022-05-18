@@ -46,7 +46,7 @@ const MenuDrawer = ({ navigation}: any) => {
                    <Text>Blogs</Text>
                </Pressable>
                <Pressable style={styles.buttonContainer} onPress={()=>{
-                   navigation.navigate('Chats')
+                   navigation.navigate('ContainerChats')
                }}>
                    <Text>Chats</Text>
                </Pressable>
