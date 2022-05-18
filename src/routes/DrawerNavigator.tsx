@@ -1,26 +1,22 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { createDrawerNavigator,DrawerContentScrollView } from '@react-navigation/drawer';
 import PrincipalClient from '../screens/Principal/PrincipalClient';
 import Perfil from '../screens/Profile/Perfil';
 import TrabajosEnCuso from '../screens/EnCurso/TrabajosEnCuso';
 import 'react-native-gesture-handler';
+import { SesionContext } from '../context/Sesion/SesionContext';
+import MenuDrawer from '../components/MenuDrawer/MenuDrawer';
 
-function Menu({props}:any){
-    return(
-        <DrawerContentScrollView>
-            <Text style={{color:'#000'}}>Mi Menú</Text>
-        </DrawerContentScrollView>
-    )
-}
 const Drawer = createDrawerNavigator();
 
 
 const DrawerNavigator=()=> (
   
+
     
       <Drawer.Navigator initialRouteName="Home"
-    //  drawerContent={(e)=><Menu {...e}></Menu>}
+      drawerContent={(e)=><MenuDrawer {...e}></MenuDrawer>}
       >
           
         <Drawer.Screen name="Inicio" component={PrincipalClient} />
