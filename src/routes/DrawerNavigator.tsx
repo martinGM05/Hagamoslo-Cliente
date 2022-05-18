@@ -7,6 +7,8 @@ import TrabajosEnCuso from '../screens/EnCurso/TrabajosEnCuso';
 import 'react-native-gesture-handler';
 import { SesionContext } from '../context/Sesion/SesionContext';
 import MenuDrawer from '../components/MenuDrawer/MenuDrawer';
+import ChatScree from '../screens/Chat/ChatScreen';
+import ChatScreen from '../screens/Chat/ChatScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -23,7 +25,7 @@ const DrawerNavigator=()=> (
         <Drawer.Screen name="Mi Perfil" component={Perfil} />
         <Drawer.Screen name="En curso" component={TrabajosEnCuso} />
         <Drawer.Screen name="Blogs" component={TrabajosEnCuso} />
-        <Drawer.Screen name="Chats" component={TrabajosEnCuso} />
+        <Drawer.Screen name="Chats" component={ChatScreen} />
       </Drawer.Navigator>
 
 )

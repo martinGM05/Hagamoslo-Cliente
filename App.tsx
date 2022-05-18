@@ -18,7 +18,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-
+import { LogBox } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigator } from './src/routes/StackNavigator';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
@@ -27,6 +27,11 @@ import 'react-native-gesture-handler';
 
 
 const App = () => {
+
+  LogBox.ignoreLogs([
+    "ViewPropTypes will be removed",
+    "ColorPropType will be removed",
+    ])
 
   return (
    

@@ -10,17 +10,15 @@ const MenuDrawer = ({ navigation}: any) => {
     return (
         <DrawerContentScrollView>
             <View style={styles.container}>
-           <View style={{flexDirection:'row'}}>                          
-                         
-                            <Avatar
-                                size="large"
-                                rounded
-                                source={{
-                                    uri: 'https://hagamoslo.azurewebsites.net/api/upload/Users/'+Sesion.id
-                                }}
-                                containerStyle={styles.avatar}
-                            />
-                  
+           <View style={{flexDirection:'row'}}>                                   
+                <Avatar
+                    size="large"
+                    rounded
+                    source={{
+                        uri: 'https://hagamoslo.azurewebsites.net/api/upload/Users/'+Sesion.id
+                    }}
+                    containerStyle={styles.avatar}
+                />
              <View style={styles.containerGreetings}>
                     <Text style={styles.textName}>{Sesion.nombre}</Text>
                 </View>
