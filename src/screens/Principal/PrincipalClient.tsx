@@ -45,24 +45,7 @@ const PrincipalClient = ({ navigation }: Props) => {
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.containerUser}>
-                    {
-                        Photo === '' ?
-                            <Avatar
-                                rounded
-                                size="large"
-                                containerStyle={styles.avatar}
-                                source={require('../../img/jar-loading.gif')}
-                            />
-                            :
-                            <Avatar
-                                size="large"
-                                rounded
-                                source={{
-                                    uri: Sesion.urlFoto
-                                }}
-                                containerStyle={styles.avatar}
-                            />
-                    }
+                    
                     <LogOut navigation={navigation} />
                 </View>
                 <View style={styles.containerGreetings}>
@@ -144,7 +127,7 @@ const styles = StyleSheet.create({
     containerUser: {
         marginTop: 50,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
     },
     containerGreetings: {
         marginTop: 20,

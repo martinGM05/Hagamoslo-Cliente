@@ -39,6 +39,7 @@ export const StackNavigator = () => {
                 },
                 headerTitleAlign: 'center',
             }}
+            
         >
             <Stack.Screen name="Principal" options={{title: "Initial App"}} component={InitialLogin} />
             <Stack.Screen name="Register" options={{title: "Register"}} component={Register} />
