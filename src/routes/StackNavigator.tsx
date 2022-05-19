@@ -23,12 +23,16 @@ const Stack = createStackNavigator<RootStackParams>();
 export const StackNavigator = () => {
     return (
         <Stack.Navigator
-            initialRouteName="Principal"
+            initialRouteName="PrincipalCliente"
             screenOptions={{
                 headerShown: false,
                 headerStyle:{
-                    shadowColor: 'transparent',
-                    elevation: 1,
+                    shadowColor: '#000',
+                    elevation: 10,
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.8,
+                    shadowRadius: 2,
+                    backgroundColor: '#6ad29e',
                 },
                 cardStyle: {
                     backgroundColor: '#f6f6f6',

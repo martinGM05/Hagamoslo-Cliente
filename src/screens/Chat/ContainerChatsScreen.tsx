@@ -13,6 +13,7 @@ import { RootStackParams } from '../../routes/StackNavigator';
 
 type Props = StackScreenProps<RootStackParams, 'Chat'>;
 
+
 const ContainerChatsScreen = ({ navigation }: Props) => {
 
   const { Sesion } = useContext(SesionContext);

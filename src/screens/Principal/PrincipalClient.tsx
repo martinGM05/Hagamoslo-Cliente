@@ -23,25 +23,25 @@ const PrincipalClient = ({ navigation }: Props) => {
     const [loading, setLoading] = useState(false)
     const [trade, setTrade] = useState('Principal')
     const { Oficio, GetOficios, GetTrabajadores, Trabajador } = UseApi()
-    let Photo=''
-  
-    
-    let Trabajadoraux=['']
+    let Photo = ''
 
-    useEffect(()=>{
+
+    let Trabajadoraux = ['']
+
+    useEffect(() => {
         GetOficios()
-
-    },[])
-    useEffect(()=>{
         GetTrabajadores()
-    },[])
+    }, [])
+
     useEffect(() => {
         setTimeout(() => {
             setLoading(true)
         }, 2000)
     }, [Trabajadoraux, Trabajador])
+
+
     return (
-        
+
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.containerUser}>
@@ -99,26 +99,26 @@ const PrincipalClient = ({ navigation }: Props) => {
                 {
                     loading ? (
                         <View style={styles.containerTrades}>
-                           
-                        {
-                            
-                            Trabajador.map((trade, index) => (
-                                <CardTrades
-                                    key={index}
-                                    idTrabajador={trade.id.toString()}
-                                    trade={"beta"}
-                                    user={trade.nombre}
-                                    rating={trade.valoracion}
-                                    photoUser={'https://hagamoslo.azurewebsites.net/api/upload/Users/4'}
-                                    navigation={navigation}
-                                    from={1}
-                            />
-                        ))}
-                           
+
+                            {
+
+                                Trabajador.map((trade, index) => (
+                                    <CardTrades
+                                        key={index}
+                                        idTrabajador={trade.id.toString()}
+                                        trade={"beta"}
+                                        user={trade.nombre}
+                                        rating={trade.valoracion}
+                                        photoUser={'https://hagamoslo.azurewebsites.net/api/upload/Users/4'}
+                                        navigation={navigation}
+                                        from={1}
+                                    />
+                                ))}
+
                         </View>
                     ) : (
                         <View style={styles.loading}>
-                            <LottieView 
+                            <LottieView
                                 source={require('../../animated/bouncing-ball.json')}
                                 autoPlay
                                 loop
@@ -127,7 +127,7 @@ const PrincipalClient = ({ navigation }: Props) => {
                     )
                 }
             </ScrollView>
-           
+
         </View>
     )
 }

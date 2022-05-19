@@ -6,10 +6,12 @@ import firestore from '@react-native-firebase/firestore';
 import { SesionContext } from '../../context/Sesion/SesionContext';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
+import { DrawerToggleButton } from '@react-navigation/drawer';
 
 type Props = StackScreenProps<RootStackParams, 'Chat'>;
 
 const ChatScreen = ({ route, navigation }: Props) => {
+
 
   const [messages, setMessages] = useState<any>([]);
   
