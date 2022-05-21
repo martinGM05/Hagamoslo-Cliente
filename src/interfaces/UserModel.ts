@@ -1,15 +1,15 @@
 export interface UserModel {
-    contrasena:string,
-    correo:string,
-    descripcion:string,
-    id:number,
-    idRol:number,
-    localizacion:string,
-    nombre:string,
-    numero:string,
-    urlFoto:string,
-    valoracion:number,
-    token:string,
+    id: number,
+    idRol: number,
+    nombre: string,
+    correo: string,
+    token: string,
+    contrasena?: string,
+    descripcion?: string,
+    localizacion?: string,
+    numero: string,
+    urlFoto: string,
+    valoracion?: number,
     idSala?: string
 }
 

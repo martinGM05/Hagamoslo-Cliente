@@ -12,8 +12,6 @@ import { SesionContext } from '../../context/Sesion/SesionContext';
 
 const FormPerfil = () => {
     const { Sesion } = useContext(SesionContext)
-    //const { editUserData, Sesion, setDataEdit, dataEdit } = useContext(SesionContext)
-
     const [modalVisible, setModalVisible] = useState(false);
 
     const submit = async (values: any) => {
@@ -46,9 +44,10 @@ const FormPerfil = () => {
             <Formik {...formikOpt}>
                 {formik => (
                     <View>
-                        <View style={styles.userData}>
-                            <AvatarPerfil photo={formik.values.Photo} />
+                        <View style={{marginLeft: 90}}>
+                            <AvatarPerfil />
                         </View>
+                        
                         <View style={styles.userContainer}>
                             <TextInput
                                 style={styles.inputStyle}
@@ -136,9 +135,9 @@ const styles = StyleSheet.create({
     containerForm: {
         // backgroundColor: 'blue',
         width: '100%',
-        height: '65%',
+        // height: '65%',
         padding: 20,
-        marginTop: 80,
+        // marginTop: 80,
     },
     inputStyle: {
         height: '100%',
@@ -177,7 +176,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         borderWidth: 2,
         borderColor: '#000',
-        marginTop: 8,
+        marginTop: 48,
         wdith: 500,
         height: 70,
         borderRadius: 20,
@@ -206,7 +205,7 @@ const styles = StyleSheet.create({
         height: '80%',
         // backgroundColor: 'black',
         position: 'absolute',
-        top: -250,
+        top: -80,
         left: '20%',
         // zIndex: 5,
         alignItems: 'center',

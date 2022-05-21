@@ -1,17 +1,55 @@
 import { StyleSheet, Text, View, Dimensions, ActivityIndicator, Image, Modal } from 'react-native';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import FormLogin from '../../components/Login/FormLogin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LottieView from 'lottie-react-native';
+import jwtDecode, { JwtPayload } from 'jwt-decode';
+import { UserToken } from '../../hooks/UseLogin';
+import { UserModel } from '../../interfaces/UserModel';
+import { SesionContext } from '../../context/Sesion/SesionContext';
 
 type Props = StackScreenProps<RootStackParams, 'Login'>;
 
 const InitialLogin = ({ navigation }: Props) => {
+
+  const [isLogged, setIsLogged] = useState(false);
+  const { getUserData } = useContext(SesionContext);
+
+  useEffect(() => {
+    const checkout = () => {
+      AsyncStorage.getItem('user').then(token => {
+        if (token) {
+          const decoded = jwtDecode<JwtPayload>(token) as UserToken;
+          const userData: UserModel = {
+            id: decoded.id,
+            nombre: decoded.nombre,
+            correo: decoded.correo,
+            urlFoto: decoded.urlFoto,
+            numero: decoded.numero,
+            idRol: decoded.idRol,
+            token: token,
+            contrasena: '',
+            descripcion: '',
+            localizacion: '',
+            valoracion: 0,
+            idSala: '',
+          }
+          getUserData(userData);
+          setIsLogged(true);
+          navigation.navigate('PrincipalCliente');
+        } else {
+          setIsLogged(false);
+        }
+      });
+    }
+    checkout();
+  }, [])
 
   return (
     <LinearGradient
@@ -22,7 +60,7 @@ const InitialLogin = ({ navigation }: Props) => {
       style={styles.container}
     >
       {
-        (true) ? (
+        (!isLogged) ? (
           <ScrollView style={styles.scroll}>
             <View style={styles.containerTitle}>
               <Image source={require('../../img/Logo.png')} style={styles.logo} />
@@ -33,7 +71,7 @@ const InitialLogin = ({ navigation }: Props) => {
               <FormLogin navigation={navigation} />
             </View>
             <View style={styles.containerSocial}>
-            
+
             </View>
             <View style={styles.containerRegister}>
               <Text style={styles.text}>¿No tienes una cuenta?</Text>
@@ -62,7 +100,7 @@ const InitialLogin = ({ navigation }: Props) => {
           </View>
         )
       }
-      
+
     </LinearGradient>
   )
 }

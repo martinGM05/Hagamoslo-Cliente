@@ -1,7 +1,8 @@
-import { AsyncStorage, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React, { createContext, useReducer, useState } from 'react'
 import { EditUserData, UserModel } from '../../interfaces/UserModel'
 import sesionReducer from './sesionReducer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export const authInitialState: UserModel = {
@@ -26,7 +27,7 @@ export const editData = {
 export interface SesionContextProps {
     Sesion: UserModel,
     getUserData: (user: UserModel) => void;
-
+    logout: () => void;
 }
 
 export const SesionContext = createContext({} as SesionContextProps);
@@ -36,42 +37,27 @@ export const SesionProvider = ({ children }: {children: JSX.Element[]}) => {
     const [dataPhoto, setDataPhoto] = useState('');
 
     const getUserData = async (User: UserModel) => {
-        // console.log(User);
-        try{
-            //await AsyncStorage.setItem('@idUser', User.id.toString());
-        }catch(e){
-            console.log(e);
+
+        try {
+            await AsyncStorage.setItem('user', JSON.stringify(User.token));
+            dispatch({ type: 'GET_USER', payload: User });
+        } catch (error) {
+            console.log(error);
         }
+    }
+
+    const logout = async () => {
         dispatch({
-            type: 'GET_USER',
-            payload: User
+            type: 'LOGOUT',
+            payload: authInitialState
         })
     }
-    // const editUserData = ({Name, Phone}: EditUserData) => {
-    //     // let data: UserModel = {
-    //     //     id: sesionState.id,
-    //     //     nombre: Name,
-    //     //     correo: sesionState.correo,
-    //     //     numero: Phone,
-    //     //     urlFoto: dataPhoto != '' ? dataPhoto : sesionState.urlFoto,
-    //     //     contrasena:sesionState.contrasena,
-    //     //     descripcion:sesionState.descripcion,
-    //     //     idRol:sesionState.idRol,
-    //     //     localizacion:sesionState.localizacion,
-    //     //     valoracion:sesionState.valoracion
-    //     // }
-    //     dispatch({
-    //         type: 'EDIT_USER',
-    //         payload: data
-    //     })
-    //     // console.log(data);
-    // }
-
 
   return (
     <SesionContext.Provider value={{
         Sesion: sesionState,
         getUserData,
+        logout
 
     }}>
         {children}

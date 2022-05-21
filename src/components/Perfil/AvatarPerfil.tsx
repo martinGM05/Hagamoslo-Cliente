@@ -1,88 +1,70 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native';
+import React, { useContext } from 'react'
+import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { Avatar } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import FonrAwesome5 from 'react-native-vector-icons/FontAwesome5'
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 import usePhoto from '../../hooks/usePhoto';
+import { SesionContext } from '../../context/Sesion/SesionContext';
+import { _url } from '../../global/Variables';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
-interface Props {
-    photo: string, 
-}
 
-const AvatarPerfil = ({ photo }: Props) => {
+const AvatarPerfil = () => {
+
+    const { Sesion, logout } = useContext(SesionContext)
+
+    const photo = Sesion.urlFoto ? { uri: `${_url}upload/Users/${Sesion.id}`} : require('../../img/no-image.png')
+
 
     const { handleChangePhoto, photoNew } = usePhoto();
 
     return (
-        <>
+        <View style={styles.containerIcon}>
+
             {
-                photoNew ?
-                    <Avatar
-                        rounded
-                        size="xlarge"
-                        source={{ uri: photoNew }}
-                        containerStyle={styles.photoUser}
+                !photoNew ? (
+                    <Avatar 
+                        rounded size="xlarge" 
+                        source={photo} 
                     />
-                    :
-                    <Avatar
-                        rounded
-                        size="xlarge"
-                        source={{ uri: photo}}
-                        containerStyle={styles.photoUser}
+                ) : (
+                    <Avatar 
+                        rounded size="xlarge" 
+                        source={{ uri: photoNew }} 
                     />
+                )
             }
-            <View style={styles.containerIcon}>
-                <TouchableOpacity onPress={() => handleChangePhoto()}>
-                    <Icon
-                        name="pencil"
-                        style={styles.icon}
-                    />
-                </TouchableOpacity>
-            </View>
-        </>
+
+            <Pressable style={styles.icon}
+                onPress={() => handleChangePhoto()}
+            >
+                <FontAwesome5 name="pencil-alt" size={20} color="#000" />
+            </Pressable>
+        </View>
     )
 }
 
 export default AvatarPerfil
 
 const styles = StyleSheet.create({
-    photoUser:{
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 8,
-        borderWidth: 1,
-    },
     containerIcon: {
-        width: '18%',
-        height: '14%',
+        width: '70%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    icon: {
+        width: 40,
+        height: 40,
         backgroundColor: '#bebbc8',
         borderRadius: 100,
         position: 'absolute',
-        bottom: 40,
-        right: 40,
-
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 8,
-        borderWidth: 1,
-
+        bottom: 10,
+        right: 5,
+        borderWidth: 2,
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    icon: {
-        fontSize: 18,
-        color: '#000',
     }
 })

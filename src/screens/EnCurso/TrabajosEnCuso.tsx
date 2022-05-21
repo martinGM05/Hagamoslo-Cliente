@@ -7,6 +7,7 @@ import CardTrades from '../../components/Principal/CardTrades';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import LottieView from 'lottie-react-native';
+import ButtonOpen from '../../components/MenuDrawer/ButtonOpen';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
@@ -18,36 +19,23 @@ const TrabajosEnCuso = ({ navigation }: Props) => {
 
   return (
     <View style={styles.containerGlobal}>
-      <LinearGradient
-        colors={['#00C9FF', '#92FE9D']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        locations={[0.1, 0.9]}
-        style={styles.containerTitle}
-      >
-        <View style={styles.containerText}>
-          <Icon name="business-time" size={35} color="#000" />
-          <Text style={styles.title}>Trabajos en cuso</Text>
-          <Icon name="handshake" size={35} color="#000" />
-        </View>
-      </LinearGradient>
       <View style={styles.containerScroll}>
         {
           TrabajadorEnCurso.length > 0 ? (
             <ScrollView>
               {
-                TrabajadorEnCurso.map((trade, index) => (
-                  <CardTrades
-                    key={index}
-                    idTrabajador={'1'}
-                    trade={'1'}
-                    user={'1'}
-                    fecha={''}
-                    photoUser={'1'}
-                    navigation={navigation}
-                    from={2}
-                  />
-                ))
+                // TrabajadorEnCurso.map((trade, index) => (
+                //   <CardTrades
+                //     key={index}
+                //     idTrabajador={'1'}
+                //     trade={'1'}
+                //     user={'1'}
+                //     fecha={''}
+                //     photoUser={'1'}
+                //     navigation={navigation}
+                //     from={2}
+                //   />
+                // ))
               }
             </ScrollView>
           ) : (
@@ -79,7 +67,7 @@ const styles = StyleSheet.create({
   containerTitle: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: Dimensions.get('window').height * 0.2,
+    height: 80,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -93,7 +81,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingTop: 30,
   },
   containerScroll: {
     height: '70%',

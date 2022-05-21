@@ -1,119 +1,107 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useContext } from 'react'
-import { DrawerContentScrollView } from '@react-navigation/drawer'
+import { Alert, Image, ImageBackground, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useContext, useEffect } from 'react'
+import { DrawerContentScrollView, DrawerItemList, } from '@react-navigation/drawer'
 import { SesionContext } from '../../context/Sesion/SesionContext'
 import { Avatar } from 'react-native-elements'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { _url } from '../../global/Variables'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const MenuDrawer = ({ navigation}: any) => {
-    const { Sesion } = useContext(SesionContext)
-    let Photo=''
+const MenuDrawer = (props: any) => {
+    const { Sesion, logout } = useContext(SesionContext)
+    const foto = Sesion.urlFoto ? { uri: `${_url}upload/Users/${Sesion.id}`} : require('../../img/no-image.png')
+    
+    const handleLogout = async () => {
+        await Alert.alert(
+            '¿Desea cerrar sesión?',
+            'Presione aceptar para cerrar sesión',
+            [
+                {
+                    text: 'Cancelar',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
+                {
+                    text: 'Aceptar',
+                    onPress: () => {
+                        logout()
+                        props.navigation.navigate('Principal')
+                    },
+                },
+            ],
+        )
+    }
+
     return (
-        <DrawerContentScrollView>
-            <View style={styles.container}>
-           <View style={{flexDirection:'row'}}>                                   
-                <Avatar
-                    size="large"
-                    rounded
-                    source={{
-                        uri: 'https://hagamoslo.azurewebsites.net/api/upload/Users/'+Sesion.id
-                    }}
-                    containerStyle={styles.avatar}
-                />
-             <View style={styles.containerGreetings}>
-                    <Text style={styles.textName}>{Sesion.nombre}</Text>
+        <View style={{ flex: 1 }}>
+            <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: '#8200d6' }}>
+                
+                <View style={styles.containerHeader}>
+                    <Avatar rounded size="large" source={foto} />
+                    <View style={styles.data}>
+                        <Text style={styles.textName}>{Sesion.nombre}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.textEmail}>{Sesion.correo}</Text>
+                            {/* <FontAwesome5 name="coins" size={14} color="#fff" /> */}
+                        </View>
+                    </View>
                 </View>
-           </View>
-           <View>
-           <Pressable style={styles.buttonContainer} onPress={()=>{
-                   navigation.navigate('Inicio')
-               }}>
-                  
-                  <Icon  name={'home'} size={30} color="#000"/>
-                   <Text style={styles.textButton}>Inicio</Text>
-                  
-               </Pressable>
-               <Pressable style={styles.buttonContainer} onPress={()=>{
-                   navigation.navigate('Mi Perfil')
-               }}>
-                   <Icon  name={'user'} size={30} color="#000"/>
-                   <Text style={styles.textButton}>Mi Perfil</Text>
-               </Pressable>
-               <Pressable style={styles.buttonContainer} onPress={()=>{
-                   navigation.navigate('En curso')
-               }}>
-                   <Icon  name={'feed'} size={30} color="#000"/>
-                   <Text style={styles.textButton}>En curso</Text>
-               </Pressable>
+                
+                
+                <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 10 }}>
+                    <DrawerItemList {...props} />
+                </View>
+            </DrawerContentScrollView>
+            
+            <View style={styles.bottomMenu}>
+                <TouchableOpacity onPress={() => handleLogout()} style={{ paddingVertical: 15 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Ionicons name="exit-outline" size={22} color="#000" />
+                        <Text style={{
+                            color: '#000',
+                            fontSize: 15,
+                            fontFamily: 'Roboto-Medium',
+                            marginLeft: 10
+                        }}>
+                            Salir
+                        </Text>
 
-               <Pressable style={styles.buttonContainer} onPress={()=>{
-                   navigation.navigate('Blogs')
-               }}>
-                   <Icon  name={'archive'} size={30} color="#000"/>
-                   <Text style={styles.textButton}>Blogs</Text>
-               </Pressable>
-               <Pressable style={styles.buttonContainer} onPress={()=>{
-                   navigation.navigate('ContainerChats')
-               }}>
-                   <Icon  name={'envelope'} size={30} color="#000"/>
-                   <Text style={styles.textButton}>Chats</Text>
-               </Pressable>
-           </View>
-           
-           </View>
-        </DrawerContentScrollView>
+                    </View>
+                </TouchableOpacity>
+            </View>
+        </View>
     )
 }
 
 export default MenuDrawer
 
 const styles = StyleSheet.create({
-
-    avatar: {
-        width: 80,
-        height: 80,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 2,
-        elevation: 5,
-        borderWidth: 1,
-    },
-    containerGreetings: {
-        marginTop: 20,
-        marginBottom: 20,
-        padding: 10,
-        width: '100%',
-        marginLeft:10
+    bottomMenu: {
+        padding: 20, 
+        borderTopWidth: 1, 
+        borderTopColor: '#ccc'
     },
     textName: {
-        fontSize: 22,
-        color: '#000',
-        fontWeight: 'bold',
+        color: '#fff',
+        fontSize: 17,
+        fontFamily: 'Roboto-Medium'
     },
-    textWelcome: {
-        fontSize: 18,
-        color: '#000',
-        marginLeft: 7,
+    containerHeader: {
+        padding: 20,
+        alignItems: 'flex-start',
+        flexDirection: 'row',
     },
-    container:{
-        padding:15
+    textEmail: { 
+        color: '#fff', 
+        fontSize: 13, 
+        fontFamily: 'Roboto-Regular', 
+        marginRight: 5 
     },
-    buttonContainer:{
-        backgroundColor: '#d9d9d9',
-        borderRadius:10,
-        marginBottom:15,
-        padding:15,
-        flexDirection:'row',
-        alignItems:'center',
-        
-    },
-    textButton:{
-       fontWeight:'bold',
-       fontSize:18,
-       marginLeft:10
-       
-       
-
+    data: {
+        flexDirection: 'column',
+        marginLeft: 10,
+        marginTop: 10,
+        width: 150
     }
 })
