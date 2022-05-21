@@ -1,12 +1,14 @@
 import { Dimensions, Image, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import MapView, { Callout, MapStyleElement, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { AnimatedRegion, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { markers, mapNightStyle } from './MapData';
-import Animated from 'react-native-reanimated';
+import Animated, { call, Extrapolate } from 'react-native-reanimated';
+import { AirbnbRating, Rating } from 'react-native-ratings';
+import useTags from '../../hooks/useTags';
 
 
 const { width, height } = Dimensions.get("window");
@@ -15,6 +17,9 @@ const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 const ExploreService = () => {
+
+    const { tags, coordinates } = useTags();
+
 
     const initialMapState = {
         markers,
@@ -45,44 +50,54 @@ const ExploreService = () => {
             longitude: 88.4354486029795,
             latitudeDelta: 0.04864195044303443,
             longitudeDelta: 0.040142817690068,
-          },
+        },
     }
 
     const [mapState, setMapState] = useState(initialMapState)
 
-    const _map = useRef(null)
-    const _scrollView = useRef(null)
+    const _map: any = useRef(null)
+    const _scrollView: any = useRef(null)
 
 
     return (
         <View style={styles.container}>
-            <MapView
-                ref={_map}
-                initialRegion={mapState.region}
-                style={styles.container}
-                provider={PROVIDER_GOOGLE}
-                customMapStyle={mapNightStyle}
-            >
-                {mapState.markers.map((marker, index) => {
-                    return (
-                        <Marker key={index} coordinate={marker.coordinate} onPress={() => { }}>
-                            <Animated.View style={[styles.markerWrap]}>
-                                <Animated.Image
-                                    source={require('../../img/no-image.png')}
-                                    style={[styles.marker]}
-                                    resizeMode="cover"
-                                />
-                            </Animated.View>
-                        </Marker>
-                    )
-                })}
-            </MapView>
+            {
+                coordinates.latitude !== 0 && coordinates.longitude !== 0 && (
+                    <MapView
+                        ref={_map}
+                        initialRegion={{
+                            latitude: coordinates.latitude,
+                            longitude: coordinates.longitude,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        }}
+                        style={styles.container}
+                        provider={PROVIDER_GOOGLE}
+                        customMapStyle={mapNightStyle}
+                    >
+                        {mapState.markers.map((marker, index) => {
+                            return (
+                                <Marker key={index} coordinate={marker.coordinate} onPress={() => { }}>
+                                    <Animated.View style={[styles.markerWrap]}>
+                                        <Animated.Image
+                                            source={require('../../img/no-image.png')}
+                                            style={[styles.marker]}
+                                            resizeMode="cover"
+                                        />
+                                    </Animated.View>
+                                </Marker>
+                            )
+                        })}
+                    </MapView>
+                )
+            }
+
             <View style={styles.searchBox}>
-                <TextInput 
+                <TextInput
                     placeholder='Search here'
                     placeholderTextColor={'#000'}
                     autoCapitalize="none"
-                    style={{flex: 1, padding: 0}}
+                    style={{ flex: 1, padding: 0 }}
                 />
                 <Ionicons name="ios-search" size={20} color="#000" />
             </View>
@@ -101,13 +116,70 @@ const ExploreService = () => {
                     paddingRight: Platform.OS === 'android' ? 20 : 0,
                 }}
             >
-                {mapState.categories.map((category, index) => (
-                    <TouchableOpacity key={index} style={styles.chipsItem}>
-                        {category.icon}
-                        <Text style={{color: '#000'}}>{category.name}</Text>
-                    </TouchableOpacity>
-                ))}
+                {
+                    tags.map((service, index) => (
+                        <TouchableOpacity key={service.id} style={styles.chipsItem}>
+                            <Ionicons name={service.icono} size={20} color="#000" />
+                            <Text style={{ color: '#000' }}>{service.nombre}</Text>
+                        </TouchableOpacity>
+                    ))
+                }
             </ScrollView>
+            {/* <Animated.ScrollView
+                horizontal
+                scrollEventThrottle={1}
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled
+                snapToInterval={CARD_WIDTH + 20}
+                snapToAlignment="center"
+                style={styles.scrollView}
+                contentInset={{
+                    top: 0,
+                    left: SPACING_FOR_CARD_INSET,
+                    bottom: 0,
+                    right: SPACING_FOR_CARD_INSET,
+                }}
+                contentContainerStyle={{
+                    paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
+                }}
+            >
+                {mapState.markers.map((marker, index) => (
+                    <View style={styles.card} key={index}>
+                        <Image
+                            source={marker.image}
+                            style={styles.cardImage}
+                            resizeMode="cover"
+                        />
+                        <View style={styles.textContent}>
+                            <View>
+                                <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
+                                <AirbnbRating
+                                    count={5}
+                                    defaultRating={marker.rating}
+                                    showRating={false}
+                                    size={15}
+                                    isDisabled={true}
+                                    ratingContainerStyle={styles.starts}
+                                />
+                            </View>
+                            <Text numberOfLines={1} style={styles.cardDescription}>{marker.description}</Text>
+                            <View style={styles.button}>
+                                <TouchableOpacity
+                                    onPress={() => { }}
+                                    style={[styles.signIn, {
+                                        borderColor: '#FF6347',
+                                        borderWidth: 1,
+                                    }]}
+                                >
+                                    <Text style={[styles.signIn, {
+                                        color: '#FF6347',
+                                    }]}>Oreder Now</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                ))}
+            </Animated.ScrollView> */}
         </View>
     )
 }
@@ -192,8 +264,9 @@ const styles = StyleSheet.create({
     },
     cardtitle: {
         fontSize: 12,
-        // marginTop: 5,
+        marginTop: -5,
         fontWeight: "bold",
+        color: "#000",
     },
     cardDescription: {
         fontSize: 12,
@@ -211,7 +284,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        marginTop: 5
+        marginTop: 3
     },
     signIn: {
         width: '100%',
@@ -223,5 +296,10 @@ const styles = StyleSheet.create({
     textSign: {
         fontSize: 14,
         fontWeight: 'bold'
+    },
+    starts: {
+        width: 120,
+        height: 10,
+        marginTop: 3,
     }
 })

@@ -21,35 +21,35 @@ const InitialLogin = ({ navigation }: Props) => {
   const [isLogged, setIsLogged] = useState(false);
   const { getUserData } = useContext(SesionContext);
 
-  useEffect(() => {
-    const checkout = () => {
-      AsyncStorage.getItem('user').then(token => {
-        if (token) {
-          const decoded = jwtDecode<JwtPayload>(token) as UserToken;
-          const userData: UserModel = {
-            id: decoded.id,
-            nombre: decoded.nombre,
-            correo: decoded.correo,
-            urlFoto: decoded.urlFoto,
-            numero: decoded.numero,
-            idRol: decoded.idRol,
-            token: token,
-            contrasena: '',
-            descripcion: '',
-            localizacion: '',
-            valoracion: 0,
-            idSala: '',
-          }
-          getUserData(userData);
-          setIsLogged(true);
-          navigation.navigate('PrincipalCliente');
-        } else {
-          setIsLogged(false);
-        }
-      });
-    }
-    checkout();
-  }, [])
+  // useEffect(() => {
+  //   const checkout = () => {
+  //     AsyncStorage.getItem('user').then(token => {
+  //       if (token) {
+  //         const decoded = jwtDecode<JwtPayload>(token) as UserToken;
+  //         const userData: UserModel = {
+  //           id: decoded.id,
+  //           nombre: decoded.nombre,
+  //           correo: decoded.correo,
+  //           urlFoto: decoded.urlFoto,
+  //           numero: decoded.numero,
+  //           idRol: decoded.idRol,
+  //           token: token,
+  //           contrasena: '',
+  //           descripcion: '',
+  //           localizacion: '',
+  //           valoracion: 0,
+  //           idSala: '',
+  //         }
+  //         getUserData(userData);
+  //         setIsLogged(true);
+  //         navigation.navigate('PrincipalCliente');
+  //       } else {
+  //         setIsLogged(false);
+  //       }
+  //     });
+  //   }
+  //   checkout();
+  // }, [])
 
   return (
     <LinearGradient
