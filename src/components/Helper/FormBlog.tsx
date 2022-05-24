@@ -42,10 +42,10 @@ const FormBlog = ({ modalVisible, setModalVisible }: Props) => {
                         titulo: Yup.string().required('El titulo es requerido'),
                         descripcion: Yup.string().required('La descripcion es requerida')
                     })}
-                    onSubmit={async (values, { resetForm }) => {
-                        const response = await createBlog(values);
-                        resetForm();
-                        setModalVisible(false);
+                    onSubmit={(values, { resetForm }) => {
+                        // await createBlog(values);
+                        // resetForm();
+                        // setModalVisible(false);
                     }}
                 >
                     {formik => (
@@ -104,7 +104,7 @@ const FormBlog = ({ modalVisible, setModalVisible }: Props) => {
                                 }
                             </View>
                             <Pressable
-                                onPress={formik.handleSubmit}
+                                onPress={() => formik.handleSubmit}
                                 style={styles.button}
                             >
                                 <Text style={styles.textButton}>Crear</Text>
