@@ -9,6 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
+import LottieView from 'lottie-react-native';
 
 
 type Props = StackScreenProps<RootStackParams, 'Chat'>;
@@ -18,6 +19,7 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
 
   const { Sesion } = useContext(SesionContext);
   const [salas, setSalas] = useState<SalasModel[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const getSalas = async () => {
     const url = 'https://hagamoslo.azurewebsites.net/api/salas/' + Sesion.id;
@@ -55,23 +57,35 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
 
   return (
     <View style={styles.container}>
+
+      {
+        loading ? (
+          <FlatList data={salas} renderItem={({ item }) => (
+            <Pressable style={styles.containerSalas}>
+              <Text style={styles.text}>{item.idSala}</Text>
+              <Icon.Button
+                name="ios-arrow-forward"
+                size={20}
+                color="#000"
+                onPress={() => goChat(item.idSala)}
+              />
+            </Pressable>
+          )} />
+        ) : (
+          <LottieView
+            source={require('../../animated/empty-box.json')}
+            autoPlay
+            loop
+          />
+        )
+      }
       {/* <Pressable style={styles.btnChats}
         onPress={() => createSala() }
       >
         <Text style={styles.text}>Crear chat con Ivan</Text>
       </Pressable> */}
 
-      <FlatList data={salas} renderItem={({ item }) => (
-        <Pressable style={styles.containerSalas}>
-          <Text style={styles.text}>{item.idSala}</Text>
-          <Icon.Button 
-            name="ios-arrow-forward" 
-            size={20} 
-            color="#000"
-            onPress={() => goChat(item.idSala)} 
-          />
-        </Pressable>
-      )} />
+
 
     </View>
   )

@@ -13,6 +13,7 @@ import { Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Services from '../screens/Servicios/Services';
 import ExploreService from '../screens/Servicios/ExploreService';
+import BlogsScreen from '../screens/Blog/BlogsScreen';
 
 
 const Drawer = createDrawerNavigator();
@@ -71,7 +72,7 @@ const DrawerNavigator = () => (
       )
     }} />
 
-    <Drawer.Screen name="Blogs" component={TrabajosEnCuso} options={{
+    <Drawer.Screen name="Blogs" component={BlogsScreen} options={{
       drawerIcon: ({ color }) => (
         <Ionicons name="document-outline" size={22} color={color} />
       )
