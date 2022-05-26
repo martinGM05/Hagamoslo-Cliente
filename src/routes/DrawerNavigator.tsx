@@ -14,6 +14,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Services from '../screens/Servicios/Services';
 import ExploreService from '../screens/Servicios/ExploreService';
 import BlogsScreen from '../screens/Blog/BlogsScreen';
+import PrincipalTrabajador from '../VistasTrabajador/screens/PrincipalTrabajador/PrincipalTrabajador';
+import PerfilTrabajador from '../VistasTrabajador/screens/ProfileTrabajador/PerfilTrabajador';
+import TrabajosEnCursoTrabajador from '../VistasTrabajador/screens/EnCursoTrabajador/TrabajosEnCursoTrabajador';
+import HistorialTrabajador from '../VistasTrabajador/screens/HistorialTrabajador/HistorialTrabajador';
+import BlogsScreensTrabajador from '../VistasTrabajador/screens/BlogTrabajador/BlogsScreensTrabajador';
 
 
 const Drawer = createDrawerNavigator();
@@ -87,6 +92,35 @@ const DrawerNavigator = () => (
     <Drawer.Screen name="Services" component={ExploreService} options={{
       drawerIcon: ({ color }) => (
         <Ionicons name="map-outline" size={22} color={color} />
+      )
+    }} />
+
+<Drawer.Screen name="Principal Trabajador" component={PrincipalTrabajador} options={{
+      drawerIcon: ({ color }) => (
+        <Ionicons name="home-outline" size={22} color={color} />
+      )
+    }} />
+
+<Drawer.Screen name="Perfil Trabajador" component={PerfilTrabajador} options={{
+      drawerIcon: ({ color }) => (
+        <Ionicons name="home-outline" size={22} color={color} />
+      )
+    }} />
+
+<Drawer.Screen name="En curso Trabajador" component={TrabajosEnCursoTrabajador} options={{
+      drawerIcon: ({ color }) => (
+        <Ionicons name="hammer-outline" size={22} color={color} />
+      )
+    }} />
+
+<Drawer.Screen name="Historial Trabajador" component={HistorialTrabajador} options={{
+      drawerIcon: ({ color }) => (
+        <Ionicons name="timer-outline" size={22} color={color} />
+      )
+    }} />
+<Drawer.Screen name="Blogs Trabajador" component={BlogsScreensTrabajador} options={{
+      drawerIcon: ({ color }) => (
+        <Ionicons name="document-outline" size={22} color={color} />
       )
     }} />
 

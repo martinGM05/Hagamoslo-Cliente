@@ -36,12 +36,14 @@
     "react-native-reanimated": "^3.0.0-rc.0",
     "react-native-safe-area-context": "^4.2.5",
     "react-native-screens": "^3.13.1",
+    "react-native-sectioned-multi-select": "^0.9.1",
     "react-native-swiper": "^1.6.0",
     "react-native-toast-message": "^2.1.5",
     "react-native-vector-icons": "^9.1.0",
     "react-navigation": "^4.4.4",
     "react-navigation-drawer": "^2.7.2",
     "react-navigation-tabs": "^2.11.2",
+    "s-react-native-chip-select": "^0.4.6",
     "yup": "^0.32.11"
   },
   "devDependencies": {
