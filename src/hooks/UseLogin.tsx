@@ -56,7 +56,7 @@ const UseLogin = () => {
         }else if(userData!.idRol === 3){
           if(rol === 1){
             getUserData(userData!)
-            navigation.navigate('PrincipalTrabajador');
+            navigation.navigate('PrincipalCliente');
           }else if(rol === 2){
             getUserData(userData!)
             navigation.navigate('Trabajador');
