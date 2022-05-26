@@ -8,6 +8,7 @@ import DrawerNavigator from './DrawerNavigator';
 import 'react-native-gesture-handler';
 import ChatScreen from '../screens/Chat/ChatScreen';
 import Services from '../screens/Servicios/Services';
+import WorkerDrawer from './WorkerDrawer';
 export type RootStackParams = {
     Principal: undefined;
     Login: undefined;
@@ -17,6 +18,7 @@ export type RootStackParams = {
     Valorar: { photo: string, nameEmploye:string, office:string, idEmploye:string}
     Chat: {idSala: string};
     Services: undefined;
+    WorkerNavigation: undefined;
 }
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -45,6 +47,7 @@ export const StackNavigator = () => {
             <Stack.Screen name="Principal" options={{title: "Initial App"}} component={InitialLogin} />
             <Stack.Screen name="Register" options={{title: "Register"}} component={Register} />
             <Stack.Screen name="PrincipalCliente" options={{title: "Principal"}} component={DrawerNavigator} />
+            <Stack.Screen name="Trabajador" options={{title: "Trabajador"}} component={WorkerDrawer} />
         </Stack.Navigator>
     )
 }

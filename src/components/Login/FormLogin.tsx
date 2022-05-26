@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, Pressable, Dimensions, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, Pressable, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import React, { useEffect, useReducer, useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { TextInput } from 'react-native-gesture-handler';
@@ -23,17 +23,21 @@ interface ValuesF {
 const FormLogin = ({ navigation }: Props) => {
 
     const { loginWithEmail } = UseLogin()
+    const [rol, setRol] = useState<number>(0)
     
     const submit = (values: ValuesF, { resetForm }: any) => {
-       
         resetForm();
-       loginWithEmail(values.Email, values.Password, navigation)
+        if(rol === 1){
+            loginWithEmail(values.Email, values.Password, navigation, rol)
+        }else{
+            loginWithEmail(values.Email, values.Password, navigation, rol)
+        }
     }
 
     const formikOpt = {
         initialValues : {
             Email: '',
-            Password: ''
+            Password: '',
         } as ValuesF,
         validationSchema: Yup.object().shape({
             Email: Yup.string()
@@ -105,13 +109,27 @@ const FormLogin = ({ navigation }: Props) => {
                             </View>
 
                         </View>
-                        <TouchableOpacity style={styles.containerLogin}
-                            onPress={() => {
-                                formik.handleSubmit()
-                            }}
-                        >
-                            <Text style={styles.buttonLogin}>Inicia Sesión</Text>
-                        </TouchableOpacity>
+                        <View style={{ alignItems: 'center' }}>
+                            <Text style={{color: '#000', fontSize: 20, fontWeight: 'bold'}}>Inicia Sesión</Text>
+                            <View  style={styles.containerButtons}>
+                                <TouchableOpacity style={styles.containerLogin}
+                                    onPress={() => {
+                                        setRol(1)
+                                        formik.handleSubmit()
+                                    }}
+                                >
+                                    <Text style={styles.buttonLogin}>Cliente</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.containerLogin}
+                                    onPress={() => {
+                                        setRol(2)
+                                        formik.handleSubmit()
+                                    }}
+                                >
+                                    <Text style={styles.buttonLogin}>Trabajador</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
                     </>
                 )
             }
@@ -186,20 +204,20 @@ const styles = StyleSheet.create({
         marginLeft: '2%',
     },
     containerLogin: {
-        height: 50,
+        padding: 10,
         marginTop: '4%',
-        
-        marginLeft: '18%',
-        marginRight: '18%',
-
         backgroundColor: '#095397',
         borderRadius: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     buttonLogin: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
         color: '#fff',
     },
+    containerButtons: {
+        flexDirection: 'row',
+        width: '100%',    
+        padding: 10,
+        justifyContent: 'space-evenly',
+    }
 })
