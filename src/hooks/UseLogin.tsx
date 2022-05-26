@@ -44,12 +44,11 @@ const UseLogin = () => {
             Alert.alert('Error', 'Debe ser cliente para ingresar a esta sección')
             return;
           }
-        }else if(userData!.idRol === 2){
+        }else if(userData.idRol === 2){
           if(rol === 2){
-            // getUserData(dataUser!)
-            console.log(userData!);
-            // navigation.navigate('Trabajador');
-            Alert.alert('Rol', 'Trabaajador')
+            getUserData(userData)
+            navigation.navigate('Trabajador');
+            // Alert.alert('Rol', 'Trabajador')
           }else{
             Alert.alert('Error', 'Debe ser trabajador para ingresar a esta sección')
             return;
