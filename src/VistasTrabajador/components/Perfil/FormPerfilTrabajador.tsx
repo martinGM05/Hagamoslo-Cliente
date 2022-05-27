@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert, Pressable } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert, Pressable, Switch } from 'react-native';
 import React, { useContext, useRef, useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
@@ -18,19 +18,29 @@ import MultiSelect from './MultiSelect';
 
 const FormPerfilTrabajador = () => {
 
-
-
-
-
-
-
-
     const { Sesion } = useContext(SesionContext)
     const [modalVisible, setModalVisible] = useState(false);
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
     const submit = async (values: any) => {
         // await editUserData(values)
-        setModalVisible(true)
+        if(isEnabled){
+            setModalVisible(true)
+        }else{
+            Alert.alert('Mensaje', '¿Esta seguro de no guardar su ubicación?, Si activa la ubicación es mas proble que lo contacten por cercania',[
+                {
+                    text: 'Si',
+                    onPress:()=>{
+                        setModalVisible(true)
+                    }
+                },{
+                    text: 'No',
+                    style:'cancel'
+                }
+            ])
+        }
+        
     }
 
     const formikOpt = {
@@ -127,32 +137,21 @@ const FormPerfilTrabajador = () => {
                                 : null
                         }
 
-                        <View style={styles.userContainer}>
-                            <TextInput
-                                style={styles.inputStyle}
-                                autoCorrect={false}
-                                placeholder="Municipio"
-                                placeholderTextColor="#999"
-                                onChangeText={formik.handleChange('Location')}
-                                value={formik.values.Location}
-                                onBlur={formik.handleBlur('Location')}
-                            />
-                            <Icon
-                                name="location"
-                                style={styles.icon} />
-                        </View>
-                        {
-                            formik.touched.Name && formik.errors.Name ?
-                                <View style={styles.contenedorError}>
-                                    <Icon name="ios-alert-circle" size={20} color="#ff0000" />
-                                    <Text style={styles.error}>{formik.errors.Location}</Text>
-                                </View>
-                                : null
-                        }
-
+                       
 
 
                         <MultiSelect />
+                        <View style={styles.container}>
+                        <Text style={{marginRight:20}}>¿Guardar ubicación actual?</Text>
+                            <Switch
+                                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                                thumbColor={isEnabled ? "#008000" : "#f4f3f4"}
+                                ios_backgroundColor="#3e3e3e"
+                                onValueChange={toggleSwitch}
+                                value={isEnabled}
+                            />
+                          
+                        </View>
 
 
                         <TouchableOpacity style={styles.button} onPress={formik.handleSubmit}>
@@ -225,7 +224,7 @@ const styles = StyleSheet.create({
         borderColor: '#000',
         marginTop: 48,
         wdith: 500,
-        height: 70,
+        height: 60,
         borderRadius: 20,
     },
     icon: {
@@ -258,5 +257,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    container: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection:'row'
+    }
 
 })

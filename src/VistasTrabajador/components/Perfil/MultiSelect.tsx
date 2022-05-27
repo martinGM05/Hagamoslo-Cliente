@@ -1,11 +1,13 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import Icon1 from 'react-native-vector-icons/MaterialIcons'
+import useTags from '../../../hooks/useTags'
 
 const MultiSelect = () => {
     const ref = useRef<SectionedMultiSelect<any>>()
     const [selectedItems, setSelectedItems] = useState<number[]>([])
+    const {tags, getTags}=useTags();
     const items = [
         {
           id: 1,
@@ -24,15 +26,19 @@ const MultiSelect = () => {
           title: 'Chef'
         }
       ]
-
+      
+      useEffect(()=>{
+        getTags()
+      },[])
+      
   return (
     <View>
        <SectionedMultiSelect
-       items={items}
+       items={tags}
        IconRenderer={Icon1}
        uniqueKey="id"
-       displayKey='title'
-   
+       displayKey='nombre'
+      
        
        onSelectedItemsChange={e=>{
            setSelectedItems(e)
@@ -55,7 +61,7 @@ const MultiSelect = () => {
            >
                
                {selectedItems.map((e)=>{
-              const select=items.find(i=>i.id===e)
+              const select=tags.find(i=>i.id===e)
               console.log('s '+select)
               return(
                 <View
@@ -81,7 +87,7 @@ const MultiSelect = () => {
                     
                   }}
                 >
-                  {select?.title}
+                  {select?.nombre}
                 </Text>
                 </View>
               )
