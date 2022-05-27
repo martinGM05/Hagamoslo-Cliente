@@ -22,101 +22,105 @@ const ExploreService = () => {
     const _map: any = useRef(null)
 
     return (
-        workersState !== null && (
-            <View style={styles.container}>
-                {
-                    coordinates.latitude !== 0 && coordinates.longitude !== 0 && (
-                        <MapView
-                            ref={_map}
-                            initialRegion={{
-                                latitude: 19.861588,
-                                longitude: -97.360819,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
+        <>
+            {
+                workersState !== null && (
+                    <View style={styles.container}>
+                        {
+                            coordinates.latitude !== 0 && coordinates.longitude !== 0 && (
+                                <MapView
+                                    ref={_map}
+                                    initialRegion={{
+                                        latitude: 19.861588,
+                                        longitude: -97.360819,
+                                        latitudeDelta: 0.0922,
+                                        longitudeDelta: 0.0421,
+                                    }}
+                                    style={styles.container}
+                                    provider={PROVIDER_GOOGLE}
+                                    customMapStyle={mapNightStyle}
+                                >
+                                    {filtro.map((worker) => {
+                                        return (
+                                            <Marker
+                                                key={worker.id}
+                                                coordinate={{
+                                                    latitude: worker?.latitud,
+                                                    longitude: worker?.longitud,
+                                                }}
+                                                onPress={() => { }}
+                                                title={worker.nombre}
+                                                description={worker.descripcion}
+                                            >
+                                                <View style={[styles.markerWrap]}>
+                                                    <Image
+                                                        source={{ uri: `https://hagamoslo.azurewebsites.net/api/upload/Users/${worker.id}` }}
+                                                        style={[styles.marker]}
+                                                        resizeMode="cover"
+                                                    />
+                                                </View>
+                                                <Callout tooltip
+                                                    onPress={() => alertChat(worker.id)}
+                                                >
+                                                    <View style={styles.bubble}>
+                                                        <Text style={styles.name}>{worker.nombre}</Text>
+                                                        <Text style={styles.description}>{worker.descripcion}</Text>
+                                                        {
+                                                            worker.tags !== null && worker.tags.map((tag, i) => {
+                                                                return (
+                                                                    <Text key={i} style={styles.tag}>{tag.title}</Text>
+                                                                )
+                                                            })
+                                                        }
+                                                    </View>
+                                                </Callout>
+                                            </Marker>
+                                        )
+                                    })}
+                                </MapView>
+                            )
+                        }
+        
+                        <View style={styles.searchBox}>
+                            <TextInput
+                                placeholder='Busca aquí'
+                                placeholderTextColor={'#000'}
+                                autoCapitalize="none"
+                                style={{ flex: 1, padding: 0 }}
+                                onChangeText={(text) => searchTag(text)}
+                            />
+                            <Ionicons name="ios-search" size={20} color="#000" />
+                        </View>
+                        <ScrollView
+                            horizontal
+                            scrollEventThrottle={1}
+                            showsHorizontalScrollIndicator={false}
+                            style={styles.chipsScrollView}
+                            contentInset={{
+                                top: 0,
+                                left: SPACING_FOR_CARD_INSET,
+                                bottom: 0,
+                                right: SPACING_FOR_CARD_INSET,
                             }}
-                            style={styles.container}
-                            provider={PROVIDER_GOOGLE}
-                            customMapStyle={mapNightStyle}
+                            contentContainerStyle={{
+                                paddingRight: Platform.OS === 'android' ? 20 : 0,
+                            }}
                         >
-                            {filtro.map((worker) => {
-                                return (
-                                    <Marker
-                                        key={worker.id}
-                                        coordinate={{
-                                            latitude: worker?.latitud,
-                                            longitude: worker?.longitud,
-                                        }}
-                                        onPress={() => { }}
-                                        title={worker.nombre}
-                                        description={worker.descripcion}
+                            {
+                                tags.map((service, index) => (
+                                    <TouchableOpacity key={service.id} style={styles.chipsItem}
+                                        onPress={() => searchTag(service.nombre)}
                                     >
-                                        <View style={[styles.markerWrap]}>
-                                            <Image
-                                                source={{uri: `${_url}/upload/Users/${worker.id}`}}
-                                                style={[styles.marker]}
-                                                resizeMode="cover"
-                                            />
-                                        </View>
-                                        <Callout tooltip
-                                            onPress={() => alertChat(worker.id)}
-                                        >
-                                            <View style={styles.bubble}>
-                                                <Text style={styles.name}>{worker.nombre}</Text>
-                                                <Text style={styles.description}>{worker.descripcion}</Text>
-                                                {
-                                                    worker.tags !== null && worker.tags.map((tag, i) => {
-                                                        return (
-                                                            <Text key={i} style={styles.tag}>{tag.title}</Text>
-                                                        )
-                                                    })
-                                                }
-                                            </View>
-                                        </Callout>
-                                    </Marker>
-                                )
-                            })}
-                        </MapView>
+                                        <Ionicons name={service.icono} size={20} color="#000" />
+                                        <Text style={{ color: '#000' }}>{service.nombre}</Text>
+                                    </TouchableOpacity>
+                                ))
+                            }
+                        </ScrollView>
+                    </View>
                     )
-                }
-
-                <View style={styles.searchBox}>
-                    <TextInput
-                        placeholder='Busca aquí'
-                        placeholderTextColor={'#000'}
-                        autoCapitalize="none"
-                        style={{ flex: 1, padding: 0 }}
-                        onChangeText={(text) => searchTag(text)}
-                    />
-                    <Ionicons name="ios-search" size={20} color="#000" />
-                </View>
-                <ScrollView
-                    horizontal
-                    scrollEventThrottle={1}
-                    showsHorizontalScrollIndicator={false}
-                    style={styles.chipsScrollView}
-                    contentInset={{
-                        top: 0,
-                        left: SPACING_FOR_CARD_INSET,
-                        bottom: 0,
-                        right: SPACING_FOR_CARD_INSET,
-                    }}
-                    contentContainerStyle={{
-                        paddingRight: Platform.OS === 'android' ? 20 : 0,
-                    }}
-                >
-                    {
-                        tags.map((service, index) => (
-                            <TouchableOpacity key={service.id} style={styles.chipsItem}
-                                onPress={() => searchTag(service.nombre)}
-                            >
-                                <Ionicons name={service.icono} size={20} color="#000" />
-                                <Text style={{ color: '#000' }}>{service.nombre}</Text>
-                            </TouchableOpacity>
-                        ))
-                    }
-                </ScrollView>
-            </View>
-        )
+            }
+        </>
     )
 }
 
@@ -275,6 +279,6 @@ const styles = StyleSheet.create({
         color: '#000',
         marginRight: 5,
         marginBottom: 5,
-        
+
     }
 })

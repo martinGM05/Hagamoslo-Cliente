@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View } from 'react-native'
+import { Alert, KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
 import React, { useLayoutEffect, useCallback, useState, useContext, useEffect } from 'react'
 import { GiftedChat } from 'react-native-gifted-chat';
 import { useNavigation } from '@react-navigation/native';
@@ -7,6 +7,7 @@ import { SesionContext } from '../../context/Sesion/SesionContext';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import { DrawerToggleButton } from '@react-navigation/drawer';
+import { _url } from '../../global/Variables';
 
 type Props = StackScreenProps<RootStackParams, 'Chat'>;
 
@@ -24,7 +25,6 @@ const ChatScreen = ({ route, navigation }: Props) => {
     const collectionRef = firestore().collection('Salas').doc(idSala).collection('Mensajes');
     const query = collectionRef.orderBy('createdAt', 'desc')
     const unsuscribe = query.onSnapshot(snapshot => {
-      console.log('snapshot')
       const messages = snapshot.docs.map(doc => ({
         _id: doc.id,
         createdAt: doc.data().createdAt.toDate(),
@@ -50,17 +50,19 @@ const ChatScreen = ({ route, navigation }: Props) => {
   } , [])
 
   return (
-    <GiftedChat 
-      messages={messages}
-      onSend={messages => onSend(messages)}
-      user={{
-        _id: Sesion.id,
-        avatar: 'https://i.pravatar.cc/300',
-      }}
-      messagesContainerStyle={{
-        backgroundColor: '#fff',
-      }}
-    />
+      <GiftedChat 
+        messages={messages}
+        onSend={messages => onSend(messages)}
+        user={{
+          _id: Sesion.id,
+          name: Sesion.nombre,
+          avatar: `${_url}/upload/Users/${Sesion.id}`,
+        }}
+        messagesContainerStyle={{
+          backgroundColor: '#fff',
+        }}
+        placeholder="Escribe un mensaje..."
+      />
   )
 }
 

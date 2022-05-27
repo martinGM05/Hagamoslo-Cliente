@@ -1,4 +1,4 @@
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Alert, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore';
 import { SesionContext } from '../../context/Sesion/SesionContext';
@@ -11,6 +11,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import LottieView from 'lottie-react-native';
 import clienteAxios from '../../config/clientAxios';
+import { _url } from '../../global/Variables';
 
 
 type Props = StackScreenProps<RootStackParams, 'Chat'>;
@@ -33,24 +34,6 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
     getSalas();
   }, [])
 
-  const createSala = async () => {
-
-    // Create doc in Salas collection
-    const docRef = await firestore().collection('Salas').add({})
-
-    const idWorker = 6
-    const idUsuario = Sesion.id
-
-    const url = 'https://hagamoslo.azurewebsites.net/api/salas'
-    const data = {
-      idSala: docRef.id,
-      idUsuario: idUsuario,
-      idTrabajador: idWorker
-    }
-    const response = await axios.post(url, data)
-    console.log(response.data)
-  }
-
   const goChat = async (idSala: string) => {
     // Alert.alert('idSala: ' + idSala)
     navigation.navigate('Chat', { idSala: idSala });
@@ -58,20 +41,33 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
 
   return (
     <View style={styles.container}>
-
       {
         loading ? (
-          <FlatList data={salas} renderItem={({ item }) => (
-            <Pressable style={styles.containerSalas}>
-              <Text style={styles.text}>{item.idSala}</Text>
-              <Icon.Button
-                name="ios-arrow-forward"
-                size={20}
-                color="#000"
-                onPress={() => goChat(item.idSala)}
-              />
-            </Pressable>
-          )} />
+          <FlatList
+            data={salas}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.containerSala}>
+                <View style={styles.containerImage}>
+                  <Image
+                    style={styles.image}
+                    source={{ uri: `${_url}/upload/Users/${item.Receptor.id}` }}
+                  />
+                </View>
+                <View style={styles.containerData}>
+                  <Text style={styles.textTitle}>{item.Receptor.nombre}</Text>
+                  <Text style={styles.textsubTitle}>{item.Receptor.descripcion}</Text>
+                </View>
+                <View style={styles.containerBtn}>
+                  <TouchableOpacity
+                    onPress={() => goChat(item.idSala)}
+                  >
+                    <Icon name="ios-chatbubbles-outline" size={30} color="#000" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          />
         ) : (
           <LottieView
             source={require('../../animated/empty-box.json')}
@@ -80,14 +76,6 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
           />
         )
       }
-      {/* <Pressable style={styles.btnChats}
-        onPress={() => createSala() }
-      >
-        <Text style={styles.text}>Crear chat con Ivan</Text>
-      </Pressable> */}
-
-
-
     </View>
   )
 }
@@ -97,6 +85,7 @@ export default ContainerChatsScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 10,
     // backgroundColor: '#616161',
   },
   btnChats: {
@@ -108,16 +97,67 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 5,
   },
-  text: {
+  containerSala: {
+    width: '100%',
+    height: 80,
+    // borderWidth: 2,
+    padding: 10,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.46,
+    shadowRadius: 11.14,
+    elevation: 6,
+
+    flexDirection: 'row',
+    alignItems: 'center',
+    // justifyContent: 'space-evenly',
+
+  },
+  containerImage: {
+    widht: 150,
+    height: 50,
+    marginRight: 10,
+    // backgroundColor: '#000',
+  },
+  containerBtn: {
+    width: 50,
+    height: 50,
+    backgroundColor: '#40d9b7',
+    borderWidth: 2,
+    borderRadius: 5,
+    padding: 5,
+
+  },
+  image: {
+    width: 50,
+    height: 50,
+    borderWidth: 1,
+    borderRadius: 50,
+    resizeMode: 'cover',
+    borderEndWidth: 3,
+    borderColor: '#000',
+  },
+  containerData: {
+    width: '60%',
+    height: '90%',
+    padding: 5,
+    margin: 10,
+    // backgroundColor: '#87cd4e',
+  },
+  textTitle: {
     color: '#000',
+    fontSize: 16,
     fontWeight: 'bold',
   },
-  containerSalas: {
-    borderWidth: 2,
-    borderColor: '#000',
-    margin: 10,
-    padding: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  textsubTitle: {
+    color: '#000',
+    fontSize: 14,
+  },
+  containerTexts: {
+    marginLeft: 10,
   }
 })

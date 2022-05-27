@@ -1,25 +1,15 @@
-import { StyleSheet, Text, View, Alert } from 'react-native';
-import React, { useContext } from 'react'
-import { createDrawerNavigator, DrawerContent, DrawerContentScrollView } from '@react-navigation/drawer';
+import React  from 'react'
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import PrincipalClient from '../screens/Principal/PrincipalClient';
 import Perfil from '../screens/Profile/Perfil';
 import TrabajosEnCuso from '../screens/EnCurso/TrabajosEnCuso';
 import 'react-native-gesture-handler';
-import { SesionContext } from '../context/Sesion/SesionContext';
 import MenuDrawer from '../components/MenuDrawer/MenuDrawer';
 import ContainerChatsScreen from '../screens/Chat/ContainerChatsScreen';
-import ChatScreen from '../screens/Chat/ChatScreen';
-import { Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Services from '../screens/Servicios/Services';
 import ExploreService from '../screens/Servicios/ExploreService';
 import BlogsScreen from '../screens/Blog/BlogsScreen';
-import PrincipalTrabajador from '../VistasTrabajador/screens/PrincipalTrabajador/PrincipalTrabajador';
-import PerfilTrabajador from '../VistasTrabajador/screens/ProfileTrabajador/PerfilTrabajador';
-import TrabajosEnCursoTrabajador from '../VistasTrabajador/screens/EnCursoTrabajador/TrabajosEnCursoTrabajador';
-import HistorialTrabajador from '../VistasTrabajador/screens/HistorialTrabajador/HistorialTrabajador';
-import BlogsScreensTrabajador from '../VistasTrabajador/screens/BlogTrabajador/BlogsScreensTrabajador';
-
+import Services from '../screens/Servicios/Services';
 
 const Drawer = createDrawerNavigator();
 
@@ -92,12 +82,11 @@ const DrawerNavigator = () => (
     <Drawer.Screen name="Services" component={ExploreService} options={{
       drawerIcon: ({ color }) => (
         <Ionicons name="map-outline" size={22} color={color} />
-      )
+      ),
+      title: 'Servicios',
     }} />
   </Drawer.Navigator>
 
 )
 
 export default DrawerNavigator
-
-const styles = StyleSheet.create({})

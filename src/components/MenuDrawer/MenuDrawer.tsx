@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const MenuDrawer = (props: any) => {
     const { Sesion, logout } = useContext(SesionContext)
-    const foto = Sesion.urlFoto ? { uri: `${_url}upload/Users/${Sesion.id}`} : require('../../img/no-image.png')
+    const foto = Sesion.urlFoto ? { uri: `${_url}/upload/Users/${Sesion.id}`} : require('../../img/no-image.png')
     
     const handleLogout = async () => {
         await Alert.alert(

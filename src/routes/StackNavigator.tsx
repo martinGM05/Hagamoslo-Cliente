@@ -2,13 +2,11 @@ import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import InitialLogin from '../screens/Login/InitialLogin';
 import Register from '../screens/Login/Register';
-import Trabajador from '../screens/Trabajador/Trabajador';
-import ValorarTrabajo from '../screens/EnCurso/ValorarTrabajo';
 import DrawerNavigator from './DrawerNavigator';
 import 'react-native-gesture-handler';
-import ChatScreen from '../screens/Chat/ChatScreen';
-import Services from '../screens/Servicios/Services';
 import WorkerDrawer from './WorkerDrawer';
+import ChatScreen from '../screens/Chat/ChatScreen';
+
 export type RootStackParams = {
     Principal: undefined;
     Login: undefined;
@@ -22,6 +20,7 @@ export type RootStackParams = {
 }
 
 const Stack = createStackNavigator<RootStackParams>();
+
 
 export const StackNavigator = () => {
     return (
@@ -48,6 +47,19 @@ export const StackNavigator = () => {
             <Stack.Screen name="Register" options={{title: "Register"}} component={Register} />
             <Stack.Screen name="PrincipalCliente" options={{title: "Principal"}} component={DrawerNavigator} />
             <Stack.Screen name="Trabajador" options={{title: "Trabajador"}} component={WorkerDrawer} />
+            
+            <Stack.Screen
+                 name="Chat" 
+                 options={{
+                    title: "Chat",
+                    headerStyle: {
+                        backgroundColor: '#dd60cd',
+                    },
+                    headerShown: true
+                }} 
+                 component={ChatScreen} 
+            />
+
         </Stack.Navigator>
     )
 }

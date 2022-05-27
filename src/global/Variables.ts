@@ -1,1 +1,1 @@
-export const _url : string ="https://hagamoslo.azurewebsites.net/api/"
+export const _url : string ="https://hagamoslo.azurewebsites.net/api"
