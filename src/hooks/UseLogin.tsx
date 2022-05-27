@@ -19,7 +19,7 @@ export interface UserToken{
 
 const UseLogin = () => {
   
-  const { getUserData } = useContext(SesionContext);;
+  const { getUserData } = useContext(SesionContext);
 
   const loginWithEmail = async (email: string, password: string, navigation: any, rol: number) => {
 
@@ -64,10 +64,10 @@ const UseLogin = () => {
         }
         
       }else{
-        console.log(result)
+        console.log('Here 1 : ' + result)
       }
     } catch (error) {
-      console.log(error)
+      Alert.alert('Error', 'Usuario o contraseña incorrectos')
     }
   }
 

@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import LottieView from 'lottie-react-native';
+import clienteAxios from '../../config/clientAxios';
 
 
 type Props = StackScreenProps<RootStackParams, 'Chat'>;
@@ -22,10 +23,10 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
   const [loading, setLoading] = useState(false);
 
   const getSalas = async () => {
-    const url = 'https://hagamoslo.azurewebsites.net/api/salas/' + Sesion.id;
-    const response = await axios.get(url);
+    const response = await clienteAxios.get(`/salas/${Sesion.id}`)
     setSalas(response.data);
-    console.log(response.data);
+    setLoading(true);
+    // console.log(response.data);
   }
 
   useEffect(() => {

@@ -1,14 +1,12 @@
-import { Dimensions, Image, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
-import MapView, { AnimatedRegion, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { Alert, Dimensions, Image, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import MapView, { AnimatedRegion, Callout, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { markers, mapNightStyle } from './MapData';
-import Animated, { call, Extrapolate } from 'react-native-reanimated';
-import { AirbnbRating, Rating } from 'react-native-ratings';
 import useTags from '../../hooks/useTags';
+import useWorkers, { Workers } from '../../hooks/useWorkers';
+import { _url } from '../../global/Variables';
 
 
 const { width, height } = Dimensions.get("window");
@@ -19,168 +17,106 @@ const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 const ExploreService = () => {
 
     const { tags, coordinates } = useTags();
-
-
-    const initialMapState = {
-        markers,
-        categories: [
-            {
-                name: 'Fastfood center',
-                icon: <MaterialCommunityIcons name="food-fork-drink" size={30} color="#000" />,
-            },
-            {
-                name: 'Restaurant',
-                icon: <Ionicons name="ios-restaurant" size={30} color="#000" />,
-            },
-            {
-                name: 'Dineouts',
-                icon: <Ionicons name="md-restaurant" size={30} color="#000" />,
-            },
-            {
-                name: 'Snacks Corner',
-                icon: <MaterialCommunityIcons name="food" size={30} color="#000" />,
-            },
-            {
-                name: 'Hotel',
-                icon: <FontAwesome5 name="hotel" size={30} color="#000" />,
-            }
-        ],
-        region: {
-            latitude: 22.62938671242907,
-            longitude: 88.4354486029795,
-            latitudeDelta: 0.04864195044303443,
-            longitudeDelta: 0.040142817690068,
-        },
-    }
-
-    const [mapState, setMapState] = useState(initialMapState)
+    const { workersState, searchTag, filtro, alertChat } = useWorkers();
 
     const _map: any = useRef(null)
-    const _scrollView: any = useRef(null)
-
 
     return (
-        <View style={styles.container}>
-            {
-                coordinates.latitude !== 0 && coordinates.longitude !== 0 && (
-                    <MapView
-                        ref={_map}
-                        initialRegion={{
-                            latitude: coordinates.latitude,
-                            longitude: coordinates.longitude,
-                            latitudeDelta: 0.0922,
-                            longitudeDelta: 0.0421,
-                        }}
-                        style={styles.container}
-                        provider={PROVIDER_GOOGLE}
-                        customMapStyle={mapNightStyle}
-                    >
-                        {mapState.markers.map((marker, index) => {
-                            return (
-                                <Marker key={index} coordinate={marker.coordinate} onPress={() => { }}>
-                                    <Animated.View style={[styles.markerWrap]}>
-                                        <Animated.Image
-                                            source={require('../../img/no-image.png')}
-                                            style={[styles.marker]}
-                                            resizeMode="cover"
-                                        />
-                                    </Animated.View>
-                                </Marker>
-                            )
-                        })}
-                    </MapView>
-                )
-            }
-
-            <View style={styles.searchBox}>
-                <TextInput
-                    placeholder='Search here'
-                    placeholderTextColor={'#000'}
-                    autoCapitalize="none"
-                    style={{ flex: 1, padding: 0 }}
-                />
-                <Ionicons name="ios-search" size={20} color="#000" />
-            </View>
-            <ScrollView
-                horizontal
-                scrollEventThrottle={1}
-                showsHorizontalScrollIndicator={false}
-                style={styles.chipsScrollView}
-                contentInset={{
-                    top: 0,
-                    left: SPACING_FOR_CARD_INSET,
-                    bottom: 0,
-                    right: SPACING_FOR_CARD_INSET,
-                }}
-                contentContainerStyle={{
-                    paddingRight: Platform.OS === 'android' ? 20 : 0,
-                }}
-            >
+        workersState !== null && (
+            <View style={styles.container}>
                 {
-                    tags.map((service, index) => (
-                        <TouchableOpacity key={service.id} style={styles.chipsItem}>
-                            <Ionicons name={service.icono} size={20} color="#000" />
-                            <Text style={{ color: '#000' }}>{service.nombre}</Text>
-                        </TouchableOpacity>
-                    ))
+                    coordinates.latitude !== 0 && coordinates.longitude !== 0 && (
+                        <MapView
+                            ref={_map}
+                            initialRegion={{
+                                latitude: 19.861588,
+                                longitude: -97.360819,
+                                latitudeDelta: 0.0922,
+                                longitudeDelta: 0.0421,
+                            }}
+                            style={styles.container}
+                            provider={PROVIDER_GOOGLE}
+                            customMapStyle={mapNightStyle}
+                        >
+                            {filtro.map((worker) => {
+                                return (
+                                    <Marker
+                                        key={worker.id}
+                                        coordinate={{
+                                            latitude: worker?.latitud,
+                                            longitude: worker?.longitud,
+                                        }}
+                                        onPress={() => { }}
+                                        title={worker.nombre}
+                                        description={worker.descripcion}
+                                    >
+                                        <View style={[styles.markerWrap]}>
+                                            <Image
+                                                source={{uri: `${_url}/upload/Users/${worker.id}`}}
+                                                style={[styles.marker]}
+                                                resizeMode="cover"
+                                            />
+                                        </View>
+                                        <Callout tooltip
+                                            onPress={() => alertChat(worker.id)}
+                                        >
+                                            <View style={styles.bubble}>
+                                                <Text style={styles.name}>{worker.nombre}</Text>
+                                                <Text style={styles.description}>{worker.descripcion}</Text>
+                                                {
+                                                    worker.tags !== null && worker.tags.map((tag, i) => {
+                                                        return (
+                                                            <Text key={i} style={styles.tag}>{tag.title}</Text>
+                                                        )
+                                                    })
+                                                }
+                                            </View>
+                                        </Callout>
+                                    </Marker>
+                                )
+                            })}
+                        </MapView>
+                    )
                 }
-            </ScrollView>
-            {/* <Animated.ScrollView
-                horizontal
-                scrollEventThrottle={1}
-                showsHorizontalScrollIndicator={false}
-                pagingEnabled
-                snapToInterval={CARD_WIDTH + 20}
-                snapToAlignment="center"
-                style={styles.scrollView}
-                contentInset={{
-                    top: 0,
-                    left: SPACING_FOR_CARD_INSET,
-                    bottom: 0,
-                    right: SPACING_FOR_CARD_INSET,
-                }}
-                contentContainerStyle={{
-                    paddingHorizontal: Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
-                }}
-            >
-                {mapState.markers.map((marker, index) => (
-                    <View style={styles.card} key={index}>
-                        <Image
-                            source={marker.image}
-                            style={styles.cardImage}
-                            resizeMode="cover"
-                        />
-                        <View style={styles.textContent}>
-                            <View>
-                                <Text numberOfLines={1} style={styles.cardtitle}>{marker.title}</Text>
-                                <AirbnbRating
-                                    count={5}
-                                    defaultRating={marker.rating}
-                                    showRating={false}
-                                    size={15}
-                                    isDisabled={true}
-                                    ratingContainerStyle={styles.starts}
-                                />
-                            </View>
-                            <Text numberOfLines={1} style={styles.cardDescription}>{marker.description}</Text>
-                            <View style={styles.button}>
-                                <TouchableOpacity
-                                    onPress={() => { }}
-                                    style={[styles.signIn, {
-                                        borderColor: '#FF6347',
-                                        borderWidth: 1,
-                                    }]}
-                                >
-                                    <Text style={[styles.signIn, {
-                                        color: '#FF6347',
-                                    }]}>Oreder Now</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-                ))}
-            </Animated.ScrollView> */}
-        </View>
+
+                <View style={styles.searchBox}>
+                    <TextInput
+                        placeholder='Busca aquí'
+                        placeholderTextColor={'#000'}
+                        autoCapitalize="none"
+                        style={{ flex: 1, padding: 0 }}
+                        onChangeText={(text) => searchTag(text)}
+                    />
+                    <Ionicons name="ios-search" size={20} color="#000" />
+                </View>
+                <ScrollView
+                    horizontal
+                    scrollEventThrottle={1}
+                    showsHorizontalScrollIndicator={false}
+                    style={styles.chipsScrollView}
+                    contentInset={{
+                        top: 0,
+                        left: SPACING_FOR_CARD_INSET,
+                        bottom: 0,
+                        right: SPACING_FOR_CARD_INSET,
+                    }}
+                    contentContainerStyle={{
+                        paddingRight: Platform.OS === 'android' ? 20 : 0,
+                    }}
+                >
+                    {
+                        tags.map((service, index) => (
+                            <TouchableOpacity key={service.id} style={styles.chipsItem}
+                                onPress={() => searchTag(service.nombre)}
+                            >
+                                <Ionicons name={service.icono} size={20} color="#000" />
+                                <Text style={{ color: '#000' }}>{service.nombre}</Text>
+                            </TouchableOpacity>
+                        ))
+                    }
+                </ScrollView>
+            </View>
+        )
     )
 }
 
@@ -279,8 +215,11 @@ const styles = StyleSheet.create({
         height: 50,
     },
     marker: {
-        width: 30,
-        height: 30,
+        width: 50,
+        height: 50,
+        borderRadius: 50,
+        borderWidth: 2,
+        borderColor: "#fff",
     },
     button: {
         alignItems: 'center',
@@ -301,5 +240,41 @@ const styles = StyleSheet.create({
         width: 120,
         height: 10,
         marginTop: 3,
+    },
+    bubble: {
+        flexDirection: 'column',
+        backgroundColor: '#FFF',
+        padding: 15,
+        width: 230,
+        // height: 200,
+        borderRadius: 20,
+    },
+    name: {
+        fontSize: 16,
+        marginBottom: 5,
+        color: '#000',
+        alignSelf: 'center',
+    },
+    description: {
+        fontSize: 12,
+        color: '#000',
+    },
+    btnChat: {
+        backgroundColor: '#e16c2d',
+        padding: 10,
+        borderRadius: 5
+    },
+    btnChatText: {
+        color: '#fff',
+        fontSize: 12,
+        fontWeight: 'bold',
+        alignSelf: 'center'
+    },
+    tag: {
+        fontSize: 12,
+        color: '#000',
+        marginRight: 5,
+        marginBottom: 5,
+        
     }
 })
