@@ -19,30 +19,27 @@ const FormPerfil = () => {
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     const { Sesion } = useContext(SesionContext)
-   
+   // const [modalVisible, setModalVisible] = useState(false);
     const {ActualizarTrabajador, modalVisible,setModalVisible}=ActualizarPerfilTrabajador();
     const {coordinates}=useTags()
-    
-
     const submit = async (values: any) => {
-       
         if(isEnabled){
-           ActualizarTrabajador(values, true, coordinates.latitude,coordinates.longitude)
-            
-        }else{
-            Alert.alert('Mensaje', '¿Esta seguro de no guardar su ubicación?, Si activa la ubicación es mas proble que lo contacten por cercania',[
-                {
-                    text: 'Si',
-                    onPress:()=>{
-                        ActualizarTrabajador(values, true)
-                    }
-                },{
-                    text: 'No',
-                    style:'cancel'
-                }
-            ])
-        }
-    }
+            ActualizarTrabajador(values, true, coordinates.latitude,coordinates.longitude)
+             
+         }else{
+             Alert.alert('Mensaje', '¿Esta seguro de no guardar su ubicación?, Si activa la ubicación es mas proble que lo contacten por cercania',[
+                 {
+                     text: 'Si',
+                     onPress:()=>{
+                         ActualizarTrabajador(values, true)
+                     }
+                 },{
+                     text: 'No',
+                     style:'cancel'
+                 }
+             ])
+         }
+     }
 
     const formikOpt = {
         initialValues: {

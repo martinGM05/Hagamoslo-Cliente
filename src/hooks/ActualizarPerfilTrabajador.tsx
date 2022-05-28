@@ -44,64 +44,44 @@ const ActualizarPerfilTrabajador = () => {
       console.log(dataw)
         //setModalVisible(true)
         
-            try{
-                axios.put(_url+'/usuarios/'+Sesion.id,{
-                    nombre:Name,
-                    numero:Phone,
-                    latitud:latitud,
-                    longitud:longitud
-                },{
-                    headers:{
-                        
-                        'Api-Key':Sesion.token
-                    }
-                   
-                }).then((e)=>{
-                    if(e.data){
-                        axios.put(_url+'/upload/Users/'+Sesion.id,artTemp,{
-                            headers:{
-                                "content-type": "multipart/form-data",
-                                "Api-Key": Sesion.token
-                               }
-                        }).then((e)=>{
-                            if(e.data){
-                                axios.post(_url+'/service',dataw
-                                ,{
-                                    headers:{
-                                        
-                                        "Api-Key": Sesion.token
-                                       }
+        axios.all([
+            axios.put(_url+'/usuarios/'+Sesion.id,{
+                nombre:Name,
+                numero:Phone,
+                latitud:latitud,
+                longitud:longitud
+            },{
+                headers:{
                     
-                                }).then((e)=>{
-                                    if(e.data){
-                                        setModalVisible(true)
-                                    }
-                                })
-                            }
-                        })
-                    }
-                })
+                    'Api-Key':Sesion.token
+                }
+               
+            })
+            ,
+            axios.put(_url+'/upload/Users/'+Sesion.id,artTemp,{
+                headers:{
+                    "content-type": "multipart/form-data",
+                    "Api-Key": Sesion.token
+                   }
+            })
+            ,
+            axios.post(_url+'/service',dataw
+            ,{
+                headers:{
+                    
+                    "Api-Key": Sesion.token
+                   }
 
-            }catch(e){
-                console.log(e)
-            }
+            })
+        ]).then(axios.spread((data1,data2,data3)=>{
+            console.log('data1: ', data1.data)
+            console.log('data2: ', data2.data)
+            console.log('data3: ', data3.data)
             
-           
-            
-        // .then(axios.spread((data1,data2, data3)=>{
-        //     console.log('data1: ', data1.data)
-        //     console.log('data2: ', data2.data)
-        //     console.log('data3: ', data3.data)
-        //     if(data1){
-        //         if(data2){
-        //             setModalVisible(true)
-        //         }else{
-        //             console.log('error')
-        //         }
-        //     }else{
-        //         console.log('error')
-        //     }
-        // }))
+                
+                    
+              
+        }))
 
    
     }
