@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, Pressable, KeyboardTypeOptions, TouchableOpacity, Alert, Modal } from 'react-native';
+import { StyleSheet, Text, View, Button, Pressable, KeyboardTypeOptions, TouchableOpacity, Alert, Modal, LogBox, Switch } from 'react-native';
 import React, { useEffect, useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
@@ -12,33 +12,80 @@ import ContainerModal from '../Helper/ContainerModal';
 import { StackScreenProps, StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import { useNavigation } from '@react-navigation/native';
-
+import DropDownPicker from 'react-native-dropdown-picker';
+import useTags from '../../hooks/useTags';
+import RegistrarUsuario from '../../hooks/RegistrarUsuario';
 interface Props {
     navigation: any;
 }
 
 
-const FormRegister = ({navigation} :Props) => {
+const FormRegister = ({ navigation }: Props) => {
 
     // const [imgAvatar, setImgAvatar] = useState('https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg');
     let img = 'https://dicesabajio.com.mx/wp-content/uploads/2021/06/no-image.jpeg'
 
     const { photoNew, cameraOrGallery } = usePhoto()
-
+    const {coordinates}=useTags()
+    const {Registro}=RegistrarUsuario()
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisibleError, setModalVisibleError] = useState(false);
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    const [items, setItems] = useState([
+        { label: 'Cliente', value: 1 },
+        { label: 'Trabajador', value: 2 },
+        { label: 'Ambos', value: 3 }
+    ]);
 
     const submit = async (values: any) => {
-        let data = {
-            Nombre: values.Name,
-            Email: values.Email,
-            Phone: values.Phone,
-            Password: values.Password,
-            Photo: photoNew
+      if(value==null){
+          Alert.alert('Mensaje', 'Debe seleccionar su Rol')
+      }else{
+        if(photoNew==''){
+            Alert.alert('Mensaje', 'La foto es obligatoria')
+        }else if(isEnabled){
+         let data = {
+             Name: values.Name,
+             Email: values.Email,
+             Phone: values.Phone,
+             Password: values.Password,
+             Descripcion: values.Descripcion,
+             Photo: photoNew,
+             Rol: value,
+             Latitud: coordinates.latitude,
+             Longitud: coordinates.longitude
+         }
+         Registro(data)
+ 
+        }else{
+         let data = {
+             Name: values.Name,
+             Email: values.Email,
+             Phone: values.Phone,
+             Password: values.Password,
+             Descripcion: values.Descripcion,
+             Photo: photoNew,
+             Rol: value,
+             Latitud: 0,
+             Longitud: 0
+         }
+         Registro(data)
+ 
         }
-      
-       
+      }
+        
+        //Registro(data)
+        //console.log(data)
+
+
     }
+    useEffect(() => {
+        //console.log(value)  
+        LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    }, [value])
 
     const changeImage = () => {
         cameraOrGallery()
@@ -51,7 +98,8 @@ const FormRegister = ({navigation} :Props) => {
             Email: '',
             Phone: '',
             Password: '',
-            PasswordConfirm: ''
+            PasswordConfirm: '',
+            Descripcion: ''
         },
         validationSchema: Yup.object().shape({
             Name: Yup.string()
@@ -70,6 +118,9 @@ const FormRegister = ({navigation} :Props) => {
             PasswordConfirm: Yup.string()
                 .oneOf([Yup.ref('Password'), null], 'Las contraseñas no coinciden')
                 .required('Confirmación de contraseña requerida'),
+            Descripcion: Yup.string()
+                .max(30, 'Maximo 30 carateres')
+                .required('Descripcion requerida')
         }),
         onSubmit: submit,
     }
@@ -81,20 +132,20 @@ const FormRegister = ({navigation} :Props) => {
             <View style={styles.containerAvatar}>
                 {
                     photoNew ?
-                    <Avatar
-                        rounded
-                        size="xlarge"
-                        source={{ uri: photoNew }}
-                        containerStyle={styles.avatar}
-                    /> :
-                    <Avatar
-                        rounded
-                        size="xlarge"
-                        source={{ uri: img }}
-                        containerStyle={styles.avatar}
-                    />
+                        <Avatar
+                            rounded
+                            size="xlarge"
+                            source={{ uri: photoNew }}
+                            containerStyle={styles.avatar}
+                        /> :
+                        <Avatar
+                            rounded
+                            size="xlarge"
+                            source={{ uri: img }}
+                            containerStyle={styles.avatar}
+                        />
                 }
-                
+
                 <TouchableOpacity
                     style={styles.containerEdit}
                     onPress={() => changeImage()}
@@ -220,6 +271,62 @@ const FormRegister = ({navigation} :Props) => {
                                             <Text style={styles.error}>{formik.errors.PasswordConfirm}</Text>
                                         </View> : null
                                 }
+
+                                <View style={styles.form}>
+                                    <TextInput
+                                        style={styles.inputStyle}
+                                        autoCorrect={false}
+                                        placeholder="Descripción"
+                                        placeholderTextColor="#999"
+                                        onChangeText={formik.handleChange('Descripcion')}
+                                        value={formik.values.Descripcion}
+                                        onBlur={formik.handleBlur('Descripcion')}
+                                        multiline={true}
+                                    />
+                                    <Icon
+                                        name="ios-create-sharp"
+                                        style={styles.icon} />
+                                </View>
+                                {
+                                    formik.touched.Descripcion && formik.errors.Descripcion ?
+                                        <View style={styles.contenedorError}>
+                                            <Icon name="information-circle" size={20} color="#ff0000" />
+                                            <Text style={styles.error}>{formik.errors.Descripcion}</Text>
+                                        </View> : null
+                                }
+
+
+                                <View style={{ flex: 1 }}>
+                                    <DropDownPicker
+                                        open={open}
+                                        placeholder='Selecciones su rol'
+                                        value={value}
+                                        items={items}
+                                        setOpen={setOpen}
+                                        setValue={setValue}
+                                        setItems={setItems}
+                                        style={styles.form}
+                                    />
+                                </View>
+                                {
+                                    value != 1 && value!=null? (
+                                        <View style={styles.form}>
+                                            <Text style={{ marginRight: 20 }}>¿Guardar ubicación actual?</Text>
+                                            <Switch
+                                                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                                                thumbColor={isEnabled ? "#008000" : "#f4f3f4"}
+                                                ios_backgroundColor="#3e3e3e"
+                                                onValueChange={toggleSwitch}
+                                                value={isEnabled}
+                                            />
+                                        </View>
+                                    ) : null
+
+                                }
+
+
+
+
                                 <TouchableOpacity
                                     style={styles.btnSubmit}
                                     onPress={formik.handleSubmit}>
@@ -235,11 +342,11 @@ const FormRegister = ({navigation} :Props) => {
                 transparent={true}
                 visible={modalVisible}
             >
-                <ContainerModal 
+                <ContainerModal
                     setModalVisible={setModalVisible}
                     modalVisible={modalVisible}
                     textDescription="Usuario creado correctamente"
-                    
+
                 />
             </Modal>
             <Modal
@@ -247,7 +354,7 @@ const FormRegister = ({navigation} :Props) => {
                 transparent={true}
                 visible={modalVisibleError}
             >
-                <ContainerModal 
+                <ContainerModal
                     setModalVisible={setModalVisibleError}
                     modalVisible={modalVisibleError}
                     textDescription="El usuario ya existe"

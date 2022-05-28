@@ -40,7 +40,7 @@ const PrincipalTrabajador= ({navigation}: any ) => {
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.welcome}>
-                    <Text style={styles.text}>Hola, Manuel Francisco</Text>
+                    <Text style={styles.text}>Hola, {Sesion.nombre}</Text>
                     <View style={styles.containerCards}>
                         <View style={styles.cardBlog}>
                             <Text style={styles.textNumber}>5</Text>
