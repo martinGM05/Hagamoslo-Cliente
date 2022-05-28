@@ -28,6 +28,11 @@ export interface SesionContextProps {
     Sesion: UserModel,
     getUserData: (user: UserModel) => void;
     logout: () => void;
+    setDataPhoto: (photo: string) => void;
+    dataPhoto:string,
+    setSelectedItems:(id:number[])=>void ;
+    selectedItems:number[]
+
 }
 
 export const SesionContext = createContext({} as SesionContextProps);
@@ -35,6 +40,7 @@ export const SesionProvider = ({ children }: {children: JSX.Element[]}) => {
 
     const [sesionState, dispatch] = useReducer(sesionReducer, authInitialState);
     const [dataPhoto, setDataPhoto] = useState('');
+    const [selectedItems, setSelectedItems] = useState<number[]>([])
 
     const getUserData = async (User: UserModel) => {
 
@@ -57,7 +63,10 @@ export const SesionProvider = ({ children }: {children: JSX.Element[]}) => {
     <SesionContext.Provider value={{
         Sesion: sesionState,
         getUserData,
-        logout
+        logout,
+        setDataPhoto,
+        dataPhoto,
+        selectedItems, setSelectedItems
 
     }}>
         {children}

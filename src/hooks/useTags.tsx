@@ -10,7 +10,7 @@ interface IconsTags {
     icono: string
 }
 
-interface Coordinates {
+export interface Coordinates {
     latitude: number,
     longitude: number,
     latitudeDelta: number,

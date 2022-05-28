@@ -1,13 +1,16 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import Icon1 from 'react-native-vector-icons/MaterialIcons'
 import useTags from '../../../hooks/useTags'
+import ActualizarPerfilTrabajador from '../../../hooks/ActualizarPerfilTrabajador'
+import { SesionContext } from '../../../context/Sesion/SesionContext'
 
 const MultiSelect = () => {
     const ref = useRef<SectionedMultiSelect<any>>()
-    const [selectedItems, setSelectedItems] = useState<number[]>([])
+    //const {selectedItems,setSelectedItems, }=ActualizarPerfilTrabajador()
     const {tags, getTags}=useTags();
+    const{selectedItems,setSelectedItems}=useContext(SesionContext)
     const items = [
         {
           id: 1,
@@ -26,7 +29,7 @@ const MultiSelect = () => {
           title: 'Chef'
         }
       ]
-      
+ 
       useEffect(()=>{
         getTags()
       },[])
@@ -42,7 +45,7 @@ const MultiSelect = () => {
        
        onSelectedItemsChange={e=>{
            setSelectedItems(e)
-           console.log(e)
+           
        }}
        selectedItems={selectedItems}
        customChipsRenderer={(props)=>(
@@ -62,7 +65,7 @@ const MultiSelect = () => {
                
                {selectedItems.map((e)=>{
               const select=tags.find(i=>i.id===e)
-              console.log('s '+select)
+             
               return(
                 <View
                 style={{
