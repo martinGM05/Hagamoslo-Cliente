@@ -3,12 +3,15 @@ import React, { useEffect, useState, useContext } from 'react'
 
 import { Alert } from "react-native";
 import ImagePicker from 'react-native-image-crop-picker';
+import { SesionContext } from '../context/Sesion/SesionContext';
+
 
 
 const usePhoto = () => {
 
     const [photoNew, setPhotoNew] = useState('')
-    // const { setDataPhoto, Sesion } = useContext(SesionContext)
+    const { setDataPhoto, Sesion } = useContext(SesionContext)
+    
 
     const handleChangePhoto = () => {
         Alert.alert(
@@ -63,7 +66,7 @@ const usePhoto = () => {
                 compressImageQuality: 0.5,
             });
             setPhotoNew(result.path)
-            // setDataPhoto(result.path)
+            setDataPhoto(result.path)
         } catch (error) {
             console.log(error);
         }
@@ -79,7 +82,7 @@ const usePhoto = () => {
                 includeExif: true,
             });
             setPhotoNew(result.path)
-            // setDataPhoto(result.path)
+            setDataPhoto(result.path)
         } catch (error) {
             console.log(error);
         }

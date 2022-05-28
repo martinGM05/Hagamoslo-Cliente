@@ -19,7 +19,7 @@ const AvatarPerfil = () => {
 
     const { Sesion, logout } = useContext(SesionContext)
 
-    const photo = Sesion.urlFoto ? { uri: `${_url}upload/Users/${Sesion.id}`} : require('../../../img/no-image.png')
+    const photo = Sesion.urlFoto ? { uri: `${_url}/upload/Users/${Sesion.id}`} : require('../../../img/no-image.png')
 
 
     const { handleChangePhoto, photoNew } = usePhoto();

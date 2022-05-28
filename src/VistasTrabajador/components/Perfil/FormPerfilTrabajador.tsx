@@ -1,38 +1,40 @@
 import { StyleSheet, Text, View, TouchableOpacity, Modal, Alert, Pressable, Switch } from 'react-native';
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import Icon from 'react-native-vector-icons/Ionicons';
-import Icon1 from 'react-native-vector-icons/MaterialIcons'
 import { TextInput, ScrollView } from 'react-native-gesture-handler';
 
-
+import AvatarPerfil from './AvatarPerfil';
 import Toast from 'react-native-toast-message'
 
 
-import AvatarPerfil from './AvatarPerfil';
 import ContainerModal from '../../../components/Helper/ContainerModal';
 import { SesionContext } from '../../../context/Sesion/SesionContext';
-import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import MultiSelect from './MultiSelect';
+import ActualizarPerfilTrabajador from '../../../hooks/ActualizarPerfilTrabajador';
+import useTags from '../../../hooks/useTags';
 
-const FormPerfilTrabajador = () => {
-
-    const { Sesion } = useContext(SesionContext)
-    const [modalVisible, setModalVisible] = useState(false);
+const FormPerfil = () => {
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const { Sesion } = useContext(SesionContext)
+   
+    const {ActualizarTrabajador, modalVisible,setModalVisible}=ActualizarPerfilTrabajador();
+    const {coordinates}=useTags()
+    
 
     const submit = async (values: any) => {
-        // await editUserData(values)
+       
         if(isEnabled){
-            setModalVisible(true)
+           ActualizarTrabajador(values, true, coordinates.latitude,coordinates.longitude)
+            
         }else{
             Alert.alert('Mensaje', '¿Esta seguro de no guardar su ubicación?, Si activa la ubicación es mas proble que lo contacten por cercania',[
                 {
                     text: 'Si',
                     onPress:()=>{
-                        setModalVisible(true)
+                        ActualizarTrabajador(values, true)
                     }
                 },{
                     text: 'No',
@@ -40,7 +42,6 @@ const FormPerfilTrabajador = () => {
                 }
             ])
         }
-        
     }
 
     const formikOpt = {
@@ -49,7 +50,6 @@ const FormPerfilTrabajador = () => {
             Email: Sesion.correo,
             Phone: Sesion.numero,
             Photo: Sesion.urlFoto,
-            Location: "Misantla"
         },
         validationSchema: Yup.object({
             Name: Yup.string()
@@ -59,12 +59,9 @@ const FormPerfilTrabajador = () => {
                 .required('El teléfono es requerido'),
             Photo: Yup.string()
                 .required('La foto es requerida'),
-            Location: Yup.string()
-                .required('El lugar es requerido')
         }),
         onSubmit: submit
     }
-
 
 
     return (
@@ -72,10 +69,10 @@ const FormPerfilTrabajador = () => {
             <Formik {...formikOpt}>
                 {formik => (
                     <View>
-                        <View style={{ marginLeft: 90 }}>
+                        <View style={{marginLeft: 90}}>
                             <AvatarPerfil />
                         </View>
-
+                        
                         <View style={styles.userContainer}>
                             <TextInput
                                 style={styles.inputStyle}
@@ -137,11 +134,8 @@ const FormPerfilTrabajador = () => {
                                 : null
                         }
 
-                       
-
-
                         <MultiSelect />
-                        <View style={styles.container}>
+                        <View >
                         <Text style={{marginRight:20}}>¿Guardar ubicación actual?</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -150,10 +144,7 @@ const FormPerfilTrabajador = () => {
                                 onValueChange={toggleSwitch}
                                 value={isEnabled}
                             />
-                          
-                        </View>
-
-
+                            </View>
                         <TouchableOpacity style={styles.button} onPress={formik.handleSubmit}>
                             <Text style={styles.textButton}>Guardar</Text>
                         </TouchableOpacity>
@@ -165,7 +156,7 @@ const FormPerfilTrabajador = () => {
                 transparent={true}
                 visible={modalVisible}
             >
-                <ContainerModal
+                <ContainerModal 
                     setModalVisible={setModalVisible}
                     modalVisible={modalVisible}
                     textDescription="Usuario actualizado"
@@ -175,7 +166,7 @@ const FormPerfilTrabajador = () => {
     )
 }
 
-export default FormPerfilTrabajador
+export default FormPerfil
 
 const styles = StyleSheet.create({
     containerForm: {
@@ -224,7 +215,7 @@ const styles = StyleSheet.create({
         borderColor: '#000',
         marginTop: 48,
         wdith: 500,
-        height: 60,
+        height: 70,
         borderRadius: 20,
     },
     icon: {
@@ -257,11 +248,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection:'row'
-    }
-
+   
 })
