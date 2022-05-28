@@ -64,7 +64,7 @@ const FormPerfil = () => {
     return (
         <View style={styles.containerForm}>
             <Formik {...formikOpt}>
-                {formik => (
+                {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View>
                         <View style={{marginLeft: 90}}>
                             <AvatarPerfil />
@@ -76,19 +76,19 @@ const FormPerfil = () => {
                                 autoCorrect={false}
                                 placeholder="Nombre"
                                 placeholderTextColor="#999"
-                                onChangeText={formik.handleChange('Name')}
-                                value={formik.values.Name}
-                                onBlur={formik.handleBlur('Name')}
+                                onChangeText={handleChange('Name')}
+                                value={values.Name}
+                                onBlur={handleBlur('Name')}
                             />
                             <Icon
                                 name="ios-person"
                                 style={styles.icon} />
                         </View>
                         {
-                            formik.touched.Name && formik.errors.Name ?
+                            touched.Name &&errors.Name ?
                                 <View style={styles.contenedorError}>
                                     <Icon name="ios-alert-circle" size={20} color="#ff0000" />
-                                    <Text style={styles.error}>{formik.errors.Name}</Text>
+                                    <Text style={styles.error}>{errors.Name}</Text>
                                 </View>
                                 : null
                         }
@@ -98,9 +98,9 @@ const FormPerfil = () => {
                                 autoCorrect={false}
                                 placeholder="Correo"
                                 placeholderTextColor="#999"
-                                onChangeText={formik.handleChange('Email')}
-                                value={formik.values.Email}
-                                onBlur={formik.handleBlur('Email')}
+                                onChangeText={handleChange('Email')}
+                                value={values.Email}
+                                onBlur={handleBlur('Email')}
                                 editable={false}
                             />
                             <Icon
@@ -114,19 +114,19 @@ const FormPerfil = () => {
                                 placeholder="Número"
                                 placeholderTextColor="#999"
                                 keyboardType="numeric"
-                                onChangeText={formik.handleChange('Phone')}
-                                value={(formik.values.Phone).toString()}
-                                onBlur={formik.handleBlur('Phone')}
+                                onChangeText={handleChange('Phone')}
+                                value={(values.Phone).toString()}
+                                onBlur={handleBlur('Phone')}
                             />
                             <Icon
                                 name="ios-call"
                                 style={styles.icon} />
                         </View>
                         {
-                            formik.touched.Phone && formik.errors.Phone ?
+                            touched.Phone &&errors.Phone ?
                                 <View style={styles.contenedorError}>
                                     <Icon name="ios-alert-circle" size={20} color="#ff0000" />
-                                    <Text style={styles.error}>{formik.errors.Phone}</Text>
+                                    <Text style={styles.error}>{errors.Phone}</Text>
                                 </View>
                                 : null
                         }
@@ -142,7 +142,9 @@ const FormPerfil = () => {
                                 value={isEnabled}
                             />
                             </View>
-                        <TouchableOpacity style={styles.button} onPress={formik.handleSubmit}>
+                        <TouchableOpacity style={styles.button} onPress={() => {
+                            submit(values)
+                        }}>
                             <Text style={styles.textButton}>Guardar</Text>
                         </TouchableOpacity>
                     </View>

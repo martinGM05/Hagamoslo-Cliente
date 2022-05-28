@@ -7,6 +7,7 @@ import { SesionContext } from '../context/Sesion/SesionContext'
 import clienteAxios from '../config/clientAxios'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 import { DrawerSidebar } from 'react-navigation-drawer';
+import useNotification from './useNotification';
 
 export interface UserToken{
   id: number;
@@ -20,6 +21,7 @@ export interface UserToken{
 const UseLogin = () => {
   
   const { getUserData } = useContext(SesionContext);
+  const { getFCMToken} = useNotification()
 
   const loginWithEmail = async (email: string, password: string, navigation: any, rol: number) => {
 
@@ -38,6 +40,7 @@ const UseLogin = () => {
 
         if(userData.idRol === 1){
           if(rol === 1){
+            getFCMToken()
             getUserData(userData!)
             navigation.navigate('PrincipalCliente');
           }else{
@@ -46,6 +49,7 @@ const UseLogin = () => {
           }
         }else if(userData.idRol === 2){
           if(rol === 2){
+            getFCMToken()
             getUserData(userData)
             navigation.navigate('Trabajador');
             // Alert.alert('Rol', 'Trabajador')
@@ -55,9 +59,11 @@ const UseLogin = () => {
           }
         }else if(userData!.idRol === 3){
           if(rol === 1){
+            getFCMToken()
             getUserData(userData!)
             navigation.navigate('PrincipalCliente');
           }else if(rol === 2){
+            getFCMToken()
             getUserData(userData!)
             navigation.navigate('Trabajador');
           }

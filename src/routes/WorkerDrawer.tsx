@@ -9,6 +9,7 @@ import PerfilTrabajador from '../VistasTrabajador/screens/ProfileTrabajador/Perf
 import TrabajosEnCursoTrabajador from '../VistasTrabajador/screens/EnCursoTrabajador/TrabajosEnCursoTrabajador';
 import HistorialTrabajador from '../VistasTrabajador/screens/HistorialTrabajador/HistorialTrabajador';
 import BlogsScreensTrabajador from '../VistasTrabajador/screens/BlogTrabajador/BlogsScreensTrabajador';
+import ContainerChatsScreen from '../screens/Chat/ContainerChatsScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -69,6 +70,15 @@ const WorkerDrawer = () => (
         <Ionicons name="document-outline" size={22} color={color} />
       )
     }} />
+
+    <Drawer.Screen name="Chats" component={ContainerChatsScreen} options={{
+      drawerIcon: ({ color }) => (
+        <Ionicons name="chatbox-ellipses-outline" size={22} color={color} />
+      )
+    }} />
+
+
+
   </Drawer.Navigator>
 
 )
