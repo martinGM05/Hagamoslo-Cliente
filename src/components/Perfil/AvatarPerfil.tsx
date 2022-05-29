@@ -1,11 +1,8 @@
 import React, { useContext } from 'react'
 import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
-
 import { Avatar } from 'react-native-elements'
 import FonrAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-
 import usePhoto from '../../hooks/usePhoto';
 import { SesionContext } from '../../context/Sesion/SesionContext';
 import { _url } from '../../global/Variables';
@@ -16,7 +13,7 @@ const AvatarPerfil = () => {
 
     const { Sesion, logout } = useContext(SesionContext)
 
-    const photo = Sesion.urlFoto ? { uri: `${_url}upload/Users/${Sesion.id}`} : require('../../img/no-image.png')
+    const photo = Sesion.urlFoto ? { uri: `${_url}/upload/Users/${Sesion.id}`} : require('../../img/no-image.png')
 
 
     const { handleChangePhoto, photoNew } = usePhoto();

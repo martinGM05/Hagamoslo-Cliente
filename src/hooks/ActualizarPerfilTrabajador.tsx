@@ -44,45 +44,81 @@ const ActualizarPerfilTrabajador = () => {
       console.log(dataw)
         //setModalVisible(true)
         
-        axios.all([
-            axios.put(_url+'/usuarios/'+Sesion.id,{
-                nombre:Name,
-                numero:Phone,
-                latitud:latitud,
-                longitud:longitud
-            },{
-                headers:{
-                    
-                    'Api-Key':Sesion.token
-                }
-               
-            })
-            ,
-            axios.put(_url+'/upload/Users/'+Sesion.id,artTemp,{
-                headers:{
-                    "content-type": "multipart/form-data",
-                    "Api-Key": Sesion.token
-                   }
-            })
-            ,
-            axios.post(_url+'/service',dataw
-            ,{
-                headers:{
-                    
-                    "Api-Key": Sesion.token
-                   }
-
-            })
-        ]).then(axios.spread((data1,data2,data3)=>{
-            console.log('data1: ', data1.data)
-            console.log('data2: ', data2.data)
-            console.log('data3: ', data3.data)
-            
+        if(dataPhoto!=''){
+            axios.all([
+                axios.put(_url+'/usuarios/'+Sesion.id,{
+                    nombre:Name,
+                    numero:Phone,
+                    latitud:latitud,
+                    longitud:longitud
+                },{
+                    headers:{
+                        
+                        'Api-Key':Sesion.token
+                    }
+                   
+                })
+                ,
+                axios.put(_url+'/upload/Users/'+Sesion.id,artTemp,{
+                    headers:{
+                        "content-type": "multipart/form-data",
+                        "Api-Key": Sesion.token
+                       }
+                })
+                ,
+                axios.post(_url+'/service',dataw
+                ,{
+                    headers:{
+                        
+                        "Api-Key": Sesion.token
+                       }
+    
+                })
+            ]).then(axios.spread((data1,data2,data3)=>{
+                if(data1.data){
+                    if(data2.data){
+                        if(data3.data){
+                            setModalVisible(true)
+                        }
+                    }
+                } 
+            }))
+    
+        }else{
+            axios.all([
+                axios.put(_url+'/usuarios/'+Sesion.id,{
+                    nombre:Name,
+                    numero:Phone,
+                    latitud:latitud,
+                    longitud:longitud
+                },{
+                    headers:{
+                        
+                        'Api-Key':Sesion.token
+                    }
+                   
+                })
                 
-                    
-              
-        }))
-
+                ,
+                axios.post(_url+'/service',dataw
+                ,{
+                    headers:{
+                        
+                        "Api-Key": Sesion.token
+                       }
+    
+                })
+            ]).then(axios.spread((data1,data2)=>{
+                if(data1.data){
+                    if(data2.data){
+                        
+                            setModalVisible(true)
+                        
+                    }
+                } 
+            }))
+    
+        }
    
     }
   return {

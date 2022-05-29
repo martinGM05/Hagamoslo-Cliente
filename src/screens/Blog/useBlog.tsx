@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Alert, StyleSheet, Text, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import clienteAxios from '../../config/clientAxios'
 import { SesionContext } from '../../context/Sesion/SesionContext';
@@ -23,12 +23,25 @@ const useBlog = () => {
     const createBlog = async (blog: BlogsModel) => {
         const response = await clienteAxios.post(`/blog`, blog)
         setBlogs([...blogs, response.data]);
+        if(response.data){
+            
+            Alert.alert('Mensaje', 'Blog creado')
+            getBlogByUser(Sesion.id);
+        }
     }
   
-  
+  const EliminarBlob=async(id?:number)=>{
+      const response= await clienteAxios.delete('/blog/'+id)
+      if(response.data){
+          Alert.alert('Mensaje', 'Blog eliminado')
+      }
+  }
     return {
         blogs,
         createBlog,
+        EliminarBlob,
+        getBlogByUser
+        
     }
 }
 

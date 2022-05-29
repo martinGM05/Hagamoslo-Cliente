@@ -9,14 +9,17 @@ import AvatarPerfil from './AvatarPerfil';
 import Toast from 'react-native-toast-message'
 import ContainerModal from '../Helper/ContainerModal';
 import { SesionContext } from '../../context/Sesion/SesionContext';
+import ActualizarPerfilCliente from '../../hooks/ActualizarPerfilCliente';
 
 const FormPerfil = () => {
     const { Sesion } = useContext(SesionContext)
-    const [modalVisible, setModalVisible] = useState(false);
-
+    
+    //const [modalVisible, setModalVisible] = useState(false);
+    
+    const {ActualizarDatosCliente,modalVisibleC,setModalVisibleC}=ActualizarPerfilCliente()
     const submit = async (values: any) => {
-       // await editUserData(values)
-        setModalVisible(true)
+        ActualizarDatosCliente(values)
+       
     }
 
     const formikOpt = {
@@ -117,11 +120,11 @@ const FormPerfil = () => {
             <Modal
                 animationType="fade"
                 transparent={true}
-                visible={modalVisible}
+                visible={modalVisibleC}
             >
                 <ContainerModal 
-                    setModalVisible={setModalVisible}
-                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisibleC}
+                    modalVisible={modalVisibleC}
                     textDescription="Usuario actualizado"
                 />
             </Modal>
