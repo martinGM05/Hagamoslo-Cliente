@@ -16,7 +16,7 @@ interface Props {
 const FormBlog = ({ modalVisible, setModalVisible }: Props) => {
 
     const { Sesion } = useContext(SesionContext)
-    const { createBlog } = useBlog()
+    const { createBlog,getBlogByUser } = useBlog()
 
     const submit=async(values:any)=>{
 
@@ -110,6 +110,7 @@ const FormBlog = ({ modalVisible, setModalVisible }: Props) => {
                                 onPress={() => {
                                     createBlog(values);
                                     //resetForm();
+                                    
                                     setModalVisible(false);
                                 }}
                                 style={styles.button}

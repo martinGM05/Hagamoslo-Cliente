@@ -1,14 +1,16 @@
 import { Alert, Dimensions, Pressable, StyleSheet, Text, View, Modal } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import useBlog from './useBlog';
 import FormBlog from '../../components/Helper/FormBlog';
+import { SesionContext } from '../../context/Sesion/SesionContext';
 
 const BlogsScreen = () => {
 
-  const { blogs, createBlog } = useBlog();
+  const { blogs, createBlog,EliminarBlob,getBlogByUser } = useBlog();
   const [modalVisible, setModalVisible] = useState(false);
+  const { Sesion } = useContext(SesionContext);
 
 
   return (
@@ -20,13 +22,29 @@ const BlogsScreen = () => {
               <Text style={styles.textTitle}>{blog.titulo}</Text>
               <Text style={styles.textDescription}>{blog.descripcion}</Text>
             </View>
-            <View>
+            <View style={{justifyContent:'space-between'}}>
                 <Pressable
                   onPress={() => {
                     Alert.alert("Id del blog: " + blog.id)
                    }}
                 >
-                  <FontAwesome5 name="ellipsis-v" size={15} color="#000" />
+                  <FontAwesome5 name="external-link-alt" size={15} color="#000" />
+                  
+                </Pressable>
+                <Pressable onPress={()=>{
+                  Alert.alert('Advertencia','¿Esta seguro de eliminar este blog?',[{
+                    text:'Si',
+                    onPress:()=>{
+                      EliminarBlob(blog.id)
+                      getBlogByUser(Sesion.id)
+                     
+                    }
+                  },{
+                    text:'No',
+                    style:'cancel'
+                  }])
+                }}>
+                <FontAwesome5 name="trash-alt" size={15} color="red" />
                 </Pressable>
             </View>
           </View>
