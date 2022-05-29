@@ -18,6 +18,24 @@ const FormBlog = ({ modalVisible, setModalVisible }: Props) => {
     const { Sesion } = useContext(SesionContext)
     const { createBlog } = useBlog()
 
+    const submit=async(values:any)=>{
+
+    }
+
+    const formikOpt={
+        initialValues:{
+            titulo: '',
+            descripcion: '',
+            idUsuario: Sesion.id
+        },
+        validationSchema:Yup.object({
+            titulo: Yup.string().required('El titulo es requerido'),
+            descripcion: Yup.string().required('La descripcion es requerida')
+        }),
+        onSubmit:submit
+
+    }
+
     return (
         <Modal
             animationType="slide"
@@ -32,23 +50,8 @@ const FormBlog = ({ modalVisible, setModalVisible }: Props) => {
                         <FontAwesome5 name="times" size={20} color="#893d9c" />
                     </Pressable>
                 </View>
-                <Formik
-                    initialValues={{
-                        titulo: '',
-                        descripcion: '',
-                        idUsuario: Sesion.id
-                    }}
-                    validationSchema={Yup.object().shape({
-                        titulo: Yup.string().required('El titulo es requerido'),
-                        descripcion: Yup.string().required('La descripcion es requerida')
-                    })}
-                    onSubmit={(values, { resetForm }) => {
-                        // await createBlog(values);
-                        // resetForm();
-                        // setModalVisible(false);
-                    }}
-                >
-                    {formik => (
+                <Formik {...formikOpt}>
+                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                         <View style={styles.form}>
                             <View style={styles.containerInput}>
                                 <View style={styles.containerInput}>
@@ -61,16 +64,16 @@ const FormBlog = ({ modalVisible, setModalVisible }: Props) => {
                                             keyboardType="default"
                                             autoCapitalize="sentences"
                                             autoCorrect={true}
-                                            onChangeText={formik.handleChange('titulo')}
-                                            value={formik.values.titulo}
-                                            onBlur={formik.handleBlur('titulo')}
+                                            onChangeText={handleChange('titulo')}
+                                            value={values.titulo}
+                                            onBlur={handleBlur('titulo')}
                                         />
                                         <Ionicons name="md-text" style={styles.icon} />
                                     </View>
                                     {
-                                        formik.touched.titulo && formik.errors.titulo ?
+                                        touched.titulo && errors.titulo ?
                                             <View style={styles.contenedorError}>
-                                                <Text style={styles.textError}>{formik.errors.titulo}</Text>
+                                                <Text style={styles.textError}>{errors.titulo}</Text>
                                                 <FontAwesome5 name="exclamation-circle" size={20} color="#ff0000" />
                                             </View>
                                             : null
@@ -87,24 +90,28 @@ const FormBlog = ({ modalVisible, setModalVisible }: Props) => {
                                         keyboardType="default"
                                         autoCapitalize="sentences"
                                         autoCorrect={true}
-                                        onChangeText={formik.handleChange('descripcion')}
-                                        value={formik.values.descripcion}
-                                        onBlur={formik.handleBlur('descripcion')}
+                                        onChangeText={handleChange('descripcion')}
+                                        value={values.descripcion}
+                                        onBlur={handleBlur('descripcion')}
                                         multiline={true}
                                     />
                                     <Ionicons name="md-text-outline" style={styles.icon} />
                                 </View>
                                 {
-                                    formik.touched.descripcion && formik.errors.descripcion ?
+                                    touched.descripcion && errors.descripcion ?
                                         <View style={styles.contenedorError}>
-                                            <Text style={styles.textError}>{formik.errors.descripcion}</Text>
+                                            <Text style={styles.textError}>{errors.descripcion}</Text>
                                             <FontAwesome5 name="exclamation-circle" size={20} color="#ff0000" />
                                         </View>
                                         : null
                                 }
                             </View>
                             <Pressable
-                                onPress={() => formik.handleSubmit}
+                                onPress={() => {
+                                    createBlog(values);
+                                    //resetForm();
+                                    setModalVisible(false);
+                                }}
                                 style={styles.button}
                             >
                                 <Text style={styles.textButton}>Crear</Text>
