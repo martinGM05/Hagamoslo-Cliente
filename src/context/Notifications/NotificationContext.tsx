@@ -61,7 +61,7 @@ export const NotificationProvider = ({ children }: { children: JSX.Element[] }) 
 
             await notifee.displayNotification({
                 title: remoteMessage.notification.title,
-                body: remoteMessage.data.name,
+                body: remoteMessage.notification.body,
                 data: remoteMessage.data,
                 android: {
                     channelId,
@@ -77,7 +77,8 @@ export const NotificationProvider = ({ children }: { children: JSX.Element[] }) 
             // Display a notification
             await notifee.displayNotification({
                 title: remoteMessage.notification.title,
-                body: remoteMessage.data.name,
+                body: remoteMessage.notification.body,
+                data: remoteMessage.data,
                 android: {
                     channelId,
                     smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.

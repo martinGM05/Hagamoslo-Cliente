@@ -1,18 +1,23 @@
 import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useState, useContext } from 'react'
 import LottieView from 'lottie-react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import useNotification from '../../hooks/useNotification';
+import { Notification } from '../../hooks/useNotification';
+import { SesionContext } from '../../context/Sesion/SesionContext';
 
 
 interface Props {
     setModalVisible: Dispatch<SetStateAction<boolean>>;
     modalVisible: boolean;
-    textDescription: string;
+    tokenFCM: string;
 }
 
-const PresupuestoModal = ({ setModalVisible, modalVisible, textDescription }: Props) => {
+const PresupuestoModal = ({ setModalVisible, modalVisible, tokenFCM }: Props) => {
 
     const [presupuesto, setPresupuesto] = useState(0);
+    const { sendNotification } = useNotification()
+    const { Sesion } = useContext(SesionContext)
 
     const handlePresupuesto = (presupuesto: number) => {
         // Verify if presupuesto is a number
@@ -33,10 +38,20 @@ const PresupuestoModal = ({ setModalVisible, modalVisible, textDescription }: Pr
                 onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
             },
-            { text: 'Aceptar', onPress: () => {}},
+            { text: 'Aceptar', onPress: () => handleSendPresupuesto() },
         ], { cancelable: false })
+    }
 
-
+    const handleSendPresupuesto = () => {
+        let data: Notification = {
+            title: 'Presupuesto',
+            body: `${Sesion.nombre}, te envío un presupuesto`,
+            tokenFCM: tokenFCM,
+            type: 'presupuesto',
+            id: 1,
+            name: presupuesto.toString(),
+        }
+        sendNotification(data)
     }
 
     return (

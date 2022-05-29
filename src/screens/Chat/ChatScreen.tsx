@@ -36,28 +36,11 @@ const ChatScreen = ({ route, navigation }: Props) => {
             size={30}
             color="black"
             style={{ marginRight: 10 }}
-            onPress={() => {
-              Alert.alert('Presupuesto', 'Ingrese su presupuesto', [
-                {
-                  text: 'Cancelar',
-                  onPress: () => console.log('Cancel Pressed'),
-                  style: 'cancel',
-                },
-                { text: 'Aceptar', onPress: () => handleValorar() },
-              ], { cancelable: false })
-            }} />
+            onPress={() => setModalVisible(true)} />
         )
       })
     }
   }, [])
-
-  const handleValorar = async () => {
-    // ValorarTrabajo(numberRating,idEmploye, Sesion.Id, comentario, photoImage, setCarganad)
-    setModalVisible(true)
-
-
-}
-
 
   useEffect(() => {
     const collectionRef = firestore().collection('Salas').doc(idSala).collection('Mensajes');
@@ -119,7 +102,7 @@ const ChatScreen = ({ route, navigation }: Props) => {
         <PresupuestoModal
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          textDescription={'¡Gracias por valorar a este trabajador!'}
+          tokenFCM={tokenReceptorFCM}
         />
       </Modal>
     </>

@@ -37,9 +37,10 @@ export const StackNavigator = () => {
                     console.log('User dismissed notification', detail);
                     break;
                 case EventType.PRESS:
-                    //   console.log('User pressed notification', detail.notification?.data);
-                    if(detail.notification?.data?.type === 'pago'){
+                    //   console.log('User pressed notification: ', detail.notification?.data?.type);
+                    if(detail.notification?.data?.type === 'presupuesto'){
                         goTo(detail.notification?.data)
+                        // console.log('Entra: Perro');
                     }
                     break;
             }
@@ -49,7 +50,7 @@ export const StackNavigator = () => {
     
 
     const goTo = (data: any) => {
-        if (data.type === 'chat') {
+        if (data.type === 'presupuesto') {
             navigation.navigate('Notification', { id: data.id })
         }
     }
