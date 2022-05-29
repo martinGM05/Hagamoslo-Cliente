@@ -3,6 +3,7 @@ import React, { createContext, useReducer, useState } from 'react'
 import { EditUserData, UserModel } from '../../interfaces/UserModel'
 import sesionReducer from './sesionReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ComentarioBlog } from '../../interfaces/BlogModel';
 
 
 export const authInitialState: UserModel = {
@@ -31,7 +32,8 @@ export interface SesionContextProps {
     setDataPhoto: (photo: string) => void;
     dataPhoto:string,
     setSelectedItems:(id:number[])=>void ;
-    selectedItems:number[]
+    selectedItems:number[],
+  
 
 }
 
@@ -41,6 +43,7 @@ export const SesionProvider = ({ children }: {children: JSX.Element[]}) => {
     const [sesionState, dispatch] = useReducer(sesionReducer, authInitialState);
     const [dataPhoto, setDataPhoto] = useState('');
     const [selectedItems, setSelectedItems] = useState<number[]>([])
+
 
     const getUserData = async (User: UserModel) => {
 
@@ -66,7 +69,8 @@ export const SesionProvider = ({ children }: {children: JSX.Element[]}) => {
         logout,
         setDataPhoto,
         dataPhoto,
-        selectedItems, setSelectedItems
+        selectedItems, setSelectedItems,
+        
 
     }}>
         {children}

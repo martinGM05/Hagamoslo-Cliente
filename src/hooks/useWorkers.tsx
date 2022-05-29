@@ -110,7 +110,8 @@ const useWorkers = () => {
         workersState,
         searchTag,
         filtro,
-        alertChat
+        alertChat,
+        createSala
     }
 }
 

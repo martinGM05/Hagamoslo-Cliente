@@ -1,14 +1,14 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import useWorkers from '../../hooks/useWorkers';
 
 
 
 
-
-const Comments = () => {
-    let photo=''
-    let name = ''
-    let comment=''
+const Comments = ({name, comment, photo,idEmploye}:any) => {
+    const {alertChat}=useWorkers()
+   
     return (
         <View style={styles.containerUserComment}>
             <View style={styles.userData}>
@@ -30,6 +30,14 @@ const Comments = () => {
                 <Text style={styles.textComment} numberOfLines={4}>
                     {comment}
                 </Text>
+                <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                    <Text style={{color:'#000'}}>Contactar</Text>
+                <Pressable onPress={()=>{
+                   alertChat(idEmploye)
+                }}>
+                <FontAwesome5 name="sign-language" size={30} color="#ff762d" />
+                </Pressable>
+                </View>
             </View>
         </View>
     )

@@ -6,6 +6,8 @@ import DrawerNavigator from './DrawerNavigator';
 import 'react-native-gesture-handler';
 import WorkerDrawer from './WorkerDrawer';
 import ChatScreen from '../screens/Chat/ChatScreen';
+import Blog from '../screens/Blog/Blog';
+import BlogsScreen from '../screens/Blog/BlogsScreen';
 
 export type RootStackParams = {
     Principal: undefined;
@@ -17,6 +19,8 @@ export type RootStackParams = {
     Chat: {idSala: string};
     Services: undefined;
     WorkerNavigation: undefined;
+    Blog:{id?:number, encabezado:string, cuerpo:string},
+    BlogsScreen:undefined
 }
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -47,7 +51,9 @@ export const StackNavigator = () => {
             <Stack.Screen name="Register" options={{title: "Register"}} component={Register} />
             <Stack.Screen name="PrincipalCliente" options={{title: "Principal"}} component={DrawerNavigator} />
             <Stack.Screen name="Trabajador" options={{title: "Trabajador"}} component={WorkerDrawer} />
+            <Stack.Screen name="Blog" options={{title: "Blog"}} component={Blog} />
             
+            <Stack.Screen name="BlogsScreen" options={{title: "Blogs"}} component={BlogsScreen} />
             <Stack.Screen
                  name="Chat" 
                  options={{

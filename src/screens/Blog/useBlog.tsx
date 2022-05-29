@@ -2,13 +2,16 @@ import { Alert, StyleSheet, Text, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import clienteAxios from '../../config/clientAxios'
 import { SesionContext } from '../../context/Sesion/SesionContext';
-import { BlogsModel } from '../../interfaces/BlogModel';
+import { BlogsModel, ComentarioBlog } from '../../interfaces/BlogModel';
+
+
 
 const useBlog = () => {
   
     const { Sesion } = useContext(SesionContext);
 
     const [blogs, setBlogs] = useState<BlogsModel[]>([]);
+    const [comentarios, setComentarios]=useState<ComentarioBlog[]>([])
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -36,11 +39,22 @@ const useBlog = () => {
           Alert.alert('Mensaje', 'Blog eliminado')
       }
   }
+
+    const getComentarios=async(id?:number)=>{
+        const response= await clienteAxios.get('/comentarioBlog/'+id)
+       
+        if(response.data){
+        const comentario = response.data as ComentarioBlog
+        setComentarios(e=>e.concat(comentario))
+        }
+    }
     return {
         blogs,
         createBlog,
         EliminarBlob,
-        getBlogByUser
+        getBlogByUser,
+        getComentarios,
+        comentarios
         
     }
 }

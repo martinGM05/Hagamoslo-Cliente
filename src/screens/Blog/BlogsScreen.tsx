@@ -5,8 +5,11 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import useBlog from './useBlog';
 import FormBlog from '../../components/Helper/FormBlog';
 import { SesionContext } from '../../context/Sesion/SesionContext';
+import { RootStackParams } from '../../routes/StackNavigator';
+import { StackScreenProps } from '@react-navigation/stack';
+type Props = StackScreenProps<RootStackParams, 'BlogsScreen'>;
 
-const BlogsScreen = () => {
+const BlogsScreen = ({ navigation }: Props) => {
 
   const { blogs, createBlog,EliminarBlob,getBlogByUser } = useBlog();
   const [modalVisible, setModalVisible] = useState(false);
@@ -25,7 +28,8 @@ const BlogsScreen = () => {
             <View style={{justifyContent:'space-between'}}>
                 <Pressable
                   onPress={() => {
-                    Alert.alert("Id del blog: " + blog.id)
+                   
+                    navigation.navigate('Blog',{id:blog.id,encabezado:blog.titulo,cuerpo:blog.descripcion})
                    }}
                 >
                   <FontAwesome5 name="external-link-alt" size={15} color="#000" />
