@@ -14,5 +14,6 @@ export interface ComentarioBlog{
         correo:string,
         id:number,
         nombre:string
+        tokenFCM:string
     }
 }

@@ -6,7 +6,7 @@ import useWorkers from '../../hooks/useWorkers';
 
 
 
-const Comments = ({name, comment, photo,idEmploye}:any) => {
+const Comments = ({name, comment, photo,idEmploye, tokenFCM}:any) => {
     const {alertChat}=useWorkers()
    
     return (
@@ -33,7 +33,9 @@ const Comments = ({name, comment, photo,idEmploye}:any) => {
                 <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                     <Text style={{color:'#000'}}>Contactar</Text>
                 <Pressable onPress={()=>{
-                   alertChat(idEmploye)
+                    //console.log(idEmploye)
+                    //.log(tokenFCM)
+                   alertChat(idEmploye, tokenFCM)
                 }}>
                 <FontAwesome5 name="sign-language" size={30} color="#ff762d" />
                 </Pressable>

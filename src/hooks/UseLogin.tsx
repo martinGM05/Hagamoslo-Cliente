@@ -1,5 +1,5 @@
 import { Alert, StyleSheet, Text, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { _url } from '../global/Variables'
 import { UserModel } from '../interfaces/UserModel';
@@ -7,69 +7,80 @@ import { SesionContext } from '../context/Sesion/SesionContext'
 import clienteAxios from '../config/clientAxios'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 import { DrawerSidebar } from 'react-navigation-drawer';
-import useNotification from './useNotification';
+import messaging from '@react-native-firebase/messaging';
 
-export interface UserToken{
+export interface UserToken {
   id: number;
   correo: string;
   nombre: string;
   urlFoto: string;
   numero: string;
   idRol: number;
+  tokenFCM: string;
 }
 
 const UseLogin = () => {
-  
-  const { getUserData } = useContext(SesionContext);
-  const { getFCMToken} = useNotification()
 
+  const { getUserData } = useContext(SesionContext);
+  const [tokenFCM, setTokenFCM] = useState<string>("");
+
+  useEffect(() => {
+    getFCMToken();
+  }, [])
+
+  const getFCMToken = async () => {
+    messaging()
+      .getToken()
+      .then(token => {
+        setTokenFCM(token);
+        console.log('Token =>  ', token);
+      });
+  }
+  
   const loginWithEmail = async (email: string, password: string, navigation: any, rol: number) => {
 
-  
+
     try {
 
       const result = await clienteAxios.post(`/auth`, {
         correo: email,
-        contrasena: password
+        contrasena: password,
+        tokenFCM: tokenFCM
       })
 
-      if(result.data){
+      if (result.data) {
         let token: string = result.data.token;
         let decoded: UserToken = jwtDecode(token);
         let userData: UserModel = { ...decoded, token }
 
-        if(userData.idRol === 1){
-          if(rol === 1){
-            getFCMToken()
+        if (userData.idRol === 1) {
+          if (rol === 1) {
             getUserData(userData!)
             navigation.navigate('PrincipalCliente');
-          }else{
+          } else {
             Alert.alert('Error', 'Debe ser cliente para ingresar a esta sección')
             return;
           }
-        }else if(userData.idRol === 2){
-          if(rol === 2){
-            getFCMToken()
+        } else if (userData.idRol === 2) {
+          if (rol === 2) {
             getUserData(userData)
             navigation.navigate('Trabajador');
             // Alert.alert('Rol', 'Trabajador')
-          }else{
+          } else {
             Alert.alert('Error', 'Debe ser trabajador para ingresar a esta sección')
             return;
           }
-        }else if(userData!.idRol === 3){
-          if(rol === 1){
-            getFCMToken()
+        } else if (userData!.idRol === 3) {
+          if (rol === 1) {
             getUserData(userData!)
             navigation.navigate('PrincipalCliente');
-          }else if(rol === 2){
-            getFCMToken()
+          } else if (rol === 2) {
             getUserData(userData!)
             navigation.navigate('Trabajador');
           }
         }
-        
-      }else{
+
+      } else {
         console.log('Here 1 : ' + result)
       }
     } catch (error) {
@@ -83,4 +94,3 @@ const UseLogin = () => {
 }
 
 export default UseLogin
-

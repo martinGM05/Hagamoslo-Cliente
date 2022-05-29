@@ -60,6 +60,8 @@ const Blog = ({ navigation, route }: Props) => {
                                     comment={c.comentario}
                                     photo={'https://hagamoslo.azurewebsites.net/api/upload/Users/'+c.idTrabajador}
                                     idEmploye={c.idTrabajador}
+                                    tokenFCM={c.user.tokenFCM}
+                                    
                                 
                                 />
                             ))
