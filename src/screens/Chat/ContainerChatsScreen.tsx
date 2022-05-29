@@ -34,9 +34,9 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
     getSalas();
   }, [])
 
-  const goChat = async (idSala: string) => {
+  const goChat = async (idSala: string, tokenReceptorFCM: string) => {
     // Alert.alert('idSala: ' + idSala)
-    navigation.navigate('Chat', { idSala: idSala });
+    navigation.navigate('Chat', { idSala: idSala, tokenReceptorFCM});
   }
 
   return (
@@ -60,7 +60,7 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
                 </View>
                 <View style={styles.containerBtn}>
                   <TouchableOpacity
-                    onPress={() => goChat(item.idSala)}
+                    onPress={() => goChat(item.idSala, item.Receptor.tokenFCM)}
                   >
                     <Icon name="ios-chatbubbles-outline" size={30} color="#000" />
                   </TouchableOpacity>

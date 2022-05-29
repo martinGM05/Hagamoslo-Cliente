@@ -17,9 +17,10 @@ type Props = StackScreenProps<RootStackParams, 'Trabajador'>;
 const dimensions = Dimensions.get('window');
 const Trabajador = ({ navigation, route }: Props) => {
 
-
+  
   const { id } = route.params
   const {GetTrabajador, TrabajadorU} = UseApi()
+
   //const { limpiarState, Trabajador, GetTrabajadoresComentarios, averageRating, setIdTrabajadorContactar, listaImagenes, comentario } = useContext(Contexto);
   let trabajador=['']
   let listaImagenes=['']
@@ -32,6 +33,7 @@ const Trabajador = ({ navigation, route }: Props) => {
   }]
   //let trabajador = Trabajador.filter(e => e.Id == id)
   useEffect(()=>{
+    
     GetTrabajador(parseInt(id))
   },[])
 
