@@ -51,7 +51,7 @@ const NotificationScreen = ({ navigation, route }: Props) => {
   }
 
   const handleHired = async (dataService: ServicioContratar) => {
-    // const result = await clienteAxios.post('/hired', dataService)
+    const result = await clienteAxios.post('/hired', dataService)
 
     /* 
       ~ Send notification to the user who is hiring
@@ -69,7 +69,7 @@ const NotificationScreen = ({ navigation, route }: Props) => {
     // console.log(dataSend);
     sendNotification(dataSend)
   try {
-    // console.log(result)
+    console.log(result)
   } catch (error) {
     console.log(error)
   }
