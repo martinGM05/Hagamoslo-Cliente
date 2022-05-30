@@ -12,7 +12,7 @@ import { RootStackParams } from '../../../routes/StackNavigator';
 import clienteAxios from '../../../config/clientAxios';
 import { SesionContext } from '../../../context/Sesion/SesionContext';
 import { WorkerModel } from '../../../interfaces/WorkerModel';
-import { _url } from '../../../global/Variables';
+import { _secondaryColor, _url } from '../../../global/Variables';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import UseEnCursoTrabajador from '../../../hooks/UseEnCursoTrabajador';
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
@@ -35,18 +35,18 @@ const TrabajosEnCursoTrabajador = ({ navigation }: Props) => {
             {
               enCursoTrabajador.map(cliente => (
                 <View key={cliente.id} style={styles.card}>
-                  <View style={styles.imageWorker}>
-                    <Image source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }} style={styles.image} />
-                  </View>
-                  <View style={styles.infoWorker}>
-                    <View style={styles.nameWorker}>
-                      <Text style={styles.textName}>{cliente.descripcion}</Text>
+                    <View style={styles.imageWorker}>
+                      <Image
+                        source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }}
+                        style={styles.image}
+                      />
                     </View>
-                    <View style={styles.value}>
-                        
+                    <View style={styles.infoWorker}>
+                      <View style={styles.nameWorkerDescription}>
+                        <Text style={{ color: '#000', fontWeight: 'bold' }}>{cliente.descripcion}</Text>
+                      </View>
                     </View>
                   </View>
-                </View>
               ))
             }
           </View>
@@ -74,8 +74,8 @@ const styles = StyleSheet.create({
   },
   card: {
     width: Dimensions.get('window').width - 20,
-    height: 100,
-    backgroundColor: '#6f0e8b',
+    padding: 10,
+    backgroundColor: '#fff',
     borderWidth: 1,
     shadowColor: '#000',
     shadowOffset: {
@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    borderRadius: 10,
     marginBottom: 10,
     justifyContent: 'flex-start',
     flexDirection: 'row',
@@ -99,30 +98,29 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1.5,
   },
   infoWorker: {
     width: 220,
-    height: 80,
     backgroundColor: '#fff',
     marginLeft: 10,
     borderRadius: 10,
   },
-  nameWorker: {
-    width: 220,
-    height: 40,
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
+  nameWorkerDescription: {
+    backgroundColor: `${_secondaryColor}`,
+    height: 60,
     padding: 5,
+    borderRadius: 10,
+    borderWidth: 1,
   },
   value: {
-    width: 220,
-    height: 40,
-    backgroundColor: '#1b5865',
+    flexDirection: 'row',
+    padding: 5,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    borderWidth: 1,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
-    flexDirection:'row',
-    justifyContent:'center',
-    alignItems:'center',
   },
   image: {
     width: '100%',
@@ -134,9 +132,10 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
   },
-  textOptions:{
-    color:'#fff',
-    fontSize:15,
-    marginRight:10
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 5,
   }
 })

@@ -3,29 +3,30 @@ import React, { useContext, useEffect, useState } from 'react'
 import { IEnCursoHistorialTrabajador } from '../interfaces/Peticiones'
 import clienteAxios from '../config/clientAxios'
 import { SesionContext } from '../context/Sesion/SesionContext'
+import { _url } from '../global/Variables'
 
 const UseHistorialTrabajador = () => {
-    const[historialTrabajador,setHistorialTrabajador]=useState<IEnCursoHistorialTrabajador[]>([])
+    const [historialTrabajador, setHistorialTrabajador] = useState<IEnCursoHistorialTrabajador[]>([])
     const [loading, setLoading] = useState(false);
     const { Sesion } = useContext(SesionContext)
 
-    useEffect(()=>{
+    useEffect(() => {
         GetHistorialTrabajador()
-    },[])
+    }, [])
 
-    const GetHistorialTrabajador=async()=>{
-        const result= await clienteAxios.get('/hired/worker'+Sesion.id+'/false')
-        if(result.data){        
+    const GetHistorialTrabajador = async () => {
+        const result = await clienteAxios.get(`${_url}/hired/worker/${Sesion.id}/false`)
+        if (result.data) {
             setHistorialTrabajador(result.data)
             setLoading(true)
         }
-       }
-    
+    }
 
-  return {
-      historialTrabajador,
-      loading
-  }
+
+    return {
+        historialTrabajador,
+        loading
+    }
 }
 
 export default UseHistorialTrabajador
