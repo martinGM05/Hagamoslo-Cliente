@@ -1,10 +1,11 @@
-import { Alert, Dimensions, Pressable, StyleSheet, Text, View, Modal } from 'react-native'
+import { Alert, Dimensions, Pressable, StyleSheet, Text, View, Modal, Image } from 'react-native'
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import UseBlogTrabajador from '../../../hooks/UseBlogTrabajador';
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
+import { _secondaryColor, _url } from '../../../global/Variables';
 
 
 
@@ -22,23 +23,27 @@ const BlogsScreensTrabajador = ({ navigation }: Props) => {
         blogs.map((blog, index) => (
           <View key={index} style={styles.containerBlog}>
             <View style={styles.containerInfo}>
-              <Text style={styles.textTitle}>{blog.titulo}</Text>
-              <Text style={styles.textDescription}>{blog.descripcion}</Text>
+              <Text style={styles.nombreUser}>{blog.user.nombre}</Text>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={{ borderWidth: 1.5, borderRadius: 50 }}>
+                  <Image style={styles.avatar} source={{ uri: `${_url}/upload/Users/${blog.user.id}` }} />
+                </View>
+                <View style={{ marginLeft: 20 }}>
+                  <Text style={styles.textTitle}>{blog.titulo}</Text>
+                  <Text style={styles.textDescription}>{blog.descripcion}</Text>
+                </View>
+              </View>
             </View>
             <View>
               <Pressable
-                onPress={() => {
-                  navigation.navigate('BlogTrabajador', { data: blog })
-                }}
+                onPress={() => navigation.navigate('BlogTrabajador', { data: blog })}
               >
-                <FontAwesome5 name="external-link-alt" size={15} color="#000" />
+                <FontAwesome5 name="external-link-alt" size={20} color="#000" />
               </Pressable>
             </View>
           </View>
         ))
       }
-
-
     </View>
   )
 }
@@ -93,10 +98,21 @@ const styles = StyleSheet.create({
   textTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000',
+    color: `${_secondaryColor}`,
   },
   textDescription: {
     fontSize: 15,
     color: '#000',
+  },
+  nombreUser: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    borderWidth: 2,
   }
 })

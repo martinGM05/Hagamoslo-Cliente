@@ -1,4 +1,4 @@
-import { Dimensions,ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -30,17 +30,35 @@ const BlogTrabajador = ({ navigation, route }: Props) => {
         <ScrollView style={styles.container}>
             <View key={id} style={styles.containerBlog}>
                 <View style={styles.containerInfo}>
-                    <Text style={styles.textTitle}>{user.nombre}</Text>
-                    {/* <Text style={styles.textTitle}>{route.params?.data.titulo}</Text>
-                    <Text style={styles.textDescription}>{route.params?.data.descripcion}</Text> */}
+                    <View style={styles.containerLeftHeader}>
+                        <View style={{ width: 90, height: '100%', marginTop: -15 }}>
+                            <Text style={styles.textNombre} numberOfLines={1}>{user.nombre}</Text>
+                            <View style={{ width: 50, height: '100%', borderWidth: 1, borderRadius: 50 }}>
+                                <Image
+                                    source={{ uri: `${_url}/upload/Users/${idUsuario}` }}
+                                    style={styles.imgUser}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{ alignSelf: 'center', marginLeft: -60 }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={[styles.textTitle, { fontWeight: 'bold' }]}>Titulo: </Text>
+                            <Text style={[styles.textTitle, { borderBottomWidth: 1 }]} numberOfLines={1}>{titulo}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={[styles.textTitle, { fontWeight: 'bold' }]}>Descripción: </Text>
+                            <Text style={[styles.textTitle, { borderBottomWidth: 1 }]}>{descripcion}</Text>
+                        </View>
+                    </View>
                 </View>
             </View>
             <View style={styles.feedback}>
                 <View style={styles.containerTitle}>
                     <View style={styles.containerCommentTitle}>
-                        <FontAwesome5 name="eye" size={30} color="#ff762d" />
+                        <FontAwesome5 name="address-book" size={30} color="#ff762d" />
                         <Text style={styles.title}>Comentarios</Text>
-                        <FontAwesome5 name="eye" size={30} color="#ff762d" />
+                        <FontAwesome5 name="people-arrows" size={30} color="#ff762d" />
                     </View>
                 </View>
 
@@ -62,14 +80,14 @@ const BlogTrabajador = ({ navigation, route }: Props) => {
                 </View>
             </View>
             <View style={styles.contenedorInput}>
-                <TextInput 
+                <TextInput
                     style={styles.input}
                     placeholder="Escribe un comentario"
                     onChangeText={(text) => setTextComentario(text)}
                     multiline={true}
                     value={textComentario}
                 />
-                <TouchableOpacity 
+                <TouchableOpacity
                     style={styles.button}
                     onPress={() => handleSubmit()}
                 >
@@ -109,12 +127,12 @@ const styles = StyleSheet.create({
     },
     containerInfo: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        flexDirection: 'row',
+        alignItems: 'flex-start',
     },
     textTitle: {
-        fontSize: 25,
-        fontWeight: 'bold',
+        fontSize: 18,
+        // fontWeight: 'bold',
         color: '#000',
     },
     textDescription: {
@@ -155,6 +173,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
         justifyContent: 'space-between',
+        width: '80%',
     },
     comments: {
         borderTopWidth: 2,
@@ -209,5 +228,28 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    containerLeftHeader: {
+        width: '50%',
+        height: 70,
+        // backgroundColor: '#ff762d',
+        padding: 10,
+        // flexDirection: 'row'
+    },
+    containerRightHeader: {
+        width: '50%',
+        height: 70,
+        backgroundColor: '#666482',
+    },
+    imgUser: {
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
+        borderRadius: 50,
+    },
+    textNombre: {
+        fontSize: 18,
+        color: '#000',
+        fontWeight: 'bold',
     }
 })
