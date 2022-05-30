@@ -32,7 +32,7 @@ const Comments = ({name, comment, photo,idEmploye, tokenFCM}:any) => {
                     {comment}
                 </Text>
                {
-                   Sesion.idRol==2?
+                   Sesion.idRol !== 2 ?
                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                    <Text style={{color:'#000'}}>Contactar</Text>
                <Pressable onPress={()=>{
