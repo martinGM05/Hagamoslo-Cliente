@@ -1,15 +1,24 @@
 import messaging from '@react-native-firebase/messaging';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import clienteAxios from '../config/clientAxios';
+import { SesionContext } from '../context/Sesion/SesionContext';
+import { _url } from '../global/Variables';
 
 
 export interface Notification {
     body: string;
     title: string;
     tokenFCM: string;
+    type: string;
+    name: string;
+    id: number;
+    presupuesto?: number;
+    tokenWorkerNotification?: string;
 }
 
 const useNotification = () => {
+
+    const { Sesion } = useContext(SesionContext)
 
     const sendNotification = async (data: Notification) => {
 
@@ -18,7 +27,13 @@ const useNotification = () => {
         myHeaders.append("Content-Type", "application/json");
     
         var raw = JSON.stringify({
-            "data": {},
+            "data": {
+                id: data.id,
+                type: data.type,
+                name: data.name,
+                presupuesto: data.presupuesto,
+                tokenWorkerNotification: data.tokenWorkerNotification
+            },
             "notification": {
                 "body": data.body,
                 "title": data.title
@@ -40,18 +55,15 @@ const useNotification = () => {
             .catch(error => console.log('error', error));
     }
 
-    const getFCMToken = async () => {
-        messaging()
-          .getToken()
-          .then(token => {
-            // return saveTokenToDatabase(token);
-            console.log('Token =>  ', token);
-          });
+    const requestPermission = async () => {
+        const authStatus = await messaging().requestPermission();
       }
+
+   
 
     return {
         sendNotification,
-        getFCMToken
+        requestPermission
     }
 
 }

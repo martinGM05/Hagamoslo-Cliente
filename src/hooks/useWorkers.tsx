@@ -3,6 +3,7 @@ import clienteAxios from '../config/clientAxios'
 import { SesionContext } from '../context/Sesion/SesionContext';
 import firestore from '@react-native-firebase/firestore';
 import { Alert } from 'react-native';
+import useNotification, { Notification } from './useNotification';
 
 export interface Coordinates {
     latitude: number,
@@ -20,12 +21,12 @@ export interface Workers {
     nombre: string,
     correo: string,
     numero: number,
+    tokenFCM: string
     latitud: number,
     longitud: number,
     descripcion: string,
     valoracion: number,
     tags: Tags[],
-    coordinate: Coordinates
 }
 
 const useWorkers = () => {
@@ -33,6 +34,7 @@ const useWorkers = () => {
     const { Sesion } = useContext(SesionContext)
     const [workersState, setWorkers] = useState<Workers[]>([])
     const [filtro, setFiltro] = useState<Workers[]>([])
+    const { sendNotification } = useNotification()
     let aux: Workers[] = []
 
     useEffect(() => {
@@ -61,13 +63,24 @@ const useWorkers = () => {
                     }
                 })
             })
-            console.log(aux);
+            // console.log(aux);
         } catch (error) {
             console.log(error)
         }
     }
 
-    const createSala = async (idWorker: number) => {
+    const createSala = async (idWorker: number, tokenFCM: string) => {
+
+        let notification: Notification = {
+            title: 'Nueva solicitud de servicio',
+            body: 'Se ha creado un chat con un cliente',
+            tokenFCM: tokenFCM,
+            type: 'chat',
+            name: Sesion.nombre,
+            id: 1
+        }
+
+        sendNotification(notification)
 
         // Create doc in Salas collection
         const docRef = await firestore().collection('Salas').add({})
@@ -89,7 +102,7 @@ const useWorkers = () => {
         }
     }
 
-    const alertChat = (idWorker: number) => {
+    const alertChat = (idWorker: number, tokenFCM: string) => {
         Alert.alert(
             'Mensaje',
             '¿Desea enviar un mensaje a este trabajador?',
@@ -99,7 +112,7 @@ const useWorkers = () => {
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel',
                 },
-                { text: 'OK', onPress: () =>  createSala(idWorker) },
+                { text: 'OK', onPress: () =>  createSala(idWorker, tokenFCM) },
             ],
             { cancelable: false },
         );

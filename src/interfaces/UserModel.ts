@@ -10,7 +10,8 @@ export interface UserModel {
     numero: string,
     urlFoto: string,
     valoracion?: number,
-    idSala?: string
+    idSala?: string,
+    tokenFCM: string,
 }
 
 export interface EditUserData {

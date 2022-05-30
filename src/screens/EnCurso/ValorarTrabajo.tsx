@@ -16,14 +16,14 @@ import usePhoto from '../../hooks/usePhoto';
 type Props = StackScreenProps<RootStackParams, 'Valorar'>;
 
 const dimension = Dimensions.get('window');
-interface ValorarProps {
+export interface ValorarProps {
     calificacion: number;
     idEmploye: string;
     idUser: string;
     comentario: string;
     pathImage: string;
     setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    navigation: StackNavigationProp<RootStackParams, 'Valorar'>;
+    navigation: StackNavigationProp<RootStackParams, 'Chat'>;
 }
 const ValorarTrabajo = ({ navigation, route }: Props) => {
 
@@ -43,19 +43,19 @@ const ValorarTrabajo = ({ navigation, route }: Props) => {
 
     const handleValorar = async () => {
         // ValorarTrabajo(numberRating,idEmploye, Sesion.Id, comentario, photoImage, setCarganad)
-        setModalVisible(true)
-        let dataValue: ValorarProps = {
-            calificacion: numberRating,
-            idEmploye: idEmploye,
-            idUser: "",
-            comentario: comentario,
-            pathImage: '',
-            setModalVisible: setModalVisible,
-            navigation: navigation
-        }
-        setTimeout(() => {
-            //ValorarTrabajo(dataValue)
-        }, 3000)
+        // setModalVisible(true)
+        // let dataValue: ValorarProps = {
+        //     calificacion: numberRating,
+        //     idEmploye: idEmploye,
+        //     idUser: "",
+        //     comentario: comentario,
+        //     pathImage: '',
+        //     setModalVisible: setModalVisible,
+        //     navigation: navigation
+        // }
+        // setTimeout(() => {
+        //     ValorarTrabajo(dataValue)
+        // }, 3000)
 
 
     }

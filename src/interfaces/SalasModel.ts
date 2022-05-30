@@ -10,6 +10,7 @@ interface Receptor {
     nombre: string;
     descripcion: string;
     numero: string;
+    tokenFCM: string;
 }
 
 
