@@ -2,14 +2,18 @@ import { Alert, Dimensions, Pressable, StyleSheet, Text, View, Modal } from 'rea
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import UseBlogTrabajador from '../../../hooks/UseBlogTrabajador';
+import { RootStackParams } from '../../../routes/StackNavigator';
+import { StackScreenProps } from '@react-navigation/stack';
 
 
-import UseBlogTrabajador from './UseBlogTrabajador';
 
-const BlogsScreensTrabajador = () => {
+type Props = StackScreenProps<RootStackParams, 'BlogsScreenTrabajador'>;
+const BlogsScreensTrabajador = ({ navigation }: Props) => {
 
-  const { blogs, createBlog } = UseBlogTrabajador();
+
   const [modalVisible, setModalVisible] = useState(false);
+  const {blogs}=UseBlogTrabajador()
 
 
   return (
@@ -24,10 +28,10 @@ const BlogsScreensTrabajador = () => {
             <View>
                 <Pressable
                   onPress={() => {
-                    Alert.alert("Id del blog: " + blog.id)
+                    navigation.navigate('BlogTrabajador',{id:blog.id,encabezado:blog.titulo,cuerpo:blog.descripcion})
                    }}
                 >
-                  <FontAwesome5 name="ellipsis-v" size={15} color="#000" />
+                  <FontAwesome5 name="external-link-alt" size={15} color="#000" />
                 </Pressable>
             </View>
           </View>

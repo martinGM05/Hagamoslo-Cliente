@@ -14,34 +14,19 @@ import { WorkerModel } from '../../../interfaces/WorkerModel';
 import clienteAxios from '../../../config/clientAxios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { _url } from '../../../global/Variables';
+import UseHistorialTrabajador from '../../../hooks/UseHistorialTrabajador';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 
 const HistorialTrabajador = ({ navigation }: Props) => {
 
-    const [loading, setLoading] = useState(false);
+    
     const { Sesion } = useContext(SesionContext)
-    const [trabajosHistorial, setTrabajosHistorial] = useState<WorkerModel[]>([]);
-  
-    const getWorkers = async() => {
-      const workers = await clienteAxios.get('/workers', {
-        headers: {
-         'Api-Key':  Sesion.token
-        }
-      })
-      setTrabajosHistorial(workers.data)
-      setLoading(true)
-    }
-  
-    useEffect(() => {
-      getWorkers();
-    }, [])
+    const {historialTrabajador,loading}=UseHistorialTrabajador()
 
 
-  let TrabajadorHistorial=['']
-  let HistorialList = ['']
-  let fechaPrueba='24/05/2022'
+
 
     return (
         <View style={styles.containerGlobal}>
@@ -49,17 +34,17 @@ const HistorialTrabajador = ({ navigation }: Props) => {
         loading ? (
           <View style={styles.containerCards}>
             {
-              trabajosHistorial.map(trabajos => (
-                <View key={trabajos.id} style={styles.card}>
+              historialTrabajador.map(cliente => (
+                <View key={cliente.id} style={styles.card}>
                   <View style={styles.imageWorker}>
-                    <Image source={{ uri: `${_url}upload/Users/${trabajos.id}` }} style={styles.image} />
+                    <Image source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }}style={styles.image} />
                   </View>
                   <View style={styles.infoWorker}>
                     <View style={styles.nameWorker}>
-                      <Text style={styles.textName}>{trabajos.nombre}</Text>
+                      <Text style={styles.textName}>{cliente.descripcion}</Text>
                     </View>
                     <View style={styles.value}>
-                        <Text style={styles.textOptions}>Terminado el {fechaPrueba}</Text>                 
+                        <Text style={styles.textOptions}>Terminado el {cliente.fechaFin}</Text>                 
                        
                     </View>
                   </View>
