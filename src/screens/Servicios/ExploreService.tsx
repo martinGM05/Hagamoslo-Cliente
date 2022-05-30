@@ -60,7 +60,7 @@ const ExploreService = () => {
                                                     />
                                                 </View>
                                                 <Callout tooltip
-                                                    onPress={() => alertChat(worker.id)}
+                                                    onPress={() => alertChat(worker.id, worker.tokenFCM)}
                                                 >
                                                     <View style={styles.bubble}>
                                                         <Text style={styles.name}>{worker.nombre}</Text>

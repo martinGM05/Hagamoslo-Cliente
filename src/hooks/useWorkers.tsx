@@ -21,12 +21,12 @@ export interface Workers {
     nombre: string,
     correo: string,
     numero: number,
+    tokenFCM: string
     latitud: number,
     longitud: number,
     descripcion: string,
     valoracion: number,
     tags: Tags[],
-    coordinate: Coordinates
 }
 
 const useWorkers = () => {
@@ -34,7 +34,8 @@ const useWorkers = () => {
     const { Sesion } = useContext(SesionContext)
     const [workersState, setWorkers] = useState<Workers[]>([])
     const [filtro, setFiltro] = useState<Workers[]>([])
-    const{sendNotification}=useNotification()
+    const { sendNotification } = useNotification()
+    
     let aux: Workers[] = []
 
     useEffect(() => {
@@ -63,7 +64,7 @@ const useWorkers = () => {
                     }
                 })
             })
-            console.log(aux);
+            // console.log(aux);
         } catch (error) {
             console.log(error)
         }
@@ -103,7 +104,6 @@ const useWorkers = () => {
     }
 
     const alertChat = (idWorker: number, tokenFCM: string) => {
-        
         Alert.alert(
             'Mensaje',
             '¿Desea enviar un mensaje a este trabajador?',

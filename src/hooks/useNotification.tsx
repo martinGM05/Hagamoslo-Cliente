@@ -12,6 +12,8 @@ export interface Notification {
     type: string;
     name: string;
     id: number;
+    presupuesto?: number;
+    tokenWorkerNotification?: string;
 }
 
 const useNotification = () => {
@@ -28,7 +30,9 @@ const useNotification = () => {
             "data": {
                 id: data.id,
                 type: data.type,
-                name: data.name
+                name: data.name,
+                presupuesto: data.presupuesto,
+                tokenWorkerNotification: data.tokenWorkerNotification
             },
             "notification": {
                 "body": data.body,
@@ -54,9 +58,7 @@ const useNotification = () => {
     const requestPermission = async () => {
         const authStatus = await messaging().requestPermission();
       }
-
-
-
+  
     return {
         sendNotification,
         requestPermission

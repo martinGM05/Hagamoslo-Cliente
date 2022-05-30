@@ -13,6 +13,7 @@ import jwtDecode, { JwtPayload } from 'jwt-decode';
 import { UserToken } from '../../hooks/UseLogin';
 import { UserModel } from '../../interfaces/UserModel';
 import { SesionContext } from '../../context/Sesion/SesionContext';
+import messaging from '@react-native-firebase/messaging';
 
 type Props = StackScreenProps<RootStackParams, 'Login'>;
 

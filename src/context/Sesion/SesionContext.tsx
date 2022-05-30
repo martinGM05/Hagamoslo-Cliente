@@ -17,7 +17,8 @@ export const authInitialState: UserModel = {
     numero:'',
     urlFoto:'',
     valoracion:0,
-    token:''
+    token:'',
+    tokenFCM:'',
 }
 export const editData = {
     Name: '',
@@ -38,7 +39,7 @@ export interface SesionContextProps {
 }
 
 export const SesionContext = createContext({} as SesionContextProps);
-export const SesionProvider = ({ children }: {children: JSX.Element[]}) => {
+export const SesionProvider = ({ children }: {children: JSX.Element}) => {
 
     const [sesionState, dispatch] = useReducer(sesionReducer, authInitialState);
     const [dataPhoto, setDataPhoto] = useState('');

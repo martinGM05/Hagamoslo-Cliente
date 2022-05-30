@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, { useEffect } from 'react';
+import { createStackNavigator, StackScreenProps, StackNavigationProp } from '@react-navigation/stack';
 import InitialLogin from '../screens/Login/InitialLogin';
 import Register from '../screens/Login/Register';
 import DrawerNavigator from './DrawerNavigator';
@@ -8,6 +8,9 @@ import WorkerDrawer from './WorkerDrawer';
 import ChatScreen from '../screens/Chat/ChatScreen';
 import Blog from '../screens/Blog/Blog';
 import BlogsScreen from '../screens/Blog/BlogsScreen';
+import NotificationScreen from '../screens/Notification/NotificationScreen';
+import notifee, { EventType } from '@notifee/react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export type RootStackParams = {
     Principal: undefined;
@@ -16,17 +19,53 @@ export type RootStackParams = {
     PrincipalCliente: undefined;
     Trabajador: {id: string};
     Valorar: { photo: string, nameEmploye:string, office:string, idEmploye:string}
-    Chat: {idSala: string};
+    Chat: {idSala: string, tokenReceptorFCM: string};
     Services: undefined;
     WorkerNavigation: undefined;
     Blog:{id?:number, encabezado:string, cuerpo:string},
     BlogsScreen:undefined
+    Notification: {id: string, name: string, presupuesto: string, tokenWorkerFCM: string};
 }
 
 const Stack = createStackNavigator<RootStackParams>();
 
 
 export const StackNavigator = () => {
+
+    const navigation = useNavigation<StackNavigationProp<RootStackParams>>();
+
+    useEffect(() => {
+        return notifee.onForegroundEvent(({ type, detail }) => {
+            switch (type) {
+                case EventType.DISMISSED:
+                    console.log('User dismissed notification', detail);
+                    break;
+                case EventType.PRESS:
+                    //   console.log('User pressed notification: ', detail.notification?.data?.type);
+                    if(detail.notification?.data?.type === 'presupuesto'){
+                        goTo(detail.notification?.data)
+                        // console.log('Entra: Perro');
+                    }
+                    break;
+            }
+        });
+    }, []);
+
+    
+
+    const goTo = (data: any) => {
+        if (data.type === 'presupuesto') {
+            console.log(data)
+            navigation.navigate('Notification', { 
+                id: data.id, 
+                name: data.name, 
+                presupuesto: data.presupuesto,
+                tokenWorkerFCM: data.tokenWorkerNotification
+            })
+        }
+    }
+
+
     return (
         <Stack.Navigator
             initialRouteName="Principal"
@@ -67,6 +106,18 @@ export const StackNavigator = () => {
                     headerShown: true
                 }} 
                  component={ChatScreen} 
+            />
+
+            <Stack.Screen 
+                name="Notification"
+                options={{
+                    title: "Presupuesto",
+                    headerStyle: {
+                        backgroundColor: '#dd60cd',
+                    },
+                    headerShown: true
+                }}
+                component={NotificationScreen}
             />
 
         </Stack.Navigator>
