@@ -25,7 +25,7 @@ const useNotification = () => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "key=AAAArJdXaaQ:APA91bFJfe9Q8UtDx4ZGn67R3Zh-QUnVe-zZ-Jq4TooqxK2Kujls1iNtygSSS96XJofCEeplXLVDZjFqODcX1UZYl5g1IymcZlEJqhH1j-6YvdqLBua-tpCb-2DtKwdlfWy1PEWpAXoz");
         myHeaders.append("Content-Type", "application/json");
-    
+
         var raw = JSON.stringify({
             "data": {
                 id: data.id,
@@ -40,7 +40,7 @@ const useNotification = () => {
             },
             "to": data.tokenFCM
         });
-    
+
         var requestOptions = {
             method: 'POST',
             headers: myHeaders,
@@ -58,9 +58,7 @@ const useNotification = () => {
     const requestPermission = async () => {
         const authStatus = await messaging().requestPermission();
       }
-
-   
-
+  
     return {
         sendNotification,
         requestPermission

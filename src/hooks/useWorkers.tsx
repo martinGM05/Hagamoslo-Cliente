@@ -35,6 +35,7 @@ const useWorkers = () => {
     const [workersState, setWorkers] = useState<Workers[]>([])
     const [filtro, setFiltro] = useState<Workers[]>([])
     const { sendNotification } = useNotification()
+    
     let aux: Workers[] = []
 
     useEffect(() => {
@@ -68,7 +69,6 @@ const useWorkers = () => {
             console.log(error)
         }
     }
-
     const createSala = async (idWorker: number, tokenFCM: string) => {
 
         let notification: Notification = {
@@ -84,15 +84,16 @@ const useWorkers = () => {
 
         // Create doc in Salas collection
         const docRef = await firestore().collection('Salas').add({})
-    
-        // const idWorker = 6
 
+        // const idWorker = 6
+       
         const data = {
           idSala: docRef.id,
           idUsuario: Sesion.id,
           idTrabajador: idWorker
         }
-        
+        console.log(data)
+
         const response = await clienteAxios.post('/salas', data)
         if(response.status === 200){
             console.log(response.data)
@@ -123,7 +124,8 @@ const useWorkers = () => {
         workersState,
         searchTag,
         filtro,
-        alertChat
+        alertChat,
+        createSala
     }
 }
 

@@ -6,6 +6,8 @@ import DrawerNavigator from './DrawerNavigator';
 import 'react-native-gesture-handler';
 import WorkerDrawer from './WorkerDrawer';
 import ChatScreen from '../screens/Chat/ChatScreen';
+import Blog from '../screens/Blog/Blog';
+import BlogsScreen from '../screens/Blog/BlogsScreen';
 import NotificationScreen from '../screens/Notification/NotificationScreen';
 import notifee, { EventType } from '@notifee/react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +22,8 @@ export type RootStackParams = {
     Chat: {idSala: string, tokenReceptorFCM: string};
     Services: undefined;
     WorkerNavigation: undefined;
+    Blog:{id?:number, encabezado:string, cuerpo:string},
+    BlogsScreen:undefined
     Notification: {id: string, name: string, presupuesto: string, tokenWorkerFCM: string};
 }
 
@@ -86,6 +90,11 @@ export const StackNavigator = () => {
             <Stack.Screen name="Register" options={{title: "Register"}} component={Register} />
             <Stack.Screen name="PrincipalCliente" options={{title: "Principal"}} component={DrawerNavigator} />
             <Stack.Screen name="Trabajador" options={{title: "Trabajador"}} component={WorkerDrawer} />
+            <Stack.Screen name="Blog" options={{title: "Blog",headerStyle: {backgroundColor: '#dd60cd',},headerShown: true}} component={Blog} />
+            
+            <Stack.Screen name="BlogsScreen" options={{title: "Blogs"}} component={BlogsScreen} />
+
+
             
             <Stack.Screen
                  name="Chat" 

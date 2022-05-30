@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, Pressable } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import CardTrades from '../../components/Principal/CardTrades';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
@@ -12,61 +12,62 @@ import clienteAxios from '../../config/clientAxios';
 import { SesionContext } from '../../context/Sesion/SesionContext';
 import { WorkerModel } from '../../interfaces/WorkerModel';
 import { _url } from '../../global/Variables';
+import UseEnCurso from '../../hooks/UseEnCurso';
 
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 const TrabajosEnCuso = ({ navigation }: Props) => {
+
   
-  const [loading, setLoading] = useState(false);
   const { Sesion } = useContext(SesionContext)
   const [trabajos, setTrabajos] = useState<WorkerModel[]>([]);
-
-  const getWorkers = async() => {
-    const workers = await clienteAxios.get('/workers', {
-      headers: {
-       'Api-Key':  Sesion.token
-      }
-    })
-    setTrabajos(workers.data)
-    setLoading(true)
-  }
-
-  useEffect(() => {
-    getWorkers();
-  }, [])
+  const {enCurso,loading,cambiarEstadoServicio}=UseEnCurso()
 
 
   return (
     <View style={styles.containerGlobal}>
-      {
-        loading ? (
-          <View style={styles.containerCards}>
-            {
-              trabajos.map(trabajos => (
-                <View key={trabajos.id} style={styles.card}>
-                  <View style={styles.imageWorker}>
-                    <Image source={{ uri: `${_url}upload/Users/${trabajos.id}` }} style={styles.image} />
-                  </View>
-                  <View style={styles.infoWorker}>
-                    <View style={styles.nameWorker}>
-                      <Text style={styles.textName}>{trabajos.nombre}</Text>
+      
+      <ScrollView>
+        {
+          loading ? (
+            <View style={styles.containerCards}>
+              {
+                enCurso.map(trabajos => (
+                  <View key={trabajos.id} style={styles.card}>
+                    <View style={styles.imageWorker}>
+                      <Image source={{ uri: `${_url}/upload/Users/${trabajos.trabajador.idTrabajador}` }} style={styles.image} />
                     </View>
-                    <View style={styles.value}>
+                    <View style={styles.infoWorker}>
+                      <View style={styles.nameWorkerDescription}>
+                        <Text style={styles.textName}>{trabajos.trabajador.nombre}</Text>
+                        <Text style={{color:'#000'}}>{trabajos.descripcion}</Text>
+                      </View>
+                      <View style={styles.value}>
+                        <View style={{ marginRight: 20, alignItems: 'center' }}>
+                          <Pressable style={{alignItems: 'center',justifyContent: 'center'}} onPress={()=>{
+                            cambiarEstadoServicio(trabajos.id)
+                          }}>
+                          <Text style={{fontWeight:'bold', color:'#fff'}}>Valorar</Text>
+                          <FontAwesome5 name="star" size={15} color="yellow" />
+                          </Pressable>
+                        </View>
 
+
+                      </View>
                     </View>
                   </View>
-                </View>
-              ))
-            }
-          </View>
-        ) : (
-          <LottieView
-            source={require('../../animated/empty-box.json')}
-            autoPlay
-            loop
-          />
-        )
-      }
+                ))
+              }
+            </View>
+          ) : (
+            <LottieView
+              source={require('../../animated/empty-box.json')}
+              autoPlay
+              loop
+            />
+          )
+        }
+      </ScrollView>
     </View>
   )
 }
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     borderRadius: 10,
   },
-  nameWorker: {
+  nameWorkerDescription: {
     width: 220,
     height: 40,
     borderTopRightRadius: 10,
@@ -129,6 +130,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#1b5865',
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
+    flexDirection: 'row',
+
+    alignItems: 'center',
+
+    justifyContent: 'center'
 
   },
   image: {
