@@ -1,14 +1,15 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import useWorkers from '../../hooks/useWorkers';
+import { SesionContext } from '../../context/Sesion/SesionContext';
 
 
 
 
 const Comments = ({name, comment, photo,idEmploye, tokenFCM}:any) => {
     const {alertChat}=useWorkers()
-   
+    const { Sesion } = useContext(SesionContext);
     return (
         <View style={styles.containerUserComment}>
             <View style={styles.userData}>
@@ -30,16 +31,19 @@ const Comments = ({name, comment, photo,idEmploye, tokenFCM}:any) => {
                 <Text style={styles.textComment} numberOfLines={4}>
                     {comment}
                 </Text>
-                <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                    <Text style={{color:'#000'}}>Contactar</Text>
-                <Pressable onPress={()=>{
-                    //console.log(idEmploye)
-                    //.log(tokenFCM)
-                   alertChat(idEmploye, tokenFCM)
-                }}>
-                <FontAwesome5 name="sign-language" size={30} color="#ff762d" />
-                </Pressable>
-                </View>
+               {
+                   Sesion.idRol==2?
+                   <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                   <Text style={{color:'#000'}}>Contactar</Text>
+               <Pressable onPress={()=>{
+                   //console.log(idEmploye)
+                   //.log(tokenFCM)
+                  alertChat(idEmploye, tokenFCM)
+               }}>
+               <FontAwesome5 name="sign-language" size={30} color="#ff762d" />
+               </Pressable>
+               </View>:null
+               }
             </View>
         </View>
     )
