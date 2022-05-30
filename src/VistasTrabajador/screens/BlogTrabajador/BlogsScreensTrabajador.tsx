@@ -13,7 +13,7 @@ const BlogsScreensTrabajador = ({ navigation }: Props) => {
 
 
   const [modalVisible, setModalVisible] = useState(false);
-  const {blogs}=UseBlogTrabajador()
+  const { blogs } = UseBlogTrabajador()
 
 
   return (
@@ -26,19 +26,19 @@ const BlogsScreensTrabajador = ({ navigation }: Props) => {
               <Text style={styles.textDescription}>{blog.descripcion}</Text>
             </View>
             <View>
-                <Pressable
-                  onPress={() => {
-                    navigation.navigate('BlogTrabajador',{id:blog.id,encabezado:blog.titulo,cuerpo:blog.descripcion})
-                   }}
-                >
-                  <FontAwesome5 name="external-link-alt" size={15} color="#000" />
-                </Pressable>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate('BlogTrabajador', { data: blog })
+                }}
+              >
+                <FontAwesome5 name="external-link-alt" size={15} color="#000" />
+              </Pressable>
             </View>
           </View>
         ))
       }
-     
-      
+
+
     </View>
   )
 }

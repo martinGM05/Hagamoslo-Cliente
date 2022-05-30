@@ -13,6 +13,7 @@ import notifee, { EventType } from '@notifee/react-native';
 import { useNavigation } from '@react-navigation/native';
 import BlogTrabajador from '../VistasTrabajador/screens/BlogTrabajador/BlogTrabajador';
 import { _primaryColor } from '../global/Variables';
+import { blogsTrabajador } from '../hooks/UseBlogTrabajador';
 
 export type RootStackParams = {
     Principal: undefined;
@@ -28,7 +29,7 @@ export type RootStackParams = {
     BlogsScreen:undefined,
     BlogsScreenTrabajador:undefined,
     Notification: {id: string, name: string, presupuesto: string, tokenWorkerFCM: string};
-    BlogTrabajador:{id?:number, encabezado:string, cuerpo:string}
+    BlogTrabajador:{data: blogsTrabajador}
 }
 
 const Stack = createStackNavigator<RootStackParams>();

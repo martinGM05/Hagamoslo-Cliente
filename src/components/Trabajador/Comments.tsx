@@ -7,22 +7,22 @@ import { SesionContext } from '../../context/Sesion/SesionContext';
 
 
 
-const Comments = ({name, comment, photo,idEmploye, tokenFCM}:any) => {
-    const {alertChat}=useWorkers()
+const Comments = ({ name, comment, photo, idEmploye, tokenFCM }: any) => {
+    const { alertChat } = useWorkers()
     const { Sesion } = useContext(SesionContext);
     return (
         <View style={styles.containerUserComment}>
             <View style={styles.userData}>
                 {
                     photo ?
-                    <Image
-                        source={{ uri: photo }}
-                        style={styles.userImage}
-                    />:
-                    <Image
-                        source={require('../../img/jar-loading.gif')}
-                        style={styles.userImage}
-                    />
+                        <Image
+                            source={{ uri: photo }}
+                            style={styles.userImage}
+                        /> :
+                        <Image
+                            source={require('../../img/jar-loading.gif')}
+                            style={styles.userImage}
+                        />
 
                 }
                 <Text numberOfLines={1} style={styles.textName}>{name}</Text>
@@ -31,19 +31,15 @@ const Comments = ({name, comment, photo,idEmploye, tokenFCM}:any) => {
                 <Text style={styles.textComment} numberOfLines={4}>
                     {comment}
                 </Text>
-               {
-                   Sesion.idRol !== 2 ?
-                   <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                   <Text style={{color:'#000'}}>Contactar</Text>
-               <Pressable onPress={()=>{
-                   //console.log(idEmploye)
-                   //.log(tokenFCM)
-                  alertChat(idEmploye, tokenFCM)
-               }}>
-               <FontAwesome5 name="sign-language" size={30} color="#ff762d" />
-               </Pressable>
-               </View>:null
-               }
+                {
+                    Sesion.idRol !== 2 ?
+                        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ color: '#000' }}>Contactar</Text>
+                            <Pressable onPress={() => alertChat(idEmploye, tokenFCM)}>
+                                <FontAwesome5 name="sign-language" size={30} color="#ff762d" />
+                            </Pressable>
+                        </View> : null
+                }
             </View>
         </View>
     )
@@ -61,7 +57,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         borderRadius: 10,
 
-        
+
         shadowColor: "#000",
         shadowRadius: 5,
         shadowOpacity: 0.3,

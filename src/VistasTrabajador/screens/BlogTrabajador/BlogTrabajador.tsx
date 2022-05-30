@@ -1,35 +1,38 @@
-import { Dimensions,Image,Pressable,ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import { Dimensions,ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import Comments from '../../../components/Trabajador/Comments';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import UseBlogTrabajador from '../../../hooks/UseBlogTrabajador';
-import { Actions, Composer, GiftedChat, InputToolbar, Send } from 'react-native-gifted-chat';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { SesionContext } from '../../../context/Sesion/SesionContext';
-import { _url } from '../../../global/Variables';
+import { _primaryColor, _secondaryColor, _url } from '../../../global/Variables';
 import { TextInput } from 'react-native-gesture-handler';
+
 type Props = StackScreenProps<RootStackParams, 'BlogTrabajador'>;
+
 const BlogTrabajador = ({ navigation, route }: Props) => {
 
-    const {getComentariosTrabajador, comentariosTrabajador,CrearComentario} = UseBlogTrabajador()
-    const [messages, setMessages] = useState<any>([]);
-    const [textComentario, setTextComentario]=useState('')
-    const { Sesion } = useContext(SesionContext);
+    const [textComentario, setTextComentario] = useState('')
+    const { getComentariosTrabajador, comentariosTrabajador, CrearComentario } = UseBlogTrabajador()
+    const { id, descripcion, idUsuario, titulo, user } = route.params.data
 
-    useEffect(()=>{
-        getComentariosTrabajador(route.params?.id)
-    },[])
+    useEffect(() => {
+        getComentariosTrabajador(id)
+    }, [])
 
-  return (
-   <View>
-            <View style={styles.container}>
-                <View key={route.params?.id} style={styles.containerBlog}>
-                    <View style={styles.containerInfo}>
-                        <Text style={styles.textTitle}>{route.params?.encabezado}</Text>
-                        <Text style={styles.textDescription}>{route.params?.cuerpo}</Text>
-                    </View>
+    const handleSubmit = () => {
+        setTextComentario('')
+        CrearComentario(textComentario, id)
+    }
+
+    return (
+        <ScrollView style={styles.container}>
+            <View key={id} style={styles.containerBlog}>
+                <View style={styles.containerInfo}>
+                    <Text style={styles.textTitle}>{user.nombre}</Text>
+                    {/* <Text style={styles.textTitle}>{route.params?.data.titulo}</Text>
+                    <Text style={styles.textDescription}>{route.params?.data.descripcion}</Text> */}
                 </View>
             </View>
             <View style={styles.feedback}>
@@ -44,47 +47,46 @@ const BlogTrabajador = ({ navigation, route }: Props) => {
                 <View style={styles.comments}>
                     <ScrollView>
                         {
-                            comentariosTrabajador.map((c,index)=>(
+                            comentariosTrabajador.map((c, index) => (
                                 <Comments
-                                key={index}
-
+                                    key={index}
                                     name={c.user.nombre}
                                     comment={c.comentario}
-                                    photo={'https://hagamoslo.azurewebsites.net/api/upload/Users/'+c.idTrabajador}
+                                    photo={`${_url}/upload/Users/${c.idTrabajador}`}
                                     idEmploye={c.idTrabajador}
                                     tokenFCM={c.user.tokenFCM}
-                                    
-                                
                                 />
                             ))
                         }
                     </ScrollView>
                 </View>
             </View>
-
             <View style={styles.contenedorInput}>
-                <TextInput style={{ borderColor:'#000', borderWidth:2, height:'50%', width:'100%'}} multiline={true} onChangeText={e=>setTextComentario(e)}></TextInput>
-                <Pressable style={{ backgroundColor:'red', width:100}} onPress={()=>{
-                    CrearComentario(textComentario,route.params?.id)
-                }}>
-                    <Text>Enviar</Text>
-                </Pressable>
+                <TextInput 
+                    style={styles.input}
+                    placeholder="Escribe un comentario"
+                    onChangeText={(text) => setTextComentario(text)}
+                    multiline={true}
+                    value={textComentario}
+                />
+                <TouchableOpacity 
+                    style={styles.button}
+                    onPress={() => handleSubmit()}
+                >
+                    <Ionicons name="md-send" size={30} color="#000" />
+                </TouchableOpacity>
             </View>
-
-            
-        </View>
-  )
+        </ScrollView>
+    )
 }
 
 export default BlogTrabajador
 
 const styles = StyleSheet.create({
     container: {
-        //position: 'absolute',
         marginTop: 20,
-
-
-
+        flex: 1,
+        flexDirection: 'column',
     },
 
     containerBlog: {
@@ -138,7 +140,6 @@ const styles = StyleSheet.create({
         marginLeft: 16,
         marginRight: 10,
         width: '90%',
-        height: '50%',
     },
     containerTitle: {
         alignItems: 'center',
@@ -148,7 +149,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#000',
         fontWeight: 'bold',
-
     },
     containerCommentTitle: {
         flexDirection: 'row',
@@ -157,12 +157,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     comments: {
-        // borderWidth: 1,
         borderTopWidth: 2,
         borderBottomWidth: 2,
         width: '100%',
-        height: 400,
-        // backgroundColor: '#516680',
+        height: 450,
         marginTop: 10,
 
     },
@@ -173,7 +171,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: '#000',
     },
     textProgress: {
         fontSize: 20,
@@ -185,9 +182,32 @@ const styles = StyleSheet.create({
         width: '70%',
         height: '100%',
     },
-    contenedorInput:{
-        position:'absolute',
-        marginTop:630,
-        
+    contenedorInput: {
+        marginTop: 10,
+        marginHorizontal: 10,
+        width: '93%',
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderRadius: 6,
+        flex: 1,
+    },
+    input: {
+        width: '78%',
+        backgroundColor: `${_primaryColor}`,
+        borderWidth: 2,
+        borderRadius: 6,
+        color: '#000',
+    },
+    button: {
+        width: '16%',
+        backgroundColor: `${_secondaryColor}`,
+        borderWidth: 2,
+        height: '80%',
+        marginRight: 2,
+        borderRadius: 6,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })
