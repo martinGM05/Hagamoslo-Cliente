@@ -24,20 +24,14 @@ const BlogTrabajador = ({ navigation, route }: Props) => {
 
   return (
    <View>
-
             <View style={styles.container}>
-       
                 <View key={route.params?.id} style={styles.containerBlog}>
                     <View style={styles.containerInfo}>
                         <Text style={styles.textTitle}>{route.params?.encabezado}</Text>
                         <Text style={styles.textDescription}>{route.params?.cuerpo}</Text>
                     </View>
                 </View>
-
             </View>
-
-
-
             <View style={styles.feedback}>
                 <View style={styles.containerTitle}>
                     <View style={styles.containerCommentTitle}>
@@ -69,7 +63,7 @@ const BlogTrabajador = ({ navigation, route }: Props) => {
             </View>
 
             <View style={styles.contenedorInput}>
-                <TextInput style={{ borderColor:'#000', borderWidth:2, height:'50%', width:'900%'}} multiline={true} onChangeText={e=>setTextComentario(e)}></TextInput>
+                <TextInput style={{ borderColor:'#000', borderWidth:2, height:'50%', width:'100%'}} multiline={true} onChangeText={e=>setTextComentario(e)}></TextInput>
                 <Pressable style={{ backgroundColor:'red', width:100}} onPress={()=>{
                     CrearComentario(textComentario,route.params?.id)
                 }}>
@@ -96,8 +90,6 @@ const styles = StyleSheet.create({
     containerBlog: {
         width: Dimensions.get('window').width - 20,
         marginLeft: 10,
-        marginTop: 10,
-        height: 100,
         padding: 10,
         backgroundColor: '#edebe9',
         flexDirection: 'row',
@@ -112,7 +104,6 @@ const styles = StyleSheet.create({
         elevation: 5,
         borderWidth: 2,
         borderColor: '#8200D6'
-
     },
     containerInfo: {
         flex: 1,
@@ -144,11 +135,8 @@ const styles = StyleSheet.create({
         }
     },
     feedback: {
-        marginTop: 20,
         marginLeft: 16,
         marginRight: 10,
-        marginBottom: 20,
-        // borderWidth: 1,
         width: '90%',
         height: '50%',
     },
@@ -199,8 +187,7 @@ const styles = StyleSheet.create({
     },
     contenedorInput:{
         position:'absolute',
-        marginTop:630
-
-
+        marginTop:630,
+        
     }
 })
