@@ -1,22 +1,30 @@
 import { Alert, StyleSheet, Text, View } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
-import clienteAxios from '../../config/clientAxios'
-import { SesionContext } from '../../context/Sesion/SesionContext';
+import React, { createContext, useContext, useEffect, useReducer, useState } from 'react'
+import messaging from '@react-native-firebase/messaging';
+import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
+import clienteAxios from '../../config/clientAxios';
+import { _url } from '../../global/Variables';
 import { BlogsModel, ComentarioBlog } from '../../interfaces/BlogModel';
+import { SesionContext } from '../Sesion/SesionContext';
 
 
+export interface BlogsContextProps {
+    comentarios: ComentarioBlog[];
+    blogs: BlogsModel[];
+    createBlog: (blog: BlogsModel) => void;
+    EliminarBlob: (id?: number) => void;
+    getBlogByUser: (id: number) => void;
+    getComentarios: (id?: number) => void;
+}
 
-const useBlog = () => {
+export const BlogContext = createContext({} as BlogsContextProps);
+
+export const BlogProvider = ({ children }: { children: JSX.Element[] }) => {
 
     const { Sesion } = useContext(SesionContext);
-
     const [blogs, setBlogs] = useState<BlogsModel[]>([]);
     const [comentarios, setComentarios] = useState<ComentarioBlog[]>([])
     const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        getBlogByUser(Sesion.id);
-    }, [loading])
 
     const getBlogByUser = async (id: number) => {
         const response = await clienteAxios.get(`/blog/${id}`)
@@ -26,8 +34,8 @@ const useBlog = () => {
     const createBlog = async (blog: BlogsModel) => {
         const response = await clienteAxios.post(`/blog`, blog)
         setBlogs([...blogs, response.data]);
-        setLoading(true);
         if (response.data) {
+            getBlogByUser(Sesion.id);
             Alert.alert('Mensaje', 'Blog creado')
         }
     }
@@ -47,15 +55,20 @@ const useBlog = () => {
             setComentarios(e => e.concat(comentario))
         }
     }
-    return {
-        blogs,
-        createBlog,
-        EliminarBlob,
-        getBlogByUser,
-        getComentarios,
-        comentarios
 
-    }
+    return (
+        <BlogContext.Provider value={{
+            comentarios,
+            blogs,
+            createBlog,
+            EliminarBlob,
+            getBlogByUser,
+            getComentarios,
+        }}>
+            {children}
+        </BlogContext.Provider>
+    )
 }
 
-export default useBlog
+
+

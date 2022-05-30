@@ -11,6 +11,7 @@ import ExploreService from '../screens/Servicios/ExploreService';
 import BlogsScreen from '../screens/Blog/BlogsScreen';
 import Services from '../screens/Servicios/Services';
 import Historial from '../screens/Historial/Historial';
+import { _primaryColor, _secondaryColor } from '../global/Variables';
 
 const Drawer = createDrawerNavigator();
 
@@ -25,7 +26,7 @@ const DrawerNavigator = () => (
     screenOptions={{
       headerShown: true,
       headerStyle:{
-        backgroundColor: '#aa18ea',
+        backgroundColor: `${_primaryColor}`,
       },
       headerTitleStyle:{
         color: '#000',
@@ -33,7 +34,7 @@ const DrawerNavigator = () => (
         fontWeight: 'bold',
       },
       headerTitleAlign: 'center',
-      drawerActiveBackgroundColor: '#aa18ea',
+      drawerActiveBackgroundColor: `${_secondaryColor}`,
       drawerActiveTintColor: '#fff',
       drawerInactiveTintColor: '#333',
       drawerLabelStyle: {

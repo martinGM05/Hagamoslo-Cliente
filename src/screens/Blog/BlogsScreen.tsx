@@ -1,5 +1,5 @@
 import { Alert, Dimensions, Pressable, StyleSheet, Text, View, Modal } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import useBlog from './useBlog';
@@ -7,13 +7,33 @@ import FormBlog from '../../components/Helper/FormBlog';
 import { SesionContext } from '../../context/Sesion/SesionContext';
 import { RootStackParams } from '../../routes/StackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
+import { BlogContext } from '../../context/Blog/Blogs';
 type Props = StackScreenProps<RootStackParams, 'BlogsScreen'>;
 
 const BlogsScreen = ({ navigation }: Props) => {
 
-  const { blogs, createBlog,EliminarBlob,getBlogByUser } = useBlog();
+  // const { blogs, createBlog, EliminarBlob, getBlogByUser } = useBlog();
+
+  const { EliminarBlob, getBlogByUser, blogs, comentarios, createBlog, getComentarios } = useContext(BlogContext)
   const [modalVisible, setModalVisible] = useState(false);
   const { Sesion } = useContext(SesionContext);
+
+  const handleDelete = (id: number) => {
+    Alert.alert('Advertencia', '¿Esta seguro de eliminar este blog?', [{
+      text: 'No',
+      style: 'cancel'
+    }, {
+      text: 'Si',
+      onPress: () => {
+        EliminarBlob(id)
+        getBlogByUser(Sesion.id)
+      }
+    }])
+  }
+  
+  useEffect(() => {
+    getBlogByUser(Sesion.id)
+  }, [])
 
 
   return (
@@ -25,31 +45,19 @@ const BlogsScreen = ({ navigation }: Props) => {
               <Text style={styles.textTitle}>{blog.titulo}</Text>
               <Text style={styles.textDescription}>{blog.descripcion}</Text>
             </View>
-            <View style={{justifyContent:'space-between'}}>
-                <Pressable
-                  onPress={() => {
-                   
-                    navigation.navigate('Blog',{id:blog.id,encabezado:blog.titulo,cuerpo:blog.descripcion})
-                   }}
-                >
-                  <FontAwesome5 name="external-link-alt" size={15} color="#000" />
-                  
-                </Pressable>
-                <Pressable onPress={()=>{
-                  Alert.alert('Advertencia','¿Esta seguro de eliminar este blog?',[{
-                    text:'Si',
-                    onPress:()=>{
-                      EliminarBlob(blog.id)
-                      getBlogByUser(Sesion.id)
-                     
-                    }
-                  },{
-                    text:'No',
-                    style:'cancel'
-                  }])
-                }}>
-                <FontAwesome5 name="trash-alt" size={15} color="red" />
-                </Pressable>
+            <View style={{ justifyContent: 'space-between' }}>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate('Blog', { id: blog.id, encabezado: blog.titulo, cuerpo: blog.descripcion })
+                }}
+              >
+                <FontAwesome5 name="external-link-alt" size={20} color="#000" />
+              </Pressable>
+              <Pressable
+                onPress={() => handleDelete(blog.id!)}
+              >
+                <FontAwesome5 name="trash-alt" size={20} color="red" />
+              </Pressable>
             </View>
           </View>
         ))
@@ -61,7 +69,7 @@ const BlogsScreen = ({ navigation }: Props) => {
         <Ionicons name="add" size={30} color="#000" />
       </Pressable>
       <FormBlog modalVisible={modalVisible} setModalVisible={setModalVisible} />
-      
+
     </View>
   )
 }

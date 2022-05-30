@@ -10,6 +10,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import BackButton from '../../components/Buttons/BackButton';
 import { ScrollView } from 'react-native-gesture-handler';
 import Comments from '../../components/Trabajador/Comments';
+import { _url } from '../../global/Variables';
 
 type Props = StackScreenProps<RootStackParams, 'Blog'>;
 
@@ -26,7 +27,6 @@ const Blog = ({ navigation, route }: Props) => {
 
     return (
         <View>
-
             <View style={styles.container}>
        
                 <View key={route.params?.id} style={styles.containerBlog}>
@@ -37,9 +37,6 @@ const Blog = ({ navigation, route }: Props) => {
                 </View>
 
             </View>
-
-
-
             <View style={styles.feedback}>
                 <View style={styles.containerTitle}>
                     <View style={styles.containerCommentTitle}>
@@ -55,22 +52,16 @@ const Blog = ({ navigation, route }: Props) => {
                             comentarios.map((c,index)=>(
                                 <Comments
                                 key={index}
-
                                     name={c.user.nombre}
                                     comment={c.comentario}
-                                    photo={'https://hagamoslo.azurewebsites.net/api/upload/Users/'+c.idTrabajador}
+                                    photo={`${_url}/upload/Users/${c.idTrabajador}`}
                                     idEmploye={c.idTrabajador}
-                                    tokenFCM={c.user.tokenFCM}
-                                    
-                                
-                                />
+                                    tokenFCM={c.user.tokenFCM}/>
                             ))
                         }
                     </ScrollView>
                 </View>
             </View>
-
-
         </View>
     )
 }
@@ -81,9 +72,6 @@ const styles = StyleSheet.create({
     container: {
         //position: 'absolute',
         marginTop: 20,
-
-
-
     },
 
     containerBlog: {

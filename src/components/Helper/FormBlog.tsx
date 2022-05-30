@@ -7,6 +7,8 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup'
 import useBlog from '../../screens/Blog/useBlog';
 import { SesionContext } from '../../context/Sesion/SesionContext';
+import { BlogContext } from '../../context/Blog/Blogs';
+import { _secondaryColor } from '../../global/Variables';
 
 interface Props {
     modalVisible: boolean
@@ -16,23 +18,27 @@ interface Props {
 const FormBlog = ({ modalVisible, setModalVisible }: Props) => {
 
     const { Sesion } = useContext(SesionContext)
-    const { createBlog,getBlogByUser } = useBlog()
+    // const { createBlog, getBlogByUser } = useBlog()
+    const { createBlog, getBlogByUser } = useContext(BlogContext)
 
-    const submit=async(values:any)=>{
+    const submit = async (values: any) => {
+        createBlog(values);
+        // resetForm();
 
+        setModalVisible(false);
     }
 
-    const formikOpt={
-        initialValues:{
+    const formikOpt = {
+        initialValues: {
             titulo: '',
             descripcion: '',
             idUsuario: Sesion.id
         },
-        validationSchema:Yup.object({
+        validationSchema: Yup.object({
             titulo: Yup.string().required('El titulo es requerido'),
             descripcion: Yup.string().required('La descripcion es requerida')
         }),
-        onSubmit:submit
+        onSubmit: submit
 
     }
 
@@ -107,12 +113,7 @@ const FormBlog = ({ modalVisible, setModalVisible }: Props) => {
                                 }
                             </View>
                             <Pressable
-                                onPress={() => {
-                                    createBlog(values);
-                                    //resetForm();
-                                    
-                                    setModalVisible(false);
-                                }}
+                                onPress={handleSubmit}
                                 style={styles.button}
                             >
                                 <Text style={styles.textButton}>Crear</Text>
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
         color: '#000',
     },
     button: {
-        backgroundColor: '#893d9c',
+        backgroundColor: `${_secondaryColor}`,
         padding: 10,
         borderRadius: 5,
         position: 'absolute',
