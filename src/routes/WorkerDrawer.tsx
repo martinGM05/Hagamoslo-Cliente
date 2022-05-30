@@ -12,6 +12,7 @@ import BlogsScreensTrabajador from '../VistasTrabajador/screens/BlogTrabajador/B
 import ContainerChatsScreen from '../screens/Chat/ContainerChatsScreen';
 import notifee, { EventType } from '@notifee/react-native';
 import { useNavigation } from '@react-navigation/native';
+import { _primaryColor, _secondaryColor } from '../global/Variables';
 
 const Drawer = createDrawerNavigator();
 
@@ -53,7 +54,7 @@ const WorkerDrawer = () => {
       screenOptions={{
         headerShown: true,
         headerStyle: {
-          backgroundColor: '#aa18ea',
+          backgroundColor: `${_primaryColor}`,
         },
         headerTitleStyle: {
           color: '#000',
@@ -61,7 +62,7 @@ const WorkerDrawer = () => {
           fontWeight: 'bold',
         },
         headerTitleAlign: 'center',
-        drawerActiveBackgroundColor: '#aa18ea',
+        drawerActiveBackgroundColor: `${_secondaryColor}`,
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#333',
         drawerLabelStyle: {
