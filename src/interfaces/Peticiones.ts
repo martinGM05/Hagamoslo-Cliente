@@ -29,3 +29,14 @@ export interface IEnCurso{
         tokenFCM:string
     }
 }
+
+export interface IEnCursoHistorialTrabajador{
+    id:number,
+    descripcion:string,
+    fechaInicio:string,
+    fechaFin:string,
+    costo:number,
+    usuario:{
+        idUsuario:number,
+    }
+}

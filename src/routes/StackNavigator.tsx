@@ -11,6 +11,7 @@ import BlogsScreen from '../screens/Blog/BlogsScreen';
 import NotificationScreen from '../screens/Notification/NotificationScreen';
 import notifee, { EventType } from '@notifee/react-native';
 import { useNavigation } from '@react-navigation/native';
+import BlogTrabajador from '../VistasTrabajador/screens/BlogTrabajador/BlogTrabajador';
 
 export type RootStackParams = {
     Principal: undefined;
@@ -23,8 +24,10 @@ export type RootStackParams = {
     Services: undefined;
     WorkerNavigation: undefined;
     Blog:{id?:number, encabezado:string, cuerpo:string},
-    BlogsScreen:undefined
+    BlogsScreen:undefined,
+    BlogsScreenTrabajador:undefined,
     Notification: {id: string, name: string, presupuesto: string, tokenWorkerFCM: string};
+    BlogTrabajador:{id?:number, encabezado:string, cuerpo:string}
 }
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -91,7 +94,7 @@ export const StackNavigator = () => {
             <Stack.Screen name="PrincipalCliente" options={{title: "Principal"}} component={DrawerNavigator} />
             <Stack.Screen name="Trabajador" options={{title: "Trabajador"}} component={WorkerDrawer} />
             <Stack.Screen name="Blog" options={{title: "Blog",headerStyle: {backgroundColor: '#dd60cd',},headerShown: true}} component={Blog} />
-            
+            <Stack.Screen name="BlogTrabajador" options={{title: "Blog",headerStyle: {backgroundColor: '#dd60cd',},headerShown: true}} component={BlogTrabajador} />
             <Stack.Screen name="BlogsScreen" options={{title: "Blogs"}} component={BlogsScreen} />
 
 

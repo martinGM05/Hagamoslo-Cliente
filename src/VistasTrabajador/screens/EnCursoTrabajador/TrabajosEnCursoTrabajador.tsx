@@ -14,27 +14,17 @@ import { SesionContext } from '../../../context/Sesion/SesionContext';
 import { WorkerModel } from '../../../interfaces/WorkerModel';
 import { _url } from '../../../global/Variables';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import UseEnCursoTrabajador from '../../../hooks/UseEnCursoTrabajador';
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 const TrabajosEnCursoTrabajador = ({ navigation }: Props) => {
   
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
   const { Sesion } = useContext(SesionContext)
   const [trabajos, setTrabajos] = useState<WorkerModel[]>([]);
 
-  const getWorkers = async() => {
-    const workers = await clienteAxios.get('/workers', {
-      headers: {
-       'Api-Key':  Sesion.token
-      }
-    })
-    setTrabajos(workers.data)
-    setLoading(true)
-  }
-
-  useEffect(() => {
-    getWorkers();
-  }, [])
+  const {loading,enCursoTrabajador}=UseEnCursoTrabajador()
+ 
 
 
   return (
@@ -43,18 +33,17 @@ const TrabajosEnCursoTrabajador = ({ navigation }: Props) => {
         loading ? (
           <View style={styles.containerCards}>
             {
-              trabajos.map(trabajos => (
-                <View key={trabajos.id} style={styles.card}>
+              enCursoTrabajador.map(cliente => (
+                <View key={cliente.id} style={styles.card}>
                   <View style={styles.imageWorker}>
-                    <Image source={{ uri: `${_url}upload/Users/${trabajos.id}` }} style={styles.image} />
+                    <Image source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }} style={styles.image} />
                   </View>
                   <View style={styles.infoWorker}>
                     <View style={styles.nameWorker}>
-                      <Text style={styles.textName}>{trabajos.nombre}</Text>
+                      <Text style={styles.textName}>{cliente.descripcion}</Text>
                     </View>
                     <View style={styles.value}>
-                        <Text style={styles.textOptions}>Cancelar</Text>                        
-                        <Ionicons name="close-circle" size={22} color={'red'} />
+                        
                     </View>
                   </View>
                 </View>
