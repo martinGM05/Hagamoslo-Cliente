@@ -7,6 +7,7 @@ import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import UseLogin from '../../hooks/UseLogin';
+import { _primaryColor } from '../../global/Variables';
 
 
 
@@ -177,7 +178,7 @@ const styles = StyleSheet.create({
         width: '90%',
     },
     icon: {
-        color: '#095397',
+        color: `${_primaryColor}`,
         fontSize: 25,
     },
     contenedorError: {
@@ -206,8 +207,9 @@ const styles = StyleSheet.create({
     containerLogin: {
         padding: 10,
         marginTop: '4%',
-        backgroundColor: '#095397',
+        backgroundColor: '#b63d3d',
         borderRadius: 10,
+        borderWidth: 1,
     },
     buttonLogin: {
         fontSize: 18,

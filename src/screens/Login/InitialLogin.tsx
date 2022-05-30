@@ -14,6 +14,7 @@ import { UserToken } from '../../hooks/UseLogin';
 import { UserModel } from '../../interfaces/UserModel';
 import { SesionContext } from '../../context/Sesion/SesionContext';
 import messaging from '@react-native-firebase/messaging';
+import { _primaryColor } from '../../global/Variables';
 
 type Props = StackScreenProps<RootStackParams, 'Login'>;
 
@@ -24,10 +25,10 @@ const InitialLogin = ({ navigation }: Props) => {
 
   return (
     <LinearGradient
-      colors={['#00C9FF', '#fff']}
-      start={{ x: 2, y: 0 }}
-      end={{ x: 1, y: 1 }}
-      locations={[0.1, 0.9]}
+      colors={['#fff', `${_primaryColor}`]}
+      start={{ x: 2, y: .5 }}
+      end={{ x: .3, y: 1 }}
+      locations={[0.3, 0.9]}
       style={styles.container}
     >
       {
@@ -111,8 +112,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#000',
+    color: '#fff',
     marginTop: 20,
+    fontWeight: 'bold',
   },
   scroll: {
     width: '100%',
@@ -130,8 +132,8 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   text2: {
-    fontSize: 16,
-    color: '#095397',
+    fontSize: 17,
+    color: '#000',
     fontWeight: 'bold',
     marginTop: 20,
     textDecorationLine: 'underline',
@@ -146,11 +148,11 @@ const styles = StyleSheet.create({
   title1: {
     fontSize: 35,
     fontWeight: 'bold',
-    color: '#095397',
+    color: '#000',
   },
   title2: {
     fontSize: 20,
-    color: '#7e7b6d',
+    color: '#000',
   },
   containerForm: {
     width: '100%',

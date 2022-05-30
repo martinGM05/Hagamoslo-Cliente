@@ -11,7 +11,7 @@ import ButtonOpen from '../../components/MenuDrawer/ButtonOpen';
 import clienteAxios from '../../config/clientAxios';
 import { SesionContext } from '../../context/Sesion/SesionContext';
 import { WorkerModel } from '../../interfaces/WorkerModel';
-import { _url } from '../../global/Variables';
+import { _secondaryColor, _url } from '../../global/Variables';
 import UseEnCurso from '../../hooks/UseEnCurso';
 import UseHistorial from '../../hooks/UseHistorial';
 
@@ -19,15 +19,15 @@ type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 const Historial = ({ navigation }: Props) => {
 
-  
+
   const { Sesion } = useContext(SesionContext)
   const [trabajos, setTrabajos] = useState<WorkerModel[]>([]);
-  const {historial,loading}=UseHistorial()
+  const { historial, loading } = UseHistorial()
 
 
   return (
     <View style={styles.containerGlobal}>
-      
+
       <ScrollView>
         {
           loading ? (
@@ -41,15 +41,12 @@ const Historial = ({ navigation }: Props) => {
                     <View style={styles.infoWorker}>
                       <View style={styles.nameWorkerDescription}>
                         <Text style={styles.textName}>{trabajos.trabajador.nombre}</Text>
-                        <Text style={{color:'#000'}}>Costo ${trabajos.costo}</Text>
+                        <Text style={styles.textCosto}>Costo ${trabajos.costo}</Text>
                       </View>
                       <View style={styles.value}>
                         <View style={{ marginRight: 20, alignItems: 'center' }}>
-                          <Text style={{fontWeight:'bold', color:'#fff'}}>Concluido en {trabajos.fechaFin}</Text>
-                          
+                          <Text style={{ fontWeight: 'bold', color: '#fff' }}>Concluido en {trabajos.fechaFin}</Text>
                         </View>
-
-
                       </View>
                     </View>
                   </View>
@@ -82,8 +79,8 @@ const styles = StyleSheet.create({
   card: {
     width: Dimensions.get('window').width - 20,
     height: 100,
-    backgroundColor: '#6f0e8b',
-    borderWidth: 1,
+    backgroundColor: '#fff',
+    borderWidth: 1.5,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -92,7 +89,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    borderRadius: 10,
     marginBottom: 10,
     justifyContent: 'flex-start',
     flexDirection: 'row',
@@ -102,10 +98,10 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 50,
-    backgroundColor: '#fff',
     marginLeft: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 2,
   },
   infoWorker: {
     width: 220,
@@ -120,11 +116,13 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     padding: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   value: {
     width: 220,
     height: 40,
-    backgroundColor: '#1b5865',
+    backgroundColor: `${_secondaryColor}`,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,
     flexDirection: 'row',
@@ -143,5 +141,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#000',
     fontWeight: 'bold',
+  },
+  textCosto: {
+    fontSize: 18,
+    color: '#000',
   }
 })

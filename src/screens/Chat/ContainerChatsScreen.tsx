@@ -11,7 +11,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
 import LottieView from 'lottie-react-native';
 import clienteAxios from '../../config/clientAxios';
-import { _url } from '../../global/Variables';
+import { _secondaryColor, _url } from '../../global/Variables';
 
 
 type Props = StackScreenProps<RootStackParams, 'Chat'>;
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
   btnChats: {
     width: 130,
     height: 30,
-    backgroundColor: '#78da8e',
+    backgroundColor: `${_secondaryColor}`,
     marginLeft: 10,
     marginTop: 10,
     borderWidth: 1,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   containerBtn: {
     width: 50,
     height: 50,
-    backgroundColor: '#40d9b7',
+    backgroundColor: `${_secondaryColor}`,
     borderWidth: 2,
     borderRadius: 5,
     padding: 5,

@@ -17,6 +17,7 @@ import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import { SesionProvider } from './src/context/Sesion/SesionContext';
 import 'react-native-gesture-handler';
 import { NotificationProvider } from './src/context/Notifications/NotificationContext';
+import { BlogProvider } from './src/context/Blog/Blogs';
 
 const App = () => {
 
@@ -30,15 +31,16 @@ const App = () => {
     <NavigationContainer>
       <SesionProvider>
         <NotificationProvider>
-          <StatusBar
-            barStyle="dark-content"
-            backgroundColor="transparent"
-            translucent={true}
-            animated={true}
-            showHideTransition="fade"
-          />
-          <StackNavigator  />
-          {/* <Toast config={toastConfig} /> */}
+          <BlogProvider>
+            <StatusBar
+              barStyle="dark-content"
+              backgroundColor="transparent"
+              translucent={true}
+              animated={true}
+              showHideTransition="fade"
+              />
+            <StackNavigator  />
+          </BlogProvider>
         </NotificationProvider>
       </SesionProvider>
     </NavigationContainer>

@@ -5,7 +5,7 @@ import { SesionContext } from '../../context/Sesion/SesionContext'
 import { Avatar } from 'react-native-elements'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { _url } from '../../global/Variables'
+import { _primaryColor, _secondaryColor, _url } from '../../global/Variables'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const MenuDrawer = (props: any) => {
@@ -35,7 +35,8 @@ const MenuDrawer = (props: any) => {
 
     return (
         <View style={{ flex: 1 }}>
-            <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: '#8200d6' }}>
+            <DrawerContentScrollView {...props} 
+                contentContainerStyle={{ backgroundColor: `${_primaryColor}` }}>
                 
                 <View style={styles.containerHeader}>
                     <Avatar rounded size="large" source={foto} />

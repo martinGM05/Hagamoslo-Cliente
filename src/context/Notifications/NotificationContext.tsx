@@ -23,7 +23,7 @@ export interface NotificationContextProps {
 
 export const NotificationContext = createContext({} as NotificationContextProps);
 
-export const NotificationProvider = ({ children }: { children: JSX.Element[] }) => {
+export const NotificationProvider = ({ children }: { children: JSX.Element }) => {
 
     const [dataNotification, setDataNotification] = useState(authInitialState);
 
