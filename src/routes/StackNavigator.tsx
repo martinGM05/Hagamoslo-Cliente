@@ -51,9 +51,12 @@ export const StackNavigator = () => {
             <Stack.Screen name="Register" options={{title: "Register"}} component={Register} />
             <Stack.Screen name="PrincipalCliente" options={{title: "Principal"}} component={DrawerNavigator} />
             <Stack.Screen name="Trabajador" options={{title: "Trabajador"}} component={WorkerDrawer} />
-            <Stack.Screen name="Blog" options={{title: "Blog"}} component={Blog} />
+            <Stack.Screen name="Blog" options={{title: "Blog",headerStyle: {backgroundColor: '#dd60cd',},headerShown: true}} component={Blog} />
             
             <Stack.Screen name="BlogsScreen" options={{title: "Blogs"}} component={BlogsScreen} />
+
+
+            
             <Stack.Screen
                  name="Chat" 
                  options={{

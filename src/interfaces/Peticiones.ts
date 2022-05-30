@@ -16,3 +16,16 @@ export interface ITrabajador {
    valoracion:number
 
 }
+
+export interface IEnCurso{
+    id:number,
+    descripcion:string,
+    fechaInicio:string,
+    fechaFin:string,
+    costo:number,
+    trabajador:{
+        idTrabajador:number,
+        nombre:string,
+        tokenFCM:string
+    }
+}

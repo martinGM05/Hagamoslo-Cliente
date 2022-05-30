@@ -10,6 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ExploreService from '../screens/Servicios/ExploreService';
 import BlogsScreen from '../screens/Blog/BlogsScreen';
 import Services from '../screens/Servicios/Services';
+import Historial from '../screens/Historial/Historial';
 
 const Drawer = createDrawerNavigator();
 
@@ -61,7 +62,7 @@ const DrawerNavigator = () => (
       )
     }} />
     
-    <Drawer.Screen name="Historial" component={TrabajosEnCuso} options={{
+    <Drawer.Screen name="Historial" component={Historial} options={{
       drawerIcon: ({ color }) => (
         <Ionicons name="timer-outline" size={22} color={color} />
       )

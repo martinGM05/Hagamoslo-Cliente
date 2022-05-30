@@ -28,7 +28,7 @@ const Blog = ({ navigation, route }: Props) => {
         <View>
 
             <View style={styles.container}>
-                <BackButton navigation={navigation} />
+       
                 <View key={route.params?.id} style={styles.containerBlog}>
                     <View style={styles.containerInfo}>
                         <Text style={styles.textTitle}>{route.params?.encabezado}</Text>
