@@ -1,6 +1,6 @@
-import { Alert, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native';
+import { Alert, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View, Modal, Keyboard, Image } from 'react-native';
 import React, { useLayoutEffect, useCallback, useState, useContext, useEffect } from 'react'
-import { GiftedChat } from 'react-native-gifted-chat';
+import { Actions, Composer, GiftedChat, InputToolbar, Send } from 'react-native-gifted-chat';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import { SesionContext } from '../../context/Sesion/SesionContext';
@@ -40,6 +40,7 @@ const ChatScreen = ({ route, navigation }: Props) => {
         )
       })
     }
+
   }, [])
 
   useEffect(() => {
@@ -58,6 +59,7 @@ const ChatScreen = ({ route, navigation }: Props) => {
   }, [])
 
   const onSend = useCallback((messages = []) => {
+    Keyboard.dismiss();
     setMessages((previousMessages: any) => GiftedChat.append(previousMessages, messages));
 
     const { _id, createdAt, text, user } = messages[0];
@@ -69,6 +71,71 @@ const ChatScreen = ({ route, navigation }: Props) => {
     })
     // Alert.alert(''+idSala)
   }, [])
+
+  const renderInputToolbar = (props: any) => {
+    return <InputToolbar {...props} 
+      containerStyle={{ 
+        backgroundColor: '#fff',
+      }}
+    />
+  }
+
+  const renderComposer = (props: any) => {
+    return <Composer {...props}
+      textInputStyle={{
+        color: '#000',
+        padding: 5,
+      }}
+    />
+  }
+
+  const renderSend = (props: any) => {
+    return <Send {...props}
+     disabled={!props.text}
+     containerStyle={{
+       width: 44,
+        height: 44,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 4,
+     }}
+     >
+       <Ionicons name="send" size={25} color="#71177d" />
+     </Send>
+  }
+
+  const renderActions = (props: any) => (
+    <Actions
+      {...props}
+      containerStyle={{
+        width: 44,
+        height: 44,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginLeft: 4,
+        marginRight: 4,
+        marginBottom: 0,
+      }}
+      icon={() => (
+        <Image
+          style={{ width: 32, height: 32, borderRadius: 16 }}
+          source={{
+            uri: `${_url}/upload/Users/${Sesion.id}`,
+          }}
+        />
+      )}
+      options={{
+        'Choose From Library': () => {
+          console.log('Choose From Library');
+        },
+        Cancel: () => {
+          console.log('Cancel');
+        },
+      }}
+      optionTintColor="#222B45"
+    />
+  );
+
 
   return (
     <>
@@ -84,15 +151,11 @@ const ChatScreen = ({ route, navigation }: Props) => {
           backgroundColor: '#fff',
         }}
         locale="es"
-        textInputProps={{
-          placeholder: 'Escribe un mensaje...',
-          // placeholderTextColor: '#000',
-          styles: {
-            color: '#000',
-            fontSize: 16,
-          },
-        }}
         placeholder="Escribe un mensaje..."
+        renderInputToolbar={renderInputToolbar}
+        renderComposer={renderComposer}
+        renderSend={renderSend}
+        renderActions={renderActions}
       />
       <Modal
         animationType="fade"

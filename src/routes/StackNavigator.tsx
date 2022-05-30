@@ -20,7 +20,7 @@ export type RootStackParams = {
     Chat: {idSala: string, tokenReceptorFCM: string};
     Services: undefined;
     WorkerNavigation: undefined;
-    Notification: {id: string};
+    Notification: {id: string, name: string, presupuesto: string, tokenWorkerFCM: string};
 }
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -51,7 +51,13 @@ export const StackNavigator = () => {
 
     const goTo = (data: any) => {
         if (data.type === 'presupuesto') {
-            navigation.navigate('Notification', { id: data.id })
+            console.log(data)
+            navigation.navigate('Notification', { 
+                id: data.id, 
+                name: data.name, 
+                presupuesto: data.presupuesto,
+                tokenWorkerFCM: data.tokenWorkerNotification
+            })
         }
     }
 
@@ -96,7 +102,7 @@ export const StackNavigator = () => {
             <Stack.Screen 
                 name="Notification"
                 options={{
-                    title: "Notification",
+                    title: "Presupuesto",
                     headerStyle: {
                         backgroundColor: '#dd60cd',
                     },

@@ -36,38 +36,40 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
 
   const goChat = async (idSala: string, tokenReceptorFCM: string) => {
     // Alert.alert('idSala: ' + idSala)
-    navigation.navigate('Chat', { idSala: idSala, tokenReceptorFCM});
+    navigation.navigate('Chat', { idSala: idSala, tokenReceptorFCM });
   }
 
   return (
     <View style={styles.container}>
       {
         loading ? (
-          <FlatList
-            data={salas}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.containerSala}>
-                <View style={styles.containerImage}>
-                  <Image
-                    style={styles.image}
-                    source={{ uri: `${_url}/upload/Users/${item.Receptor.id}` }}
-                  />
+          <>
+            {
+              salas.map((sala: SalasModel) => (
+                <View style={styles.containerSala} key={sala.id}>
+                  <View style={styles.containerSala2}>
+                    <View style={styles.containerImage}>
+                      <Image
+                        style={styles.image}
+                        source={{ uri: `${_url}/upload/Users/${sala.Receptor.id}` }}
+                      />
+                    </View>
+                    <View style={styles.containerData}>
+                      <Text style={styles.textTitle}>{sala.Receptor.nombre}</Text>
+                      <Text style={styles.textsubTitle}>{sala.Receptor.descripcion}</Text>
+                    </View>
+                    <View style={styles.containerBtn}>
+                      <TouchableOpacity
+                        onPress={() => goChat(sala.idSala, sala.Receptor.tokenFCM)}
+                      >
+                        <Icon name="ios-chatbubbles-outline" size={30} color="#000" />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                 </View>
-                <View style={styles.containerData}>
-                  <Text style={styles.textTitle}>{item.Receptor.nombre}</Text>
-                  <Text style={styles.textsubTitle}>{item.Receptor.descripcion}</Text>
-                </View>
-                <View style={styles.containerBtn}>
-                  <TouchableOpacity
-                    onPress={() => goChat(item.idSala, item.Receptor.tokenFCM)}
-                  >
-                    <Icon name="ios-chatbubbles-outline" size={30} color="#000" />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            )}
-          />
+              ))
+            }
+          </>
         ) : (
           <LottieView
             source={require('../../animated/empty-box.json')}
@@ -98,23 +100,25 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   containerSala: {
-    width: '100%',
-    height: 80,
-    // borderWidth: 2,
-    padding: 10,
-
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
+      width: 10,
       height: 8,
     },
     shadowOpacity: 0.46,
-    shadowRadius: 11.14,
-    elevation: 6,
+    shadowRadius: 1.14,
+    elevation: 3,
+    marginBottom: 15,
+    // justifyContent: 'space-evenly',
 
+  },
+  containerSala2: {
+    borderWidth: 2,
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'space-evenly',
+    width: '100%',
+    height: 80,
+    padding: 20,
 
   },
   containerImage: {
@@ -143,9 +147,9 @@ const styles = StyleSheet.create({
   },
   containerData: {
     width: '60%',
-    height: '90%',
-    padding: 5,
-    margin: 10,
+    height: '100%',
+    // padding: 5,
+    // margin: 10,
     // backgroundColor: '#87cd4e',
   },
   textTitle: {
@@ -157,7 +161,4 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 14,
   },
-  containerTexts: {
-    marginLeft: 10,
-  }
 })

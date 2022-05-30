@@ -2,6 +2,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { createContext, useEffect, useReducer, useState } from 'react'
 import messaging from '@react-native-firebase/messaging';
 import notifee, { AndroidImportance, EventType } from '@notifee/react-native';
+import clienteAxios from '../../config/clientAxios';
+import { _url } from '../../global/Variables';
 
 interface DataNotification {
     id: string,
@@ -43,8 +45,6 @@ export const NotificationProvider = ({ children }: { children: JSX.Element[] }) 
         }
     }, []);
 
-   
-
     const goTo = (data: any) => {
         if (data.type === 'chat') {
             console.log('Esto es un chat')
@@ -68,7 +68,24 @@ export const NotificationProvider = ({ children }: { children: JSX.Element[] }) 
                     importance: AndroidImportance.HIGH,
                 },
             });
-        } else {
+        } else if(remoteMessage.data.type === 'contratado') {
+            const channelId = await notifee.createChannel({
+                id: 'important',
+                name: 'Important Notifications',
+                importance: AndroidImportance.HIGH,
+            });
+
+            await notifee.displayNotification({
+                title: remoteMessage.notification.title,
+                body: remoteMessage.notification.body,
+                data: remoteMessage.data,
+                android: {
+                    channelId,
+                    importance: AndroidImportance.HIGH,
+                    largeIcon: `${_url}/upload/Users/${remoteMessage.data.id}`
+                },
+            });
+        }else{
             const channelId = await notifee.createChannel({
                 id: 'default',
                 name: 'Default Channel',

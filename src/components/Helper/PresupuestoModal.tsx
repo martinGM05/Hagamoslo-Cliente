@@ -1,5 +1,5 @@
 import { Alert, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { Dispatch, SetStateAction, useState, useContext } from 'react'
+import React, { Dispatch, SetStateAction, useState, useContext, useEffect } from 'react'
 import LottieView from 'lottie-react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import useNotification from '../../hooks/useNotification';
@@ -42,15 +42,24 @@ const PresupuestoModal = ({ setModalVisible, modalVisible, tokenFCM }: Props) =>
         ], { cancelable: false })
     }
 
+    
+    /*
+       ~ Send notification to the user who is hiring
+       * The TokenFCM is the token User
+    */
+
     const handleSendPresupuesto = () => {
         let data: Notification = {
             title: 'Presupuesto',
             body: `${Sesion.nombre}, te envío un presupuesto`,
             tokenFCM: tokenFCM,
             type: 'presupuesto',
-            id: 1,
-            name: presupuesto.toString(),
+            id: Sesion.id,
+            name: Sesion.nombre,
+            presupuesto: presupuesto,
+            tokenWorkerNotification: Sesion.tokenFCM
         }
+        // console.log(data)
         sendNotification(data)
     }
 
