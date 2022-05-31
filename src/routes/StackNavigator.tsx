@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import BlogTrabajador from '../VistasTrabajador/screens/BlogTrabajador/BlogTrabajador';
 import { _primaryColor } from '../global/Variables';
 import { blogsTrabajador } from '../hooks/UseBlogTrabajador';
+import ContainerChatsScreen from '../screens/Chat/ContainerChatsScreen';
 
 export type RootStackParams = {
     Principal: undefined;
@@ -29,7 +30,9 @@ export type RootStackParams = {
     BlogsScreen:undefined,
     BlogsScreenTrabajador:undefined,
     Notification: {id: string, name: string, presupuesto: string, tokenWorkerFCM: string};
-    BlogTrabajador:{data: blogsTrabajador}
+    BlogTrabajador:{data: blogsTrabajador};
+    Chats:undefined;
+    EnCurso:undefined
 }
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -95,7 +98,8 @@ export const StackNavigator = () => {
             <Stack.Screen name="Register" options={{title: "Register"}} component={Register} />
             <Stack.Screen name="PrincipalCliente" options={{title: "Principal"}} component={DrawerNavigator} />
             <Stack.Screen name="Trabajador" options={{title: "Trabajador"}} component={WorkerDrawer} />
-            
+            <Stack.Screen name="Chats" options={{title: "Chats"}} component={ContainerChatsScreen} />
+         
             <Stack.Screen 
                 name="BlogTrabajador" 
                 options={{title: "Blog",headerStyle: {backgroundColor: `${_primaryColor}`,},headerShown: true}} component={BlogTrabajador} />

@@ -56,7 +56,13 @@ const Blog = ({ navigation, route }: Props) => {
                                     photo={`${_url}/upload/Users/${c.idTrabajador}`}
                                     idEmploye={c.idTrabajador}
                                     tokenFCM={c.user.tokenFCM}
+<<<<<<< HEAD
                                     navigation={navigation}/>
+=======
+                                    navegacion={navigation}
+                                    />
+                                    
+>>>>>>> e00d1d7d5e6d56df067da9696806929ae2341c0a
                             ))
                         }
                     </ScrollView>
