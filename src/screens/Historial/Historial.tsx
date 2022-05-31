@@ -24,7 +24,6 @@ const Historial = ({ navigation }: Props) => {
   const [trabajos, setTrabajos] = useState<WorkerModel[]>([]);
   const { historial, loading, GetHistorial } = UseHistorial()
 
-<<<<<<< HEAD
   navigation.setOptions({
     headerRight: () => (
       <TouchableOpacity
@@ -35,7 +34,7 @@ const Historial = ({ navigation }: Props) => {
       </TouchableOpacity>
     )
   })
-=======
+  
   const fecha=(letra:string)=>{
     let aux =''
     for (var i = 0; i<10;i++){      
@@ -43,7 +42,6 @@ const Historial = ({ navigation }: Props) => {
    }   
    return aux.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
   }
->>>>>>> e00d1d7d5e6d56df067da9696806929ae2341c0a
 
   return (
     <View style={styles.containerGlobal}>
@@ -136,16 +134,17 @@ const styles = StyleSheet.create({
   },
   nameWorkerDescription: {
     width: 220,
-    height: 40,
+    height: 50,
     borderTopRightRadius: 10,
     borderTopLeftRadius: 10,
     padding: 5,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
   },
   value: {
     width: 220,
-    height: 40,
+    height: 20,
+    marginTop: 5,
     backgroundColor: `${_secondaryColor}`,
     borderBottomRightRadius: 10,
     borderBottomLeftRadius: 10,

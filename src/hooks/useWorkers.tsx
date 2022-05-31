@@ -4,14 +4,8 @@ import { SesionContext } from '../context/Sesion/SesionContext';
 import firestore from '@react-native-firebase/firestore';
 import { Alert } from 'react-native';
 import useNotification, { Notification } from './useNotification';
-<<<<<<< HEAD
-import { useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParams } from '../routes/StackNavigator';
-=======
 import { RootStackParams } from '../routes/StackNavigator';
 import { StackNavigationProp } from '@react-navigation/stack';
->>>>>>> e00d1d7d5e6d56df067da9696806929ae2341c0a
 
 export interface Coordinates {
     latitude: number,
@@ -77,11 +71,7 @@ const useWorkers = () => {
             console.log(error)
         }
     }
-<<<<<<< HEAD
-    const createSala = async (idWorker: number, tokenFCM: string, navigation: any) => {
-=======
     const createSala = async (idWorker: number, tokenFCM: string, navegacion :StackNavigationProp<RootStackParams, 'Blog'>) => {
->>>>>>> e00d1d7d5e6d56df067da9696806929ae2341c0a
 
         let notification: Notification = {
             title: 'Nueva solicitud de servicio',
@@ -116,11 +106,7 @@ const useWorkers = () => {
         }
     }
 
-<<<<<<< HEAD
-    const alertChat = (idWorker: number, tokenFCM: string, navigation: any) => {
-=======
     const alertChat = (idWorker: number, tokenFCM: string, navegacion :StackNavigationProp<RootStackParams, 'Blog'>) => {
->>>>>>> e00d1d7d5e6d56df067da9696806929ae2341c0a
         Alert.alert(
             'Mensaje',
             '¿Desea enviar un mensaje a este trabajador?',
@@ -130,11 +116,7 @@ const useWorkers = () => {
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel',
                 },
-<<<<<<< HEAD
-                { text: 'OK', onPress: () =>  createSala(idWorker, tokenFCM, navigation) },
-=======
                 { text: 'OK', onPress: () =>  createSala(idWorker, tokenFCM, navegacion) },
->>>>>>> e00d1d7d5e6d56df067da9696806929ae2341c0a
             ],
             { cancelable: false },
         );

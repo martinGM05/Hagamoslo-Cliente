@@ -31,7 +31,7 @@ export type RootStackParams = {
     BlogsScreenTrabajador:undefined,
     Notification: {id: string, name: string, presupuesto: string, tokenWorkerFCM: string};
     BlogTrabajador:{data: blogsTrabajador};
-    Chats:undefined;
+    // Chats:undefined;
     EnCurso:undefined
 }
 
@@ -98,7 +98,7 @@ export const StackNavigator = () => {
             <Stack.Screen name="Register" options={{title: "Register"}} component={Register} />
             <Stack.Screen name="PrincipalCliente" options={{title: "Principal"}} component={DrawerNavigator} />
             <Stack.Screen name="Trabajador" options={{title: "Trabajador"}} component={WorkerDrawer} />
-            <Stack.Screen name="Chats" options={{title: "Chats"}} component={ContainerChatsScreen} />
+            {/* <Stack.Screen name="Chats" options={{title: "Chats"}} component={ContainerChatsScreen} /> */}
          
             <Stack.Screen 
                 name="BlogTrabajador" 

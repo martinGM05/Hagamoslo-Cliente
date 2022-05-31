@@ -22,7 +22,8 @@ const TrabajosEnCuso = ({ navigation }: Props) => {
   const { Sesion } = useContext(SesionContext)
   const [trabajos, setTrabajos] = useState<WorkerModel[]>([]);
   const { enCurso, loading, cambiarEstadoServicio, serviciosEnCurso } = UseEnCurso()
-
+  const [loadingPage, setLoadingPage] = useState(false)
+  
   navigation.setOptions({
     headerRight: () => (
       <TouchableOpacity
@@ -33,6 +34,11 @@ const TrabajosEnCuso = ({ navigation }: Props) => {
       </TouchableOpacity>
     )
   })
+
+  const submit = async (id: number) => {
+    await cambiarEstadoServicio(id)
+    setLoadingPage(true)
+  }
 
   return (
     <View style={styles.containerGlobal}>
@@ -57,7 +63,7 @@ const TrabajosEnCuso = ({ navigation }: Props) => {
                       </View>
                       <Pressable
                         style={styles.value}
-                        onPress={() => cambiarEstadoServicio(trabajos.id)}
+                        onPress={() => submit(trabajos.id)}
                       >
                         <Text style={{ fontWeight: 'bold', color: '#FFF' }}>Valorar</Text>
                         <FontAwesome5 name="star" size={15} color="yellow" />

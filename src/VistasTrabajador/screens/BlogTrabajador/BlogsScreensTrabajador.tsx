@@ -22,7 +22,7 @@ const BlogsScreensTrabajador = ({ navigation }: Props) => {
         style={{ marginRight: 20 }}
         onPress={() => getBlogsTrabajador()}
       >
-        <FontAwesome5 name="plus" size={25} color={'black'} />
+        <Ionicons name="md-refresh" size={30} color={'black'} />
       </TouchableOpacity>
     )
   })
