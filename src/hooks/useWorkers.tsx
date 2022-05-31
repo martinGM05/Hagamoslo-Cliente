@@ -106,7 +106,7 @@ const useWorkers = () => {
         }
     }
 
-    const alertChat = (idWorker: number, tokenFCM: string, navegacion :StackNavigationProp<RootStackParams, 'Blog'>) => {
+    const alertChat = (idWorker: number, tokenFCM: string, navegacion?:StackNavigationProp<RootStackParams, 'Blog'>) => {
         Alert.alert(
             'Mensaje',
             '¿Desea enviar un mensaje a este trabajador?',
@@ -116,7 +116,7 @@ const useWorkers = () => {
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel',
                 },
-                { text: 'OK', onPress: () =>  createSala(idWorker, tokenFCM, navegacion) },
+                { text: 'OK', onPress: () =>  createSala(idWorker, tokenFCM, navegacion!) },
             ],
             { cancelable: false },
         );

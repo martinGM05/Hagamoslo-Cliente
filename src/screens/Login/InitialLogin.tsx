@@ -23,6 +23,7 @@ const InitialLogin = ({ navigation }: Props) => {
   const [isLogged, setIsLogged] = useState(false);
   const { getUserData } = useContext(SesionContext);
 
+
   return (
     <LinearGradient
       colors={['#fff', `${_primaryColor}`]}

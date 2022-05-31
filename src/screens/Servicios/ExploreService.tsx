@@ -54,7 +54,7 @@ const ExploreService = () => {
                                             >
                                                 <View style={[styles.markerWrap]}>
                                                     <Image
-                                                        source={{ uri: `https://hagamoslo.azurewebsites.net/api/upload/Users/${worker.id}` }}
+                                                        source={{ uri: `${_url}/upload/Users/${worker.id}` }}
                                                         style={[styles.marker]}
                                                         resizeMode="cover"
                                                     />

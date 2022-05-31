@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import useTags from '../../hooks/useTags';
 import RegistrarUsuario from '../../hooks/RegistrarUsuario';
+import { _primaryColor, _secondaryColor } from '../../global/Variables';
 interface Props {
     navigation: any;
 }
@@ -399,7 +400,7 @@ const styles = StyleSheet.create({
     },
     icon: {
         fontSize: 30,
-        color: '#095397',
+        color: `${_primaryColor}`,
     },
     contenedorError: {
         flexDirection: 'row',
@@ -414,7 +415,7 @@ const styles = StyleSheet.create({
     btnSubmit: {
         width: '100%',
         height: 50,
-        backgroundColor: '#095397',
+        backgroundColor: `${_secondaryColor}`,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 10,

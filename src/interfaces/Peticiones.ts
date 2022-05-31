@@ -38,5 +38,6 @@ export interface IEnCursoHistorialTrabajador{
     costo:number,
     usuario:{
         idUsuario:number,
+        nombre: string
     }
 }

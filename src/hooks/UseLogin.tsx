@@ -8,6 +8,7 @@ import clienteAxios from '../config/clientAxios'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 import { DrawerSidebar } from 'react-navigation-drawer';
 import messaging from '@react-native-firebase/messaging';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface UserToken {
   id: number;
@@ -28,6 +29,23 @@ const UseLogin = () => {
     getFCMToken();
   }, [])
 
+  const getUserStorage = async () => {
+    try {
+      const token = await AsyncStorage.getItem('user');
+      if (token) {
+        const user: UserModel = jwtDecode(token);
+        let useData: UserModel = { ...user, token: user.token}
+        console.log(useData);
+
+        // let token: string = result.data.token;
+        // let decoded: UserToken = jwtDecode(token);
+        // let userData: UserModel = { ...decoded, token }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const getFCMToken = async () => {
     messaging()
       .getToken()
@@ -36,7 +54,7 @@ const UseLogin = () => {
         console.log('Token =>  ', token);
       });
   }
-  
+
   const loginWithEmail = async (email: string, password: string, navigation: any, rol: number) => {
 
 

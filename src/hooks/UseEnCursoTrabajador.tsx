@@ -16,11 +16,12 @@ const UseEnCursoTrabajador = () => {
 
     const serviciosEnCursoTrabajador = async () => {
         try {
+            setLoading(false)
             const result = await clienteAxios.get('/hired/worker/' + Sesion.id + '/true')
             //console.log(result.data)
             if (result.data) {
-                const curso = result.data as IEnCursoHistorialTrabajador
-                setEnCursoTrabajador(result.data)
+                const curso = result.data as IEnCursoHistorialTrabajador[]
+                setEnCursoTrabajador(curso)
                 setLoading(true)
             }
 

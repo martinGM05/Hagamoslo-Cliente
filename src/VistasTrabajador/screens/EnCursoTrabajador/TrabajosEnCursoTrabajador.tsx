@@ -49,17 +49,23 @@ const TrabajosEnCursoTrabajador = ({ navigation }: Props) => {
             {
               enCursoTrabajador.map(cliente => (
                 <View key={cliente.id} style={styles.card}>
-                  <View style={styles.imageWorker}>
-                    <Image
-                      source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }}
-                      style={styles.image}
-                    />
+                  <View style={{ flexDirection: 'column' }}>
+                    <Text style={styles.textName}>{cliente.usuario.nombre}</Text>
+                    <View style={styles.imageWorker}>
+                      <Image
+                        source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }}
+                        style={styles.image}
+                      />
+                    </View>
                   </View>
                   <View style={styles.infoWorker}>
                     <View style={styles.nameWorkerDescription}>
                       <Text style={{ color: '#000', fontWeight: 'bold' }}>{cliente.descripcion}</Text>
                     </View>
                   </View>
+                  <TouchableOpacity>
+                    <Ionicons name="ios-arrow-forward" size={30} color={'#000'} />
+                  </TouchableOpacity>
                 </View>
               ))
             }
@@ -102,7 +108,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     justifyContent: 'flex-start',
     flexDirection: 'row',
-    alignItems: 'center',
   },
   imageWorker: {
     width: 80,
@@ -119,6 +124,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginLeft: 10,
     borderRadius: 10,
+    alignSelf: 'center',
   },
   nameWorkerDescription: {
     backgroundColor: `${_secondaryColor}`,
@@ -140,11 +146,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 50,
+    // marginTop: 20,
   },
   textName: {
     fontSize: 18,
     color: '#000',
     fontWeight: 'bold',
+    marginLeft: 20,
   },
   button: {
     flexDirection: 'row',

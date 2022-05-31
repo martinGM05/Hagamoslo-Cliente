@@ -29,7 +29,7 @@ const UseEnCurso = () => {
     }
 
     const cambiarEstadoServicio = async (id: number) => {
-        Alert.alert('Advertencia', '¿Esta completamente seguro de concluir este contrato?', [
+        Alert.alert('Advertencia', '¿Está completamente seguro de concluir este contrato?', [
             {
                 text: 'No',
                 style: 'cancel'

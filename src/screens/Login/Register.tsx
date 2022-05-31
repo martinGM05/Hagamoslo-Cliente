@@ -6,6 +6,7 @@ import FormRegister from '../../components/Login/FormRegister';
 import { ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import BackButton from '../../components/Buttons/BackButton';
+import { _primaryColor, _secondaryColor } from '../../global/Variables';
 
 type Props = StackScreenProps<RootStackParams, 'Register'>;
 
@@ -13,7 +14,7 @@ const Register = ({ navigation }: Props) => {
 
     return (
         <LinearGradient
-            colors={['#00C9FF', '#fff']}
+            colors={[`${_primaryColor}`, '#fff']}
             start={{ x: 2, y: 0 }}
             end={{ x: 1, y: 1 }}
             locations={[0.1, 0.9]}
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     },
     textRegistro: {
         fontSize: 30,
-        color: '#095397',
+        color: `${_secondaryColor}`,
         fontWeight: 'bold'
     },
 
