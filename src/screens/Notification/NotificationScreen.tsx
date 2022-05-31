@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../routes/StackNavigator';
@@ -23,31 +23,47 @@ const NotificationScreen = ({ navigation, route }: Props) => {
   const [dataServicio, setDataServicio] = useState<ServicioContratar>()
   const { Sesion } = useContext(SesionContext)
   const { sendNotification } = useNotification()
+  const [textDescription, setTextDescription] = useState('')
 
   const handlePress = () => {
 
-    let contratar: ServicioContratar = {
-      idUsuario: Sesion.id,
-      idTrabajador: Number(id),
-      descripcion: "Tuberias",
-      estado: true,
-      costo: Number(presupuesto)
+    if(textDescription.length > 0){
+      let contratar: ServicioContratar = {
+        idUsuario: Sesion.id,
+        idTrabajador: Number(id),
+        descripcion: textDescription,
+        estado: true,
+        costo: Number(presupuesto)
+      }
+  
+  
+      Alert.alert(
+        'Contratar el servicio',
+        '¿Está seguro que desea contratar el servicio?',
+        [
+          {
+            text: 'Cancelar',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          { text: 'OK', onPress: () => handleHired(contratar) },
+        ],
+        { cancelable: false },
+      );
+    }else{
+      Alert.alert(
+        'Contratar el servicio',
+        'Por favor ingrese una descripción',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+        ],
+        { cancelable: false },
+      );
     }
-
-
-    Alert.alert(
-      'Contratar el servicio',
-      '¿Está seguro que desea contratar el servicio?',
-      [
-        {
-          text: 'Cancelar',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
-        },
-        { text: 'OK', onPress: () => handleHired(contratar) },
-      ],
-      { cancelable: false },
-    );
   }
 
   const handleHired = async (dataService: ServicioContratar) => {
@@ -67,7 +83,11 @@ const NotificationScreen = ({ navigation, route }: Props) => {
       type: 'contratado',
     }
     // console.log(dataSend);
-    sendNotification(dataSend)
+    await sendNotification(dataSend)
+
+    navigation.navigate('PrincipalCliente')
+
+
   try {
     console.log(result)
   } catch (error) {
@@ -84,6 +104,16 @@ return (
       <Text style={styles.text2}>{name}</Text>
       <Text style={styles.text1}>Total: </Text>
       <Text style={styles.text2}>$ {presupuesto}</Text>
+      <View style={{ marginTop: 30 }}>
+        <Text style={styles.textTitleDescription}>Inserte la descripción del problema</Text>
+        <TextInput 
+          style={styles.textInput} 
+          placeholder="Descripción" 
+          numberOfLines={2}
+          multiline={true}
+          onChangeText={(text) => setTextDescription(text)}
+        />
+      </View>
     </View>
     <TouchableOpacity
       style={styles.button}
@@ -145,4 +175,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
   },
+  textTitleDescription: { 
+    color: '#000', 
+    fontWeight: 'bold', 
+    fontSize: 18, 
+    borderBottomWidth: 2 
+  },
+  textInput: {
+    borderWidth: 1,
+    borderRadius: 5,
+    marginTop: 20,
+    padding: 10,
+    color: '#000',
+    fontSize: 15,
+  }
 })

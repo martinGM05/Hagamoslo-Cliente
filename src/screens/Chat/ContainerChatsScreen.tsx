@@ -1,4 +1,4 @@
-import { Alert, Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore';
 import { SesionContext } from '../../context/Sesion/SesionContext';
@@ -40,7 +40,7 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {
         loading ? (
           <>
@@ -78,7 +78,7 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
           />
         )
       }
-    </View>
+    </ScrollView>
   )
 }
 

@@ -42,13 +42,14 @@ const BlogTrabajador = ({ navigation, route }: Props) => {
                         </View>
                     </View>
                     <View style={{ alignSelf: 'center', marginLeft: -60 }}>
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row', marginLeft: -20 }}>
                             <Text style={[styles.textTitle, { fontWeight: 'bold' }]}>Titulo: </Text>
                             <Text style={[styles.textTitle, { borderBottomWidth: 1 }]} numberOfLines={1}>{titulo}</Text>
                         </View>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={[styles.textTitle, { fontWeight: 'bold' }]}>Descripción: </Text>
-                            <Text style={[styles.textTitle, { borderBottomWidth: 1 }]}>{descripcion}</Text>
+                        <View style={{ flexDirection: 'row', marginLeft: -20, width: 260}}>
+                            <Text style={[styles.textTitle, { borderBottomWidth: 1 }]}
+                                numberOfLines={2}
+                            >{descripcion}</Text>
                         </View>
                     </View>
                 </View>

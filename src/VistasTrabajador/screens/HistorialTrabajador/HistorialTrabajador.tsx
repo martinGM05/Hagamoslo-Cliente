@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, Alert } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -23,10 +23,25 @@ const HistorialTrabajador = ({ navigation }: Props) => {
 
 
   const { Sesion } = useContext(SesionContext)
-  const { historialTrabajador, loading } = UseHistorialTrabajador()
+  const { historialTrabajador, loading, GetHistorialTrabajador } = UseHistorialTrabajador()
+
+  const reload = () => {
+    GetHistorialTrabajador()
+  }
+
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity
+        style={{ marginRight: 20 }}
+        onPress={() => reload()}
+      >
+        <Ionicons name="refresh" size={30} color={'black'}/>
+      </TouchableOpacity>
+    )
+  })
 
   return (
-    <View style={styles.containerGlobal}>
+    <ScrollView style={styles.containerGlobal}>
       {
         loading ? (
           <View style={styles.containerCards}>
@@ -58,7 +73,7 @@ const HistorialTrabajador = ({ navigation }: Props) => {
           />
         )
       }
-    </View>
+    </ScrollView>
   )
 }
 

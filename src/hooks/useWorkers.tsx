@@ -4,6 +4,9 @@ import { SesionContext } from '../context/Sesion/SesionContext';
 import firestore from '@react-native-firebase/firestore';
 import { Alert } from 'react-native';
 import useNotification, { Notification } from './useNotification';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParams } from '../routes/StackNavigator';
 
 export interface Coordinates {
     latitude: number,
@@ -35,7 +38,7 @@ const useWorkers = () => {
     const [workersState, setWorkers] = useState<Workers[]>([])
     const [filtro, setFiltro] = useState<Workers[]>([])
     const { sendNotification } = useNotification()
-    
+
     let aux: Workers[] = []
 
     useEffect(() => {
@@ -69,7 +72,7 @@ const useWorkers = () => {
             console.log(error)
         }
     }
-    const createSala = async (idWorker: number, tokenFCM: string) => {
+    const createSala = async (idWorker: number, tokenFCM: string, navigation: any) => {
 
         let notification: Notification = {
             title: 'Nueva solicitud de servicio',
@@ -103,7 +106,7 @@ const useWorkers = () => {
         }
     }
 
-    const alertChat = (idWorker: number, tokenFCM: string) => {
+    const alertChat = (idWorker: number, tokenFCM: string, navigation: any) => {
         Alert.alert(
             'Mensaje',
             '¿Desea enviar un mensaje a este trabajador?',
@@ -113,7 +116,7 @@ const useWorkers = () => {
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel',
                 },
-                { text: 'OK', onPress: () =>  createSala(idWorker, tokenFCM) },
+                { text: 'OK', onPress: () =>  createSala(idWorker, tokenFCM, navigation) },
             ],
             { cancelable: false },
         );

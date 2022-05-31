@@ -7,7 +7,7 @@ import { SesionContext } from '../../context/Sesion/SesionContext';
 
 
 
-const Comments = ({ name, comment, photo, idEmploye, tokenFCM }: any) => {
+const Comments = ({ name, comment, photo, idEmploye, tokenFCM, navigation }: any) => {
     const { alertChat } = useWorkers()
     const { Sesion } = useContext(SesionContext);
     return (
@@ -35,7 +35,7 @@ const Comments = ({ name, comment, photo, idEmploye, tokenFCM }: any) => {
                     Sesion.idRol !== 2 ?
                         <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                             <Text style={{ color: '#000' }}>Contactar</Text>
-                            <Pressable onPress={() => alertChat(idEmploye, tokenFCM)}>
+                            <Pressable onPress={() => alertChat(idEmploye, tokenFCM, navigation)}>
                                 <FontAwesome5 name="sign-language" size={30} color="#ff762d" />
                             </Pressable>
                         </View> : null

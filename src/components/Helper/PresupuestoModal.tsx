@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import useNotification from '../../hooks/useNotification';
 import { Notification } from '../../hooks/useNotification';
 import { SesionContext } from '../../context/Sesion/SesionContext';
+import { useNavigation } from '@react-navigation/native';
 
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const PresupuestoModal = ({ setModalVisible, modalVisible, tokenFCM }: Props) => {
+
 
     const [presupuesto, setPresupuesto] = useState(0);
     const { sendNotification } = useNotification()
@@ -61,6 +63,7 @@ const PresupuestoModal = ({ setModalVisible, modalVisible, tokenFCM }: Props) =>
         }
         // console.log(data)
         sendNotification(data)
+        setModalVisible(false)
     }
 
     return (

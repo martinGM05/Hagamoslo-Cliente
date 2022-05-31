@@ -24,6 +24,7 @@ const UseHistorialTrabajador = () => {
 
 
     return {
+        GetHistorialTrabajador,
         historialTrabajador,
         loading
     }

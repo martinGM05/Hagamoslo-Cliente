@@ -8,6 +8,7 @@ const UseEnCurso = () => {
     const { Sesion } = useContext(SesionContext)
     const [enCurso, setEnCurso] = useState<IEnCurso[]>([])
     const [loading, setLoading] = useState(false);
+    
     useEffect(() => {
         serviciosEnCurso()
     }, [])

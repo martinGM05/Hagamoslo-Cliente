@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, TouchableOpacity } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -22,8 +22,18 @@ const Historial = ({ navigation }: Props) => {
 
   const { Sesion } = useContext(SesionContext)
   const [trabajos, setTrabajos] = useState<WorkerModel[]>([]);
-  const { historial, loading } = UseHistorial()
+  const { historial, loading, GetHistorial } = UseHistorial()
 
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity
+        style={{ marginRight: 20 }}
+        onPress={() => GetHistorial()}
+      >
+        <FontAwesome5 name="redo" size={25} color={'black'} />
+      </TouchableOpacity>
+    )
+  })
 
   return (
     <View style={styles.containerGlobal}>

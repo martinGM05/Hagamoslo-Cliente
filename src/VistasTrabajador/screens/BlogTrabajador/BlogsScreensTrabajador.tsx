@@ -1,4 +1,4 @@
-import { Alert, Dimensions, Pressable, StyleSheet, Text, View, Modal, Image } from 'react-native'
+import { Alert, Dimensions, Pressable, StyleSheet, Text, View, Modal, Image, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -14,11 +14,22 @@ const BlogsScreensTrabajador = ({ navigation }: Props) => {
 
 
   const [modalVisible, setModalVisible] = useState(false);
-  const { blogs } = UseBlogTrabajador()
+  const { blogs, getBlogsTrabajador } = UseBlogTrabajador()
+
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity 
+        style={{ marginRight: 20 }}
+        onPress={() => getBlogsTrabajador()}
+      >
+        <FontAwesome5 name="plus" size={25} color={'black'} />
+      </TouchableOpacity>
+    )
+  })
 
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {
         blogs.map((blog, index) => (
           <View key={index} style={styles.containerBlog}>
@@ -28,7 +39,7 @@ const BlogsScreensTrabajador = ({ navigation }: Props) => {
                 <View style={{ borderWidth: 1.5, borderRadius: 50 }}>
                   <Image style={styles.avatar} source={{ uri: `${_url}/upload/Users/${blog.user.id}` }} />
                 </View>
-                <View style={{ marginLeft: 20 }}>
+                <View style={{ marginLeft: 20, width: 250, height: 43}}>
                   <Text style={styles.textTitle}>{blog.titulo}</Text>
                   <Text style={styles.textDescription}>{blog.descripcion}</Text>
                 </View>
@@ -44,7 +55,7 @@ const BlogsScreensTrabajador = ({ navigation }: Props) => {
           </View>
         ))
       }
-    </View>
+    </ScrollView>
   )
 }
 
@@ -90,7 +101,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-
+    marginBottom: 10
   },
   containerInfo: {
     flex: 1,
@@ -103,6 +114,7 @@ const styles = StyleSheet.create({
   textDescription: {
     fontSize: 15,
     color: '#000',
+    width: '100%',
   },
   nombreUser: {
     fontSize: 18,

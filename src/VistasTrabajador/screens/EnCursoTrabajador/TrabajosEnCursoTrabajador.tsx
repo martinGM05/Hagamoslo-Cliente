@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react'
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 //import CardTrades from '../../components/Principal/CardTrades';
@@ -18,13 +18,27 @@ import UseEnCursoTrabajador from '../../../hooks/UseEnCursoTrabajador';
 type Props = StackScreenProps<RootStackParams, 'PrincipalCliente'>;
 
 const TrabajosEnCursoTrabajador = ({ navigation }: Props) => {
-  
+
   //const [loading, setLoading] = useState(false);
   const { Sesion } = useContext(SesionContext)
   const [trabajos, setTrabajos] = useState<WorkerModel[]>([]);
 
-  const {loading,enCursoTrabajador}=UseEnCursoTrabajador()
- 
+  const { loading, enCursoTrabajador, serviciosEnCursoTrabajador } = UseEnCursoTrabajador()
+
+  const reload = () => {
+    serviciosEnCursoTrabajador()
+  }
+
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity
+        style={{ marginRight: 20 }}
+        onPress={() => reload()}
+      >
+        <Ionicons name="refresh" size={30} color={'black'} />
+      </TouchableOpacity>
+    )
+  })
 
 
   return (
@@ -35,18 +49,18 @@ const TrabajosEnCursoTrabajador = ({ navigation }: Props) => {
             {
               enCursoTrabajador.map(cliente => (
                 <View key={cliente.id} style={styles.card}>
-                    <View style={styles.imageWorker}>
-                      <Image
-                        source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }}
-                        style={styles.image}
-                      />
-                    </View>
-                    <View style={styles.infoWorker}>
-                      <View style={styles.nameWorkerDescription}>
-                        <Text style={{ color: '#000', fontWeight: 'bold' }}>{cliente.descripcion}</Text>
-                      </View>
+                  <View style={styles.imageWorker}>
+                    <Image
+                      source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }}
+                      style={styles.image}
+                    />
+                  </View>
+                  <View style={styles.infoWorker}>
+                    <View style={styles.nameWorkerDescription}>
+                      <Text style={{ color: '#000', fontWeight: 'bold' }}>{cliente.descripcion}</Text>
                     </View>
                   </View>
+                </View>
               ))
             }
           </View>

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Dimensions, Image, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, Pressable, TouchableOpacity } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react'
 import { ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
@@ -21,8 +21,18 @@ const TrabajosEnCuso = ({ navigation }: Props) => {
 
   const { Sesion } = useContext(SesionContext)
   const [trabajos, setTrabajos] = useState<WorkerModel[]>([]);
-  const { enCurso, loading, cambiarEstadoServicio } = UseEnCurso()
+  const { enCurso, loading, cambiarEstadoServicio, serviciosEnCurso } = UseEnCurso()
 
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity
+        style={{ marginRight: 20 }}
+        onPress={() => serviciosEnCurso()}
+      >
+        <FontAwesome5 name="redo" size={25} color={'black'} />
+      </TouchableOpacity>
+    )
+  })
 
   return (
     <View style={styles.containerGlobal}>

@@ -17,12 +17,11 @@ type Props = StackScreenProps<RootStackParams, 'Blog'>;
 const Blog = ({ navigation, route }: Props) => {
 
     const { getComentarios, comentarios } = useBlog();
-
     const { Sesion } = useContext(SesionContext);
+
     useEffect(() => {
         getComentarios(route.params?.id)
-        console.log(comentarios)
-
+        // console.log(comentarios)
     }, [])
 
     return (
@@ -56,7 +55,8 @@ const Blog = ({ navigation, route }: Props) => {
                                     comment={c.comentario}
                                     photo={`${_url}/upload/Users/${c.idTrabajador}`}
                                     idEmploye={c.idTrabajador}
-                                    tokenFCM={c.user.tokenFCM}/>
+                                    tokenFCM={c.user.tokenFCM}
+                                    navigation={navigation}/>
                             ))
                         }
                     </ScrollView>

@@ -31,8 +31,8 @@ const ExploreService = () => {
                                 <MapView
                                     ref={_map}
                                     initialRegion={{
-                                        latitude: 19.861588,
-                                        longitude: -97.360819,
+                                        latitude: coordinates.latitude,
+                                        longitude: coordinates.longitude,
                                         latitudeDelta: 0.0922,
                                         longitudeDelta: 0.0421,
                                     }}

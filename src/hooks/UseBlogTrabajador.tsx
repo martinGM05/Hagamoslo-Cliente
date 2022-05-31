@@ -24,7 +24,7 @@ const UseBlogTrabajador = () => {
     useEffect(() => {
         getBlogsTrabajador()
     }, [])
-    
+
     const { Sesion } = useContext(SesionContext);
     const [blogs, setBlogs] = useState<blogsTrabajador[]>([])
     const [comentariosTrabajador, setComentariosTrabajador] = useState<ComentarioBlog[]>([])
@@ -46,7 +46,7 @@ const UseBlogTrabajador = () => {
 
     const CrearComentario = async (comentario: string, idBlog?: number) => {
 
-        if(comentario.length > 0){
+        if (comentario.length > 0) {
             const response = await clienteAxios.post('/comentarioBlog', {
                 comentario: comentario,
                 idBlog: idBlog,
@@ -56,7 +56,7 @@ const UseBlogTrabajador = () => {
                 Alert.alert('Mensaje', 'Comentario enviado')
                 getComentariosTrabajador(idBlog)
             }
-        }else{
+        } else {
             Alert.alert('Mensaje', 'Comentario vacio')
         }
 
