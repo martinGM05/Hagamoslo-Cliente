@@ -4,6 +4,8 @@ import { SesionContext } from '../context/Sesion/SesionContext';
 import firestore from '@react-native-firebase/firestore';
 import { Alert } from 'react-native';
 import useNotification, { Notification } from './useNotification';
+import { RootStackParams } from '../routes/StackNavigator';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 export interface Coordinates {
     latitude: number,
@@ -69,7 +71,7 @@ const useWorkers = () => {
             console.log(error)
         }
     }
-    const createSala = async (idWorker: number, tokenFCM: string) => {
+    const createSala = async (idWorker: number, tokenFCM: string, navegacion :StackNavigationProp<RootStackParams, 'Blog'>) => {
 
         let notification: Notification = {
             title: 'Nueva solicitud de servicio',
@@ -98,12 +100,13 @@ const useWorkers = () => {
         if(response.status === 200){
             console.log(response.data)
             Alert.alert('Sala creada', 'Puedes ver el chat en la sección de salas')
+            navegacion.navigate('PrincipalCliente')
         }else{
             Alert.alert('Error', 'No se pudo crear la sala')
         }
     }
 
-    const alertChat = (idWorker: number, tokenFCM: string) => {
+    const alertChat = (idWorker: number, tokenFCM: string, navegacion :StackNavigationProp<RootStackParams, 'Blog'>) => {
         Alert.alert(
             'Mensaje',
             '¿Desea enviar un mensaje a este trabajador?',
@@ -113,7 +116,7 @@ const useWorkers = () => {
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel',
                 },
-                { text: 'OK', onPress: () =>  createSala(idWorker, tokenFCM) },
+                { text: 'OK', onPress: () =>  createSala(idWorker, tokenFCM, navegacion) },
             ],
             { cancelable: false },
         );
