@@ -38,6 +38,8 @@ export interface IEnCursoHistorialTrabajador{
     costo:number,
     usuario:{
         idUsuario:number,
-        nombre: string
+        nombre: string,
+        latitud: number,
+        longitud: number,
     }
 }

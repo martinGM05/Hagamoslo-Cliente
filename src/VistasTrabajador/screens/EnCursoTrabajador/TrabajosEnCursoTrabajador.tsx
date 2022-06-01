@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image, Alert, Pressable, TouchableOpacity } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react'
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 //import CardTrades from '../../components/Principal/CardTrades';
@@ -40,6 +40,13 @@ const TrabajosEnCursoTrabajador = ({ navigation }: Props) => {
     )
   })
 
+  const goMap = (lat: number, lon: number) => {
+    navigation.navigate('MapaTrabajador', {
+      latCliente: lat,
+      lonCliente: lon
+    })
+  }
+
 
   return (
     <View style={styles.containerGlobal}>
@@ -63,7 +70,10 @@ const TrabajosEnCursoTrabajador = ({ navigation }: Props) => {
                       <Text style={{ color: '#000', fontWeight: 'bold' }}>{cliente.descripcion}</Text>
                     </View>
                   </View>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.btnIcon}
+                    onPress={() => goMap(cliente.usuario.latitud, cliente.usuario.longitud)}
+                  >
                     <Ionicons name="ios-arrow-forward" size={30} color={'#000'} />
                   </TouchableOpacity>
                 </View>
@@ -159,5 +169,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 5,
+  },
+  btnIcon: {
+    marginLeft: -30,
+    marginTop: -10,
   }
 })

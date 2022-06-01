@@ -15,6 +15,7 @@ import BlogTrabajador from '../VistasTrabajador/screens/BlogTrabajador/BlogTraba
 import { _primaryColor } from '../global/Variables';
 import { blogsTrabajador } from '../hooks/UseBlogTrabajador';
 import ContainerChatsScreen from '../screens/Chat/ContainerChatsScreen';
+import MapsTrabajador from '../VistasTrabajador/screens/Mapa/MapsTrabajador';
 
 export type RootStackParams = {
     Principal: undefined;
@@ -33,6 +34,7 @@ export type RootStackParams = {
     BlogTrabajador:{data: blogsTrabajador};
     // Chats:undefined;
     EnCurso:undefined
+    MapaTrabajador: {latCliente: number, lonCliente: number}
 }
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -99,7 +101,18 @@ export const StackNavigator = () => {
             <Stack.Screen name="PrincipalCliente" options={{title: "Principal"}} component={DrawerNavigator} />
             <Stack.Screen name="Trabajador" options={{title: "Trabajador"}} component={WorkerDrawer} />
             {/* <Stack.Screen name="Chats" options={{title: "Chats"}} component={ContainerChatsScreen} /> */}
-         
+            
+            <Stack.Screen 
+                name="MapaTrabajador" 
+                options={{
+                    title: "Distancia",
+                    headerStyle: {
+                        backgroundColor: `${_primaryColor}`,
+                    },
+                    headerShown: true
+                }} 
+                component={MapsTrabajador} />
+
             <Stack.Screen 
                 name="BlogTrabajador" 
                 options={{title: "Blog",headerStyle: {backgroundColor: `${_primaryColor}`,},headerShown: true}} component={BlogTrabajador} />

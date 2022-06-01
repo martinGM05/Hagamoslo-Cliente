@@ -29,17 +29,22 @@ const UseLogin = () => {
     getFCMToken();
   }, [])
 
-  const getUserStorage = async () => {
+  const getUserStorage = async (navigation: any) => {
     try {
       const token = await AsyncStorage.getItem('user');
       if (token) {
         const user: UserModel = jwtDecode(token);
-        let useData: UserModel = { ...user, token: user.token}
-        console.log(useData);
-
-        // let token: string = result.data.token;
-        // let decoded: UserToken = jwtDecode(token);
-        // let userData: UserModel = { ...decoded, token }
+        let useData: UserModel = { ...user, token: token}
+        // console.log(token)
+        // console.log(useData);
+        getUserData(useData)
+        if (useData.idRol === 1) {
+          navigation.navigate('PrincipalCliente');
+        } else if (useData.idRol === 2) {
+          navigation.navigate('Trabajador');
+        } else if (useData.idRol === 3) {
+          navigation.navigate('Trabajador');
+        }
       }
     } catch (error) {
       console.log(error);
@@ -51,7 +56,7 @@ const UseLogin = () => {
       .getToken()
       .then(token => {
         setTokenFCM(token);
-        console.log('Token =>  ', token);
+        // console.log('Token =>  ', token);
       });
   }
 
@@ -107,7 +112,8 @@ const UseLogin = () => {
   }
 
   return {
-    loginWithEmail
+    loginWithEmail,
+    getUserStorage
   }
 }
 

@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LottieView from 'lottie-react-native';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
-import { UserToken } from '../../hooks/UseLogin';
+import UseLogin, { UserToken } from '../../hooks/UseLogin';
 import { UserModel } from '../../interfaces/UserModel';
 import { SesionContext } from '../../context/Sesion/SesionContext';
 import messaging from '@react-native-firebase/messaging';
@@ -22,6 +22,11 @@ const InitialLogin = ({ navigation }: Props) => {
 
   const [isLogged, setIsLogged] = useState(false);
   const { getUserData } = useContext(SesionContext);
+  const { getUserStorage } = UseLogin();
+
+  useEffect(() => {
+    getUserStorage(navigation);
+  }, [])
 
 
   return (

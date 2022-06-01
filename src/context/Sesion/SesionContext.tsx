@@ -49,6 +49,7 @@ export const SesionProvider = ({ children }: {children: JSX.Element}) => {
     const getUserData = async (User: UserModel) => {
 
         try {
+            console.log(User);
             await AsyncStorage.setItem('user', JSON.stringify(User.token));
             dispatch({ type: 'GET_USER', payload: User });
         } catch (error) {
@@ -57,10 +58,15 @@ export const SesionProvider = ({ children }: {children: JSX.Element}) => {
     }
 
     const logout = async () => {
-        dispatch({
-            type: 'LOGOUT',
-            payload: authInitialState
-        })
+        try {
+            await AsyncStorage.removeItem('user');
+            dispatch({
+                type: 'LOGOUT',
+                payload: authInitialState
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
 
   return (

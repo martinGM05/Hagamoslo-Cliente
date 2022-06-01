@@ -14,32 +14,33 @@ import { SesionContext } from '../../../context/Sesion/SesionContext';
 import MultiSelect from './MultiSelect';
 import ActualizarPerfilTrabajador from '../../../hooks/ActualizarPerfilTrabajador';
 import useTags from '../../../hooks/useTags';
+import { _primaryColor, _secondaryColor } from '../../../global/Variables';
 
 const FormPerfil = () => {
     const [isEnabled, setIsEnabled] = useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     const { Sesion } = useContext(SesionContext)
-   // const [modalVisible, setModalVisible] = useState(false);
-    const {ActualizarTrabajador, modalVisible,setModalVisible}=ActualizarPerfilTrabajador();
-    const {coordinates}=useTags()
+    // const [modalVisible, setModalVisible] = useState(false);
+    const { ActualizarTrabajador, modalVisible, setModalVisible } = ActualizarPerfilTrabajador();
+    const { coordinates } = useTags()
     const submit = async (values: any) => {
-        if(isEnabled){
-            ActualizarTrabajador(values, true, coordinates.latitude,coordinates.longitude)
-             
-         }else{
-             Alert.alert('Mensaje', '¿Esta seguro de no guardar su ubicación?, Si activa la ubicación es mas proble que lo contacten por cercania',[
-                 {
-                     text: 'Si',
-                     onPress:()=>{
-                         ActualizarTrabajador(values, true)
-                     }
-                 },{
-                     text: 'No',
-                     style:'cancel'
-                 }
-             ])
-         }
-     }
+        if (isEnabled) {
+            ActualizarTrabajador(values, true, coordinates.latitude, coordinates.longitude)
+
+        } else {
+            Alert.alert('Mensaje', '¿Esta seguro de no guardar su ubicación?, Si activa la ubicación es mas proble que lo contacten por cercania', [
+                {
+                    text: 'Si',
+                    onPress: () => {
+                        ActualizarTrabajador(values, true)
+                    }
+                }, {
+                    text: 'No',
+                    style: 'cancel'
+                }
+            ])
+        }
+    }
 
     const formikOpt = {
         initialValues: {
@@ -66,10 +67,10 @@ const FormPerfil = () => {
             <Formik {...formikOpt}>
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                     <View>
-                        <View style={{marginLeft: 90}}>
+                        <View style={{ marginLeft: 90 }}>
                             <AvatarPerfil />
                         </View>
-                        
+
                         <View style={styles.userContainer}>
                             <TextInput
                                 style={styles.inputStyle}
@@ -85,7 +86,7 @@ const FormPerfil = () => {
                                 style={styles.icon} />
                         </View>
                         {
-                            touched.Name &&errors.Name ?
+                            touched.Name && errors.Name ?
                                 <View style={styles.contenedorError}>
                                     <Icon name="ios-alert-circle" size={20} color="#ff0000" />
                                     <Text style={styles.error}>{errors.Name}</Text>
@@ -123,7 +124,7 @@ const FormPerfil = () => {
                                 style={styles.icon} />
                         </View>
                         {
-                            touched.Phone &&errors.Phone ?
+                            touched.Phone && errors.Phone ?
                                 <View style={styles.contenedorError}>
                                     <Icon name="ios-alert-circle" size={20} color="#ff0000" />
                                     <Text style={styles.error}>{errors.Phone}</Text>
@@ -132,19 +133,21 @@ const FormPerfil = () => {
                         }
 
                         <MultiSelect />
-                        <View >
-                        <Text style={{marginRight:20}}>¿Guardar ubicación actual?</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={styles.textUbicacion}>¿Guardar ubicación actual?</Text>
                             <Switch
                                 trackColor={{ false: "#767577", true: "#81b0ff" }}
                                 thumbColor={isEnabled ? "#008000" : "#f4f3f4"}
                                 ios_backgroundColor="#3e3e3e"
                                 onValueChange={toggleSwitch}
                                 value={isEnabled}
+                                style={{ marginLeft: 20, marginTop: 20 }}
                             />
-                            </View>
-                        <TouchableOpacity style={styles.button} onPress={() => {
+                        </View>
+                        {/* <TouchableOpacity style={styles.button} onPress={() => {
                             submit(values)
-                        }}>
+                        }}> */}
+                        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                             <Text style={styles.textButton}>Guardar</Text>
                         </TouchableOpacity>
                     </View>
@@ -155,7 +158,7 @@ const FormPerfil = () => {
                 transparent={true}
                 visible={modalVisible}
             >
-                <ContainerModal 
+                <ContainerModal
                     setModalVisible={setModalVisible}
                     modalVisible={modalVisible}
                     textDescription="Usuario actualizado"
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
         color: '#000',
     },
     button: {
-        backgroundColor: '#00a680',
+        backgroundColor: _secondaryColor,
         width: '100%',
         height: 50,
         alignItems: 'center',
@@ -247,5 +250,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-   
+    textUbicacion: {
+        marginRight: 20,
+        marginTop: 20,
+        color: '#000',
+        fontSize: 15,
+        fontWeight: 'bold',
+    }
+
 })
