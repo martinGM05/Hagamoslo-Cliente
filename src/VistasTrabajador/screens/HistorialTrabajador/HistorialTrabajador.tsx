@@ -40,6 +40,14 @@ const HistorialTrabajador = ({ navigation }: Props) => {
     )
   })
 
+  const fecha=(letra:string)=>{
+    let aux =''
+    for (var i = 0; i<10;i++){      
+       aux+=letra.charAt(i)
+   }   
+   return aux.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
+  }
+
   return (
     <ScrollView style={styles.containerGlobal}>
       {
@@ -57,7 +65,7 @@ const HistorialTrabajador = ({ navigation }: Props) => {
                       </View>
                       <View style={styles.value}>
                         <View style={{ marginRight: 20, alignItems: 'center' }}>
-                          <Text style={{ fontWeight: 'bold', color: '#fff' }}>Concluido en {cliente.fechaFin}</Text>
+                          <Text style={{ fontWeight: 'bold', color: '#fff' }}>Concluido en {fecha(cliente.fechaFin)}</Text>
                         </View>
                       </View>
                     </View>
