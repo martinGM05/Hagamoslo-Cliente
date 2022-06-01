@@ -35,42 +35,55 @@ const HistorialTrabajador = ({ navigation }: Props) => {
         style={{ marginRight: 20 }}
         onPress={() => reload()}
       >
-        <Ionicons name="refresh" size={30} color={'black'}/>
+        <Ionicons name="refresh" size={30} color={'black'} />
       </TouchableOpacity>
     )
   })
 
-  const fecha=(letra:string)=>{
-    let aux =''
-    for (var i = 0; i<10;i++){      
-       aux+=letra.charAt(i)
-   }   
-   return aux.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
+  const fecha = (letra: string) => {
+    let aux = ''
+    for (var i = 0; i < 10; i++) {
+      aux += letra.charAt(i)
+    }
+    return aux.replace(/^(\d{4})-(\d{2})-(\d{2})$/g, '$3/$2/$1');
   }
 
   return (
-    <ScrollView style={styles.containerGlobal}>
+    <View style={styles.containerGlobal}>
       {
         loading ? (
           <View style={styles.containerCards}>
             {
-              historialTrabajador.map(cliente => (
-                <View key={cliente.id} style={styles.card}>
-                    <View style={styles.imageWorker}>
-                      <Image source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }} style={styles.image} />
-                    </View>
-                    <View style={styles.infoWorker}>
-                      <View style={styles.nameWorkerDescription}>
-                        <Text style={styles.textName}>{cliente.descripcion}</Text>
-                      </View>
-                      <View style={styles.value}>
-                        <View style={{ marginRight: 20, alignItems: 'center' }}>
-                          <Text style={{ fontWeight: 'bold', color: '#fff' }}>Concluido en {fecha(cliente.fechaFin)}</Text>
+              historialTrabajador.length > 0 ? (
+                <ScrollView>
+                  {
+
+                    historialTrabajador.map(cliente => (
+                      <View key={cliente.id} style={styles.card}>
+                        <View style={styles.imageWorker}>
+                          <Image source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }} style={styles.image} />
+                        </View>
+                        <View style={styles.infoWorker}>
+                          <View style={styles.nameWorkerDescription}>
+                            <Text style={styles.textName}>{cliente.descripcion}</Text>
+                          </View>
+                          <View style={styles.value}>
+                            <View style={{ marginRight: 20, alignItems: 'center' }}>
+                              <Text style={{ fontWeight: 'bold', color: '#fff' }}>Concluido en {fecha(cliente.fechaFin)}</Text>
+                            </View>
+                          </View>
                         </View>
                       </View>
-                    </View>
-                  </View>
-              ))
+                    ))
+                  }
+                </ScrollView>
+              ) : (
+                <LottieView
+                  source={require('../../../animated/empty-box.json')}
+                  autoPlay
+                  loop
+                />
+              )
             }
           </View>
         ) : (
@@ -81,7 +94,7 @@ const HistorialTrabajador = ({ navigation }: Props) => {
           />
         )
       }
-    </ScrollView>
+    </View>
   )
 }
 

@@ -6,6 +6,8 @@ import { SesionContext } from '../../context/Sesion/SesionContext';
 import clienteAxios from '../../config/clientAxios';
 import useNotification from '../../hooks/useNotification';
 import { Notification } from '../../hooks/useNotification';
+import { _secondaryColor } from '../../global/Variables';
+import LottieView from 'lottie-react-native';
 
 type Props = StackScreenProps<RootStackParams, 'Notification'>;
 
@@ -114,6 +116,12 @@ return (
           onChangeText={(text) => setTextDescription(text)}
         />
       </View>
+      <LottieView
+        source={require('../../animated/accept-terms.json')}
+        autoPlay
+        loop
+        style={{ width: 200, height: 200 }}
+      />
     </View>
     <TouchableOpacity
       style={styles.button}
@@ -164,10 +172,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   button: {
-    backgroundColor: '#000',
+    backgroundColor: `${_secondaryColor}`,
     padding: 10,
     borderRadius: 5,
-    marginTop: 50,
+    // marginTop: 50,
   },
   textButton: {
     color: '#fff',

@@ -6,6 +6,7 @@ import UseBlogTrabajador from '../../../hooks/UseBlogTrabajador';
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { StackScreenProps } from '@react-navigation/stack';
 import { _secondaryColor, _url } from '../../../global/Variables';
+import LottieView from 'lottie-react-native';
 
 
 
@@ -18,7 +19,7 @@ const BlogsScreensTrabajador = ({ navigation }: Props) => {
 
   navigation.setOptions({
     headerRight: () => (
-      <TouchableOpacity 
+      <TouchableOpacity
         style={{ marginRight: 20 }}
         onPress={() => getBlogsTrabajador()}
       >
@@ -29,33 +30,41 @@ const BlogsScreensTrabajador = ({ navigation }: Props) => {
 
 
   return (
-    <ScrollView style={styles.container}>
-      {
+    <View style={styles.container}>
+      {blogs.length > 0 ? (
         blogs.map((blog, index) => (
-          <View key={index} style={styles.containerBlog}>
-            <View style={styles.containerInfo}>
-              <Text style={styles.nombreUser}>{blog.user.nombre}</Text>
-              <View style={{ flexDirection: 'row' }}>
-                <View style={{ borderWidth: 1.5, borderRadius: 50 }}>
-                  <Image style={styles.avatar} source={{ uri: `${_url}/upload/Users/${blog.user.id}` }} />
-                </View>
-                <View style={{ marginLeft: 20, width: 250, height: 43}}>
-                  <Text style={styles.textTitle}>{blog.titulo}</Text>
-                  <Text style={styles.textDescription}>{blog.descripcion}</Text>
+          <ScrollView>
+            <View key={index} style={styles.containerBlog}>
+              <View style={styles.containerInfo}>
+                <Text style={styles.nombreUser}>{blog.user.nombre}</Text>
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ borderWidth: 1.5, borderRadius: 50 }}>
+                    <Image style={styles.avatar} source={{ uri: `${_url}/upload/Users/${blog.user.id}` }} />
+                  </View>
+                  <View style={{ marginLeft: 20, width: 250, height: 43 }}>
+                    <Text style={styles.textTitle}>{blog.titulo}</Text>
+                    <Text style={styles.textDescription}>{blog.descripcion}</Text>
+                  </View>
                 </View>
               </View>
+              <View>
+                <Pressable
+                  onPress={() => navigation.navigate('BlogTrabajador', { data: blog })}
+                >
+                  <FontAwesome5 name="external-link-alt" size={20} color="#000" />
+                </Pressable>
+              </View>
             </View>
-            <View>
-              <Pressable
-                onPress={() => navigation.navigate('BlogTrabajador', { data: blog })}
-              >
-                <FontAwesome5 name="external-link-alt" size={20} color="#000" />
-              </Pressable>
-            </View>
-          </View>
-        ))
+          </ScrollView>
+        ))) : (
+        <LottieView
+          source={require('../../../animated/empty-box.json')}
+          autoPlay
+          loop
+        />
+      )
       }
-    </ScrollView>
+    </View>
   )
 }
 

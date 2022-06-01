@@ -40,34 +40,48 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       {
         loading ? (
           <>
             {
-              salas.map((sala: SalasModel) => (
-                <View style={styles.containerSala} key={sala.id}>
-                  <View style={styles.containerSala2}>
-                    <View style={styles.containerImage}>
-                      <Image
-                        style={styles.image}
-                        source={{ uri: `${_url}/upload/Users/${sala.Receptor.id}` }}
-                      />
-                    </View>
-                    <View style={styles.containerData}>
-                      <Text style={styles.textTitle}>{sala.Receptor.nombre}</Text>
-                      <Text style={styles.textsubTitle}>{sala.Receptor.descripcion}</Text>
-                    </View>
-                    <View style={styles.containerBtn}>
-                      <TouchableOpacity
-                        onPress={() => goChat(sala.idSala, sala.Receptor.tokenFCM)}
-                      >
-                        <Icon name="ios-chatbubbles-outline" size={30} color="#000" />
-                      </TouchableOpacity>
+              salas.length > 0 ? (
+                <ScrollView>
+                  {
+
+                  
+                salas.map((sala: SalasModel) => (
+                  <View style={styles.containerSala} key={sala.id}>
+                    <View style={styles.containerSala2}>
+                      <View style={styles.containerImage}>
+                        <Image
+                          style={styles.image}
+                          source={{ uri: `${_url}/upload/Users/${sala.Receptor.id}` }}
+                        />
+                      </View>
+                      <View style={styles.containerData}>
+                        <Text style={styles.textTitle}>{sala.Receptor.nombre}</Text>
+                        <Text style={styles.textsubTitle}>{sala.Receptor.descripcion}</Text>
+                      </View>
+                      <View style={styles.containerBtn}>
+                        <TouchableOpacity
+                          onPress={() => goChat(sala.idSala, sala.Receptor.tokenFCM)}
+                        >
+                          <Icon name="ios-chatbubbles-outline" size={30} color="#000" />
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
-                </View>
-              ))
+                  ))
+                }
+                </ScrollView>
+              ) : (
+                <LottieView
+                  source={require('../../animated/empty-box.json')}
+                  autoPlay
+                  loop
+                />
+              )
             }
           </>
         ) : (
@@ -78,7 +92,7 @@ const ContainerChatsScreen = ({ navigation }: Props) => {
           />
         )
       }
-    </ScrollView>
+    </View>
   )
 }
 

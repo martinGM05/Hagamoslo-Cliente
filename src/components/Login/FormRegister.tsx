@@ -312,7 +312,7 @@ const FormRegister = ({ navigation }: Props) => {
                                 {
                                     value != 1 && value!=null? (
                                         <View style={styles.form}>
-                                            <Text style={{ marginRight: 20 }}>¿Guardar ubicación actual?</Text>
+                                            <Text style={{ marginRight: 20, color: '#000', fontWeight: 'bold'}}>¿Guardar ubicación actual?</Text>
                                             <Switch
                                                 trackColor={{ false: "#767577", true: "#81b0ff" }}
                                                 thumbColor={isEnabled ? "#008000" : "#f4f3f4"}
@@ -324,10 +324,6 @@ const FormRegister = ({ navigation }: Props) => {
                                     ) : null
 
                                 }
-
-
-
-
                                 <TouchableOpacity
                                     style={styles.btnSubmit}
                                     onPress={formik.handleSubmit}>

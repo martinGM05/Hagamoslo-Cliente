@@ -8,6 +8,7 @@ import useTags from '../../../hooks/useTags';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../../routes/StackNavigator';
 // import { getDirections } from '../../../Helper/getDirections';
+import { _secondaryColor } from '../../../global/Variables';
 
 
 const { width, height } = Dimensions.get("window");
@@ -55,9 +56,8 @@ const MapsTrabajador = ({ navigation, route }: Props) => {
                                 longitude: coordinates.longitude,
                             }}
                             title={'Mi ubicación'}
-                            description={'Mi ubicación'}
                         >
-                            <Ionicons name="ios-pin" size={40} color={'#000'} />
+                            <Ionicons name="ios-pin" size={40} color={_secondaryColor} />
                         </Marker>
                         <Marker
                             coordinate={{
@@ -65,9 +65,8 @@ const MapsTrabajador = ({ navigation, route }: Props) => {
                                 longitude: lonCliente,
                             }}
                             title={'Cliente'}
-                            description={'Cliente'}
                         >
-                            <Ionicons name="ios-pin" size={40} color={'#000'} />
+                            <Ionicons name="ios-pin" size={40} color={_secondaryColor} />
                         </Marker>
                         <Polyline
                             coordinates={[

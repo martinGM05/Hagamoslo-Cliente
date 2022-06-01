@@ -6,6 +6,7 @@ import useNotification from '../../hooks/useNotification';
 import { Notification } from '../../hooks/useNotification';
 import { SesionContext } from '../../context/Sesion/SesionContext';
 import { useNavigation } from '@react-navigation/native';
+import { _secondaryColor } from '../../global/Variables';
 
 
 interface Props {
@@ -61,7 +62,7 @@ const PresupuestoModal = ({ setModalVisible, modalVisible, tokenFCM }: Props) =>
             presupuesto: presupuesto,
             tokenWorkerNotification: Sesion.tokenFCM
         }
-        // console.log(data)
+        console.log(data)
         sendNotification(data)
         setModalVisible(false)
     }
@@ -75,6 +76,12 @@ const PresupuestoModal = ({ setModalVisible, modalVisible, tokenFCM }: Props) =>
                     size={30}
                     style={styles.btnClose} 
                     onPress={() => setModalVisible(false)} 
+                />
+                <LottieView
+                    source={require('../../animated/cash-with-hand.json')}
+                    autoPlay
+                    loop
+                    style={styles.animation}
                 />
                 <View style={styles.containerAnimation}>
                     <TextInput
@@ -159,7 +166,7 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     button: {
-        backgroundColor: '#00a680',
+        backgroundColor: `${_secondaryColor}`,
         width: 200,
         height: 50,
         alignItems: 'center',
@@ -184,5 +191,10 @@ const styles = StyleSheet.create({
         marginTop: 20,
         flexDirection: 'column',
         // backgroundColor: '#246575',
+    },
+    animation: {
+        width: 200,
+        height: 100,
+        marginVertical: 10,
     }
 })

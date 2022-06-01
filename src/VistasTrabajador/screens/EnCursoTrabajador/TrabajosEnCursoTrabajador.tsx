@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Dimensions, Image, Alert, Pressable, TouchableOpacity } from 'react-native';
 import React, { useContext, useEffect, useState } from 'react'
-import { ScrollView} from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 //import CardTrades from '../../components/Principal/CardTrades';
@@ -53,31 +53,42 @@ const TrabajosEnCursoTrabajador = ({ navigation }: Props) => {
       {
         loading ? (
           <View style={styles.containerCards}>
-            {
-              enCursoTrabajador.map(cliente => (
-                <View key={cliente.id} style={styles.card}>
-                  <View style={{ flexDirection: 'column' }}>
-                    <Text style={styles.textName}>{cliente.usuario.nombre}</Text>
-                    <View style={styles.imageWorker}>
-                      <Image
-                        source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }}
-                        style={styles.image}
-                      />
+            {enCursoTrabajador.length > 0 ? (
+              <ScrollView>
+                {
+                  enCursoTrabajador.map(cliente => (
+                    <View key={cliente.id} style={styles.card}>
+                      <View style={{ flexDirection: 'column' }}>
+                        <Text style={styles.textName}>{cliente.usuario.nombre}</Text>
+                        <View style={styles.imageWorker}>
+                          <Image
+                            source={{ uri: `${_url}/upload/Users/${cliente.usuario.idUsuario}` }}
+                            style={styles.image}
+                          />
+                        </View>
+                      </View>
+                      <View style={styles.infoWorker}>
+                        <View style={styles.nameWorkerDescription}>
+                          <Text style={{ color: '#000', fontWeight: 'bold' }}>{cliente.descripcion}</Text>
+                        </View>
+                      </View>
+                      <TouchableOpacity
+                        style={styles.btnIcon}
+                        onPress={() => goMap(cliente.usuario.latitud, cliente.usuario.longitud)}
+                      >
+                        <Ionicons name="ios-arrow-forward" size={30} color={'#000'} />
+                      </TouchableOpacity>
                     </View>
-                  </View>
-                  <View style={styles.infoWorker}>
-                    <View style={styles.nameWorkerDescription}>
-                      <Text style={{ color: '#000', fontWeight: 'bold' }}>{cliente.descripcion}</Text>
-                    </View>
-                  </View>
-                  <TouchableOpacity
-                    style={styles.btnIcon}
-                    onPress={() => goMap(cliente.usuario.latitud, cliente.usuario.longitud)}
-                  >
-                    <Ionicons name="ios-arrow-forward" size={30} color={'#000'} />
-                  </TouchableOpacity>
-                </View>
-              ))
+                  ))
+                }
+              </ScrollView>
+            ) : (
+              <LottieView
+                source={require('../../../animated/empty-box.json')}
+                autoPlay
+                loop
+              />
+            )
             }
           </View>
         ) : (
