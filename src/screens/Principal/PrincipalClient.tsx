@@ -42,18 +42,7 @@ const PrincipalClient = ({navigation}: any ) => {
                 <View style={styles.welcome}>
                     <Text style={styles.text}>Hola, {Sesion.nombre}</Text>
                     <View style={styles.containerCards}>
-                        <View style={styles.cardBlog}>
-                            <Text style={styles.textNumber}>5</Text>
-                            <Text style={styles.textCard}>Blogs</Text>
-                        </View>
-                        <View style={styles.cardBlog}>
-                            <Text style={styles.textNumber}>5</Text>
-                            <Text style={styles.textCard}>Historial</Text>
-                        </View>
-                        <View style={styles.cardBlog}>
-                            <Text style={styles.textNumber}>5</Text>
-                            <Text style={styles.textCard}>Contratados</Text>
-                        </View>
+                       <Text style={styles.text2}>Tenemos estas opciones para ti</Text>
                     </View>
                 </View>
                 <View style={styles.containerCardButton}>
@@ -172,6 +161,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10
     },
-    
+    text2: {
+        fontSize: 18,
+        color: '#000',
+        fontWeight: 'bold',
+    },
    
 })
